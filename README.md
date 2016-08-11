@@ -19,4 +19,6 @@ Set an environment variable called ANDROID_HOME that points to the android sdk
 ##Setting up the project
 This requires you to have Git CMD installed, download from [here](https://git-scm.com/downloads).
 Run Git CMD and paste in the line 
-`git clone https://github.com/pratN/COMP3320`
+```
+git clone https://github.com/pratN/COMP3320
+```
