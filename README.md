@@ -22,3 +22,26 @@ Run Git CMD and paste in the line
 ```
 git clone https://github.com/pratN/COMP3320
 ```
+
+Navigate to where you have cloned the Spectrum repository and find the file `local.properties`. Open it with any text editor and edit the line
+```
+sdk.dir=C:/Users/Beau/Downloads/android-sdk_r24.4.1-windows/android-sdk-windows
+```
+So that it points to the location where you installed your android SDK. **Note the directions of the slashes, they must all be forward slash**
+
+Next, start up IntelliJ and go to open>Spectrum>build.gradle
+
+In the screen that pops up make sure that your java home is in the correct location and select OK
+
+When the project has finished importing go to Run>Edit Configurations
+
+In the window that pops up click the + in the top left of the screen, select application and set the following fields.
++ Name: Desktop
++ JRE: Select your preferred JRE
++ Use classpath to module: desktop
++ Working Directory: /android/assets
++ Main Class: DesktopLauncher
+ 
+Click Apply, then OK
+
+Click Run and if everything goes well you will see a window with a red background and BadLogic's logo in it.
