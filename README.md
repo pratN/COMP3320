@@ -11,7 +11,7 @@ To reset your repository:
 Delete the locally stored files in your folder
 do the following commands
 ``` 
-git reset -hard HEAD
+git reset --hard HEAD
 git pull https://github.com/pratN/COMP3320/
 ```
 
