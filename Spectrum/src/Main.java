@@ -7,6 +7,7 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.*;
 import World.World;
+//import Utilities.*;
 
 public class Main {
 
@@ -85,7 +86,7 @@ public class Main {
         GL.createCapabilities();
 
         // Set the clear color
-        glClearColor(0.66f, 0.66f, 0.22f, 0.0f);
+        glClearColor(0.04f, 0.22f,88, 0.0f);
 
         // Run the rendering loop until the user has attempted to close
         // the window or has pressed the ESCAPE key.
