@@ -42,4 +42,4 @@ If it compiles correctly you should be greeted with a purple window.
 
 Tutorials for game development with LWJGL 3 with code snippets can be found [HERE](https://lwjglgamedev.gitbooks.io/3d-game-development-with-lwjgl/content/)
 
-Playlist for game development with LWJGL can be found [HERE](https://www.youtube.com/watch?v=VS8wlS9hF8E&list=PLRIWtICgwaX0u7Rf9zkZhLoLuZVfUksDP)
+Playlist for game development with LWJGL can be found [HERE](https://www.youtube.com/playlist?list=PLRIWtICgwaX0u7Rf9zkZhLoLuZVfUksDP)
