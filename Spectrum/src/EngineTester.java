@@ -1,3 +1,4 @@
+import Shaders.StaticShader;
 import org.lwjgl.*;
 
 //import World.World;
@@ -29,8 +30,9 @@ public class EngineTester {
 
     private static void loop() {
 
-        Loader loader = new Loader();
-        Renderer renderer = new Renderer();
+        ModelLoadHandler loader = new ModelLoadHandler();
+        RenderHandler renderer = new RenderHandler();
+        StaticShader shader= new StaticShader();
 
         float[] vertices = {
                 -0.5f, 0.5f, 0f,    //V0
@@ -43,13 +45,15 @@ public class EngineTester {
                 3,1,2};
 
         RawModel model = loader.loadToVAO(vertices, indices);
-        System.out.println("Gets to here");
         while(!WindowHandler.close()){
             renderer.prepare();
             //game logic
+            shader.start();
             renderer.render(model);
+            shader.stop();
             WindowHandler.updateWindow();
         }
+        shader.cleanUp();
         loader.cleanUp();
     }
 }

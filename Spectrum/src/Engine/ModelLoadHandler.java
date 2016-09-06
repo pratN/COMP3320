@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Created by Beau on 6/09/2016.
  */
-public class Loader {
+public class ModelLoadHandler {
     private List<Integer> vaos = new ArrayList<>();
     private List<Integer> vbos = new ArrayList<>();
 
