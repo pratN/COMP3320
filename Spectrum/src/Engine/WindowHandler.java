@@ -57,31 +57,25 @@ public class WindowHandler {
 
     }
 
-    /**
-     *
-     */
+
     public static void updateWindow() {
-        while ( !glfwWindowShouldClose(window) ) {
-
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
-
+          //  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
             glfwSwapBuffers(window); // swap the color buffers
-
             // Poll for window events. The key callback above will only be
             // invoked during this call.
             glfwPollEvents();
-        }
-
     }
 
-    /**
-     *
-     */
+
     public static void closeWindow() {
         glfwFreeCallbacks(window);
         glfwDestroyWindow(window);
         glfwTerminate();
         glfwSetErrorCallback(null).free();
 
+    }
+
+    public static boolean close(){
+        return glfwWindowShouldClose(window);
     }
 }
