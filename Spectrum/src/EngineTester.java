@@ -32,10 +32,17 @@ public class EngineTester {
         Loader loader = new Loader();
         Renderer renderer = new Renderer();
 
-        float[] vertices = { -0.5f, 0.5f, 0f, -0.5f, -0.5f, 0f, 0.5f, -0.5f, 0f, 0.5f, -0.5f, 0f, 0.5f, 0.5f, 0f, -0.5f, 0.5f, 0f
+        float[] vertices = {
+                -0.5f, 0.5f, 0f,    //V0
+                -0.5f, -0.5f, 0f,   //V1
+                0.5f, -0.5f, 0f,    //V2
+                0.5f, 0.5f, 0f,     //V3
         };
+        int[] indices= {
+                0,1,3,
+                3,1,2};
 
-        RawModel model = loader.loadToVAO(vertices);
+        RawModel model = loader.loadToVAO(vertices, indices);
         System.out.println("Gets to here");
         while(!WindowHandler.close()){
             renderer.prepare();
