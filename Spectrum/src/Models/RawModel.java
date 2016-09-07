@@ -1,4 +1,4 @@
-package Engine;
+package Models;
 
 /**
  * Created by Beau on 6/09/2016.

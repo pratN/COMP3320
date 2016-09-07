@@ -1,4 +1,7 @@
+import Models.RawModel;
+import Models.TexturedModel;
 import Shaders.StaticShader;
+import Textures.ModelTexture;
 import org.lwjgl.*;
 
 //import World.World;
@@ -44,12 +47,21 @@ public class EngineTester {
                 0,1,3,
                 3,1,2};
 
-        RawModel model = loader.loadToVAO(vertices, indices);
+        float[] texCoords = {
+                0,0,    //V0
+                0,1,    //V1
+                1,1,    //V2
+                1,0     //V3
+        };
+
+        RawModel model = loader.loadToVAO(vertices, texCoords, indices);
+        ModelTexture texture = new ModelTexture(loader.loadTexture("Wood_Test_Texture"));
+        TexturedModel texturedModel = new TexturedModel(model, texture);
         while(!WindowHandler.close()){
             renderer.prepare();
             //game logic
             shader.start();
-            renderer.render(model);
+            renderer.render(texturedModel);
             shader.stop();
             WindowHandler.updateWindow();
         }

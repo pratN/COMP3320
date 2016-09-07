@@ -1,11 +1,12 @@
 #version 400 core
 
 in vec3 pos;
-out vec3 colour;
+in vec2 texCoords;
+out vec2 pass_texCoords;
 
 void main(void) {
 
     gl_Position = vec4(pos,1.0);
-    colour =  vec3(pos.x+0.5,1.0,pos.y+0.5);
+    pass_texCoords = texCoords;
 
 }
