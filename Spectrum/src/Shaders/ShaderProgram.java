@@ -33,6 +33,9 @@ public abstract class ShaderProgram {
         glUseProgram(0);
     }
 
+    /**
+     * Memory Management
+     */
     public void cleanUp(){
         stop();
         glDetachShader(programID,vertShaderID);
@@ -48,6 +51,15 @@ public abstract class ShaderProgram {
 
     protected abstract void bindAttributes();
 
+    /**
+     * Loads a shader into memory
+     * @param file
+     * The file the shader is stored in
+     * @param type
+     * The type of shader being passed in
+     * @return
+     * Return the id of the shader being passed in
+     */
     public static int loadShader(String file, int type){
         StringBuilder shaderSource = new StringBuilder();
         try {

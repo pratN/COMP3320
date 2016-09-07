@@ -16,10 +16,13 @@ public class WindowHandler {
     private static Format.Field errorCallback;
 
     /**
-     * @param WIDTH
-     * @param HEIGHT
-     * @param title
      * Set up and create the window display
+     * @param WIDTH
+     * Window width
+     * @param HEIGHT
+     * Window height
+     * @param title
+     * Program title
      */
     public static void createWindow(int WIDTH, int HEIGHT, String title) {
         if (!glfwInit())

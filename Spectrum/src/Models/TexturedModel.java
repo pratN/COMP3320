@@ -10,6 +10,13 @@ public class TexturedModel {
     private RawModel model;
     private ModelTexture texture;
 
+    /**
+     *
+     * @param raw
+     * Raw untextured mesh
+     * @param tex
+     * Processed texture to be applied
+     */
     public TexturedModel(RawModel raw, ModelTexture tex){
         this.model = raw;
         this.texture = tex;

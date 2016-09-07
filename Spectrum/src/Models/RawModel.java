@@ -7,7 +7,13 @@ public class RawModel {
     private int vaoID;
     private int vertexCount;
 
-
+    /**
+     *
+     * @param vaoID
+     * ID of the vao this mesh will be loaded to
+     * @param vertexCount
+     * Number of vertices this model will have
+     */
     public RawModel(int vaoID, int vertexCount){
         this.vaoID=vaoID;
         this.vertexCount=vertexCount;

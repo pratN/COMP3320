@@ -20,6 +20,11 @@ public class RenderHandler {
         glClearColor(1,0,0,1);
     }
 
+    /**
+     * Takes in a textured model and renders it to the screen
+     * @param texturedModel
+     * Raw mesh with associated texture data and UV mapping
+     */
     public void render(TexturedModel texturedModel){
         RawModel model = texturedModel.getModel();
         glBindVertexArray(model.getVaoID());

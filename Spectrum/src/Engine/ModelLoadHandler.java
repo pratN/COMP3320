@@ -27,6 +27,17 @@ public class ModelLoadHandler {
     private List<Integer> vbos = new ArrayList<>();
     private List<Integer> textures = new ArrayList<>();
 
+    /**
+     *
+     * @param positions
+     * The XYZ positions of each vertex
+     * @param texCoords
+     * The UV positions of the texture
+     * @param indices
+     * The values of the index buffer
+     * @return
+     * Returns a raw 3D mesh
+     */
     public RawModel loadToVAO(float[] positions, float[] texCoords, int[] indices) {
         int vaoID = createVAO();
         bindIndicesBuffer(indices);
@@ -36,6 +47,11 @@ public class ModelLoadHandler {
         return new RawModel(vaoID, indices.length);
     }
 
+    /**
+     * Generates a vao
+     * @return
+     * returns the ID of the vao
+     */
     private int createVAO() {
         int vaoID = glGenVertexArrays();
         vaos.add(vaoID);
@@ -43,6 +59,13 @@ public class ModelLoadHandler {
         return vaoID;
     }
 
+    /**
+     * Loads a texture from an image in assets folder
+     * @param fileName
+     * file name of the texture to load
+     * @return
+     * Returns the ID of the loaded texture
+     */
     public int loadTexture(String fileName) {
         Texture texture = null;
         try {
@@ -58,6 +81,11 @@ public class ModelLoadHandler {
         return textureID;
     }
 
+    /**
+     * Binds the list passed in to an index buffer
+     * @param indices
+     * List of indices associated to the vertexes
+     */
     private void bindIndicesBuffer(int[] indices) {
         int vboID = glGenBuffers();
         vbos.add(vboID);
@@ -73,6 +101,15 @@ public class ModelLoadHandler {
         return buffer;
     }
 
+    /**
+     *Stores a given set of data into a vbo
+     * @param attributeNumber
+     * Index in attribute list that a vao is assigned to
+     * @param coordSize
+     * Size of the passed in coordinate system (XYZ/UV/...)
+     * @param data
+     * The list of data that is being passed in and bound to the buffer
+     */
     private void storeDataInAttributeList(int attributeNumber, int coordSize, float[] data) {
         int vboID = GL15.glGenBuffers();
         vbos.add(vboID);
@@ -94,6 +131,9 @@ public class ModelLoadHandler {
         return buffer;
     }
 
+    /**
+     * For memory management
+     */
     public void cleanUp() {
         for(int vao : vaos) {
             glDeleteVertexArrays(vao);
