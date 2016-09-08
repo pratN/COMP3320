@@ -3,5 +3,5 @@ package Entities;
 /**
  * Abstract object that has physics or interactions with it.
  */
-abstract class DynamicEntity extends Entity {
+abstract class DynamicEntity {
 }

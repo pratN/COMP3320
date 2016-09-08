@@ -1,9 +1,9 @@
 package Shaders;
 
-import org.joml.Vector3f;
+//import org.joml.Vector3f;
 import org.lwjgl.BufferUtils;
 import org.lwjglx.util.vector.Matrix4f;
-//import org.lwjglx.util.vector.Vector3f;
+import org.lwjglx.util.vector.Vector3f;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

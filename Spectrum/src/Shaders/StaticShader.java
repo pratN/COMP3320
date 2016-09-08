@@ -17,7 +17,7 @@ public class StaticShader extends ShaderProgram{
 
     @Override
     protected void getAllUniformLocations() {
-        super.getUniformLocation("transformationMatrix");
+        location_transformationMatrix = super.getUniformLocation("transformationMatrix");
     }
 
     @Override

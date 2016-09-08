@@ -1,3 +1,4 @@
+import Entities.Entity;
 import Models.RawModel;
 import Models.TexturedModel;
 import Shaders.StaticShader;
@@ -7,6 +8,8 @@ import org.lwjgl.*;
 //import World.World;
 
 import Engine.*;
+import org.lwjglx.util.vector.Vector;
+import org.lwjglx.util.vector.Vector3f;
 
 public class EngineTester {
 
@@ -57,11 +60,12 @@ public class EngineTester {
         RawModel model = loader.loadToVAO(vertices, texCoords, indices);
         ModelTexture texture = new ModelTexture(loader.loadTexture("Wood_Test_Texture"));
         TexturedModel texturedModel = new TexturedModel(model, texture);
+        Entity entity = new Entity(texturedModel, new Vector3f(-1,0,0),0,0,0,1);
         while(!WindowHandler.close()) {
             renderer.prepare();
             //game logic
             shader.start();
-            renderer.render(texturedModel);
+            renderer.render(entity,shader);
             shader.stop();
             WindowHandler.updateWindow();
         }
