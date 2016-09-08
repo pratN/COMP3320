@@ -8,7 +8,7 @@ uniform mat4 transformationMatrix;
 
 void main(void) {
 
-    gl_Position = vec4(pos,1.0);
+    gl_Position = transformationMatrix * vec4(pos,1.0);
     pass_texCoords = texCoords;
 
 }

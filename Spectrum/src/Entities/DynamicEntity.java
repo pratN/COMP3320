@@ -1,7 +1,7 @@
-package Objects;
+package Entities;
 
 /**
  * Abstract object that has physics or interactions with it.
  */
-abstract class DynamicObject extends Object {
+abstract class DynamicEntity extends Entity {
 }
