@@ -71,6 +71,11 @@ public abstract class ShaderProgram {
 
     protected abstract void bindAttributes();
 
+    /**
+     * Load a float from the uniform variables
+     * @param location
+     * @param value
+     */
     protected void loadFloat(int location, float value){
         glUniform1f(location,value);
     }
