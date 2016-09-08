@@ -90,7 +90,7 @@ public abstract class ShaderProgram {
     protected void loadMatrix(int location, Matrix4f matrix){
         matrix.store(matrixBuffer);
         matrixBuffer.flip();
-        glUniformMatrix4(location, false, matrixBuffer);
+        glUniformMatrix4fv(location, false, matrixBuffer);
     }
     /**
      * Loads a shader into memory
