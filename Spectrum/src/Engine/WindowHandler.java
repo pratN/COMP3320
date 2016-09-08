@@ -78,6 +78,10 @@ public class WindowHandler {
 
     }
 
+    public static long getWindow(){
+        return window;
+    }
+
     public static boolean close(){
         return glfwWindowShouldClose(window);
     }
