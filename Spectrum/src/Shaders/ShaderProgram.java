@@ -1,6 +1,5 @@
 package Shaders;
 
-//import org.joml.Vector3f;
 import org.lwjgl.BufferUtils;
 import org.lwjglx.util.vector.Matrix4f;
 import org.lwjglx.util.vector.Vector3f;

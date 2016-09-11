@@ -1,4 +1,6 @@
+import Entities.Camera;
 import Entities.Entity;
+import Entities.Light;
 import Models.RawModel;
 import Models.TexturedModel;
 import Shaders.StaticShader;
@@ -8,14 +10,17 @@ import org.lwjgl.*;
 //import World.World;
 
 import Engine.*;
-import org.lwjglx.util.vector.Vector;
+import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjglx.util.vector.Vector3f;
+import util.KeyboardHandler;
+
+import static org.lwjgl.glfw.GLFW.*;
 
 public class EngineTester {
 
     private static int WIDTH = 1280;
     private static int HEIGHT = 720;
-    private static String title = "Spectrum";
+    private static GLFWKeyCallback keyCallback;
 
 
     public static void main(String[] args) {
@@ -34,7 +39,9 @@ public class EngineTester {
     //Initialisation
     private static void init() {
 
+        String title = "Spectrum";
         WindowHandler.createWindow(WIDTH, HEIGHT, title);
+        glfwSetKeyCallback(WindowHandler.getWindow(), keyCallback = new KeyboardHandler());
     }
 
     //Main Loop
@@ -44,30 +51,22 @@ public class EngineTester {
         StaticShader shader = new StaticShader();
         RenderHandler renderer = new RenderHandler(shader,WIDTH,HEIGHT);
 
-        float[] vertices = {-0.5f, 0.5f, 0f,    //V0
-                -0.5f, -0.5f, 0f,   //V1
-                0.5f, -0.5f, 0f,    //V2
-                0.5f, 0.5f, 0f,     //V3
-        };
-        int[] indices = {0, 1, 3, 3, 1, 2};
 
-        float[] texCoords = {0, 0,    //V0
-                0, 1,    //V1
-                1, 1,    //V2
-                1, 0     //V3
-        };
+        RawModel model = OBJLoader.loadObjModel("dragon", loader);
 
-        RawModel model = loader.loadToVAO(vertices, texCoords, indices);
-        ModelTexture texture = new ModelTexture(loader.loadTexture("Wood_Test_Texture"));
-        TexturedModel texturedModel = new TexturedModel(model, texture);
-        Entity entity = new Entity(texturedModel, new Vector3f(0,0,0),0,0,0,1);
+        TexturedModel texturedModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("Wood_Test_Texture")));
+        Entity entity = new Entity(texturedModel, new Vector3f(0,0,-25),0,0,0,1);
+        Light light = new Light(new Vector3f(0,0,-20),new Vector3f(1,1,1));
+
+        Camera camera = new Camera();
+
         while(!WindowHandler.close()) {
+            entity.increaseRotation(0,1,0);
+            camera.move();
             renderer.prepare();
-
-            entity.increasePosition(0,0,-0.1f);
-            entity.increaseRotation(0,0,0);
-
             shader.start();
+            shader.loadLight(light);
+            shader.loadViewMatrix(camera);
             renderer.render(entity,shader);
             shader.stop();
             WindowHandler.updateWindow();

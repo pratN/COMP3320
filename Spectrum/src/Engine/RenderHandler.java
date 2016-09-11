@@ -4,6 +4,7 @@ import Entities.Entity;
 import Models.RawModel;
 import Models.TexturedModel;
 import Shaders.StaticShader;
+import org.lwjgl.opengl.GL;
 import org.lwjglx.util.vector.Matrix4f;
 import util.Maths;
 
@@ -13,9 +14,6 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL13.*;
 
 
-/**
- * Created by Beau on 6/09/2016.
- */
 public class RenderHandler {
     private int WIDTH;
     private int HEIGHT;
@@ -35,8 +33,8 @@ public class RenderHandler {
     }
 
     public void prepare() {
-        glClear(GL_COLOR_BUFFER_BIT);
-
+        glEnable(GL_DEPTH_TEST);
+        glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
         glClearColor(1, 0, 0, 1);
     }
 
@@ -51,6 +49,7 @@ public class RenderHandler {
         glBindVertexArray(model.getVaoID());
         glEnableVertexAttribArray(0);
         glEnableVertexAttribArray(1);
+        glEnableVertexAttribArray(2);
         Matrix4f transformationMatrix = Maths.createTransformationMatrix(entity.getPosition(), entity.getRotX(), entity.getRotY(), entity.getRotZ(), entity.getScale());
         shader.loadTransformationMatrix(transformationMatrix);
         glActiveTexture(GL_TEXTURE0);
@@ -58,6 +57,7 @@ public class RenderHandler {
         glDrawElements(GL_TRIANGLES, model.getVertexCount(), GL_UNSIGNED_INT, 0);
         glDisableVertexAttribArray(0);
         glDisableVertexAttribArray(1);
+        glDisableVertexAttribArray(2);
         glBindVertexArray(0);
     }
 

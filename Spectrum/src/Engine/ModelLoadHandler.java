@@ -23,8 +23,8 @@ import java.util.List;
  * Created by Beau on 6/09/2016.
  */
 public class ModelLoadHandler {
-    private List<Integer> vaos = new ArrayList<>();
-    private List<Integer> vbos = new ArrayList<>();
+    private static List<Integer> vaos = new ArrayList<>();
+    private static List<Integer> vbos = new ArrayList<>();
     private List<Integer> textures = new ArrayList<>();
 
     /**
@@ -38,11 +38,12 @@ public class ModelLoadHandler {
      * @return
      * Returns a raw 3D mesh
      */
-    public RawModel loadToVAO(float[] positions, float[] texCoords, int[] indices) {
+    public static RawModel loadToVAO(float[] positions, float[] texCoords,float [] normals, int[] indices) {
         int vaoID = createVAO();
         bindIndicesBuffer(indices);
         storeDataInAttributeList(0, 3, positions);
         storeDataInAttributeList(1, 2, texCoords);
+        storeDataInAttributeList(2, 3, normals);
         unbindVAO();
         return new RawModel(vaoID, indices.length);
     }
@@ -52,7 +53,7 @@ public class ModelLoadHandler {
      * @return
      * returns the ID of the vao
      */
-    private int createVAO() {
+    private static int createVAO() {
         int vaoID = glGenVertexArrays();
         vaos.add(vaoID);
         glBindVertexArray(vaoID);
@@ -86,7 +87,7 @@ public class ModelLoadHandler {
      * @param indices
      * List of indices associated to the vertexes
      */
-    private void bindIndicesBuffer(int[] indices) {
+    private static void bindIndicesBuffer(int[] indices) {
         int vboID = glGenBuffers();
         vbos.add(vboID);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vboID);
@@ -94,7 +95,7 @@ public class ModelLoadHandler {
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, buffer, GL_STATIC_DRAW);
     }
 
-    private IntBuffer storeDataInIntBuffer(int[] data) {
+    private static IntBuffer storeDataInIntBuffer(int[] data) {
         IntBuffer buffer = BufferUtils.createIntBuffer(data.length);
         buffer.put(data);
         buffer.flip();
@@ -110,7 +111,7 @@ public class ModelLoadHandler {
      * @param data
      * The list of data that is being passed in and bound to the buffer
      */
-    private void storeDataInAttributeList(int attributeNumber, int coordSize, float[] data) {
+    private static void storeDataInAttributeList(int attributeNumber, int coordSize, float[] data) {
         int vboID = GL15.glGenBuffers();
         vbos.add(vboID);
         glBindBuffer(GL_ARRAY_BUFFER, vboID);
@@ -120,11 +121,11 @@ public class ModelLoadHandler {
         glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
 
-    private void unbindVAO() {
+    private static void unbindVAO() {
         glBindVertexArray(0);
     }
 
-    private FloatBuffer storeDataInFloatBuffer(float[] data) {
+    private static FloatBuffer storeDataInFloatBuffer(float[] data) {
         FloatBuffer buffer = BufferUtils.createFloatBuffer(data.length);
         buffer.put(data);
         buffer.flip();
