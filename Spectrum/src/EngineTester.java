@@ -55,8 +55,8 @@ public class EngineTester {
         RawModel model = OBJLoader.loadObjModel("dragon", loader);
 
         TexturedModel texturedModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("Wood_Test_Texture")));
-        Entity entity = new Entity(texturedModel, new Vector3f(0,0,-25),0,0,0,1);
-        Light light = new Light(new Vector3f(0,0,-20),new Vector3f(1,1,1));
+        Entity entity = new Entity(texturedModel, new Vector3f(0,0,-10),0,0,0,1);
+        Light light = new Light(new Vector3f(0,0,-1),new Vector3f(1,1,1));
 
         Camera camera = new Camera();
 
