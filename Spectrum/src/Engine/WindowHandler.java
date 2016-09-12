@@ -10,7 +10,6 @@ import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 
-
 public class WindowHandler {
     private static long window;
     private static Format.Field errorCallback;

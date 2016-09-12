@@ -4,6 +4,7 @@ import Entities.Light;
 import Models.RawModel;
 import Models.TexturedModel;
 import Shaders.StaticShader;
+import Terrain.Terrain;
 import Textures.ModelTexture;
 import org.lwjgl.*;
 
@@ -52,12 +53,17 @@ public class EngineTester {
         texture1.setReflectivity(0.25f);
         Entity entity = new Entity(texturedModel1, new Vector3f(0,-1,-10),0,0,0, 0.25f);
         Light light = new Light(new Vector3f(3000,2000,20),new Vector3f(1,1,1));
+
+        Terrain terrain = new Terrain(0,-1,loader, new ModelTexture(loader.loadTexture("ice_ground")));
+        Terrain terrain2 = new Terrain(-1,-1,loader, new ModelTexture(loader.loadTexture("ice_ground")));
         Camera camera = new Camera();
         MasterRenderHandler renderer = new MasterRenderHandler();
 
 
-        while(!WindowHandler.close()) {
+        while(!KeyboardHandler.isKeyDown(GLFW_KEY_ESCAPE)) {
             camera.move();
+            renderer.processTerrain(terrain);
+            renderer.processTerrain(terrain2);
             renderer.render(light,camera);
             renderer.processEntity(entity);
             WindowHandler.updateWindow();
