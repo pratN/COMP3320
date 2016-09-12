@@ -9,6 +9,9 @@ import org.lwjgl.opengl.GL;
 import org.lwjglx.util.vector.Matrix4f;
 import util.Maths;
 
+import java.util.List;
+import java.util.Map;
+
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -22,9 +25,12 @@ public class RenderHandler {
     private static float NEAR_PLANE = 0.1f;
     private static float FAR_PLANE = 1000;
     private Matrix4f projectionMatrix;
-
+    private StaticShader shader;
 
     public RenderHandler(StaticShader shader, int WIDTH, int  HEIGHT){
+        this.shader = shader;
+        glEnable(GL_CULL_FACE);
+        glCullFace(GL_BACK);
         this.WIDTH=WIDTH;
         this.HEIGHT=HEIGHT;
         createProjectionMatrix();
@@ -36,7 +42,7 @@ public class RenderHandler {
     public void prepare() {
         glEnable(GL_DEPTH_TEST);
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-        glClearColor(1, 0, 0, 1);
+        glClearColor(0, 0, 0, 1);
     }
 
 
@@ -44,25 +50,44 @@ public class RenderHandler {
      * Takes in a textured model and renders it to the screen
      * Raw mesh with associated texture data and UV mapping
      */
-    public void render(Entity entity, StaticShader shader) {
-        TexturedModel texturedModel = entity.getModel();
-        RawModel model = texturedModel.getModel();
-        glBindVertexArray(model.getVaoID());
+
+    public void render(Map<TexturedModel, List<Entity>> entities){
+        for(TexturedModel model:entities.keySet()){
+            prepareTexturedModel(model);
+            List<Entity> batch = entities.get(model);
+            for(Entity entity:batch){
+                prepareInstance(entity);
+                glDrawElements(GL_TRIANGLES, model.getModel().getVertexCount(), GL_UNSIGNED_INT, 0);
+
+            }
+            unbindTexturedModel();
+        }
+    }
+
+    public void prepareTexturedModel(TexturedModel model){
+        RawModel raw = model.getModel();
+        glBindVertexArray(raw.getVaoID());
         glEnableVertexAttribArray(0);
         glEnableVertexAttribArray(1);
         glEnableVertexAttribArray(2);
-        Matrix4f transformationMatrix = Maths.createTransformationMatrix(entity.getPosition(), entity.getRotX(), entity.getRotY(), entity.getRotZ(), entity.getScale());
-        shader.loadTransformationMatrix(transformationMatrix);
-        ModelTexture texture = texturedModel.getTexture();
+        ModelTexture texture = model.getTexture();
         shader.loadShineVariables(texture.getShineDamper(),texture.getReflectivity());
         glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, texturedModel.getTexture().getID());
-        glDrawElements(GL_TRIANGLES, model.getVertexCount(), GL_UNSIGNED_INT, 0);
+        glBindTexture(GL_TEXTURE_2D, model.getTexture().getID());
+    }
+
+    public void unbindTexturedModel(){
         glDisableVertexAttribArray(0);
         glDisableVertexAttribArray(1);
         glDisableVertexAttribArray(2);
         glBindVertexArray(0);
     }
+
+    public void prepareInstance(Entity entity){
+        Matrix4f transformationMatrix = Maths.createTransformationMatrix(entity.getPosition(), entity.getRotX(), entity.getRotY(), entity.getRotZ(), entity.getScale());
+        shader.loadTransformationMatrix(transformationMatrix);
+    }
+
 
     private void createProjectionMatrix(){
         float aspectRatio = (float) WIDTH / (float) HEIGHT;
