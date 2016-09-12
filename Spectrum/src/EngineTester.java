@@ -14,6 +14,7 @@ import Engine.*;
 import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjglx.util.vector.Vector3f;
 import util.KeyboardHandler;
+import util.MouseHandler;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -22,7 +23,7 @@ public class EngineTester {
     private static int WIDTH = 1280;
     private static int HEIGHT = 720;
     private static GLFWKeyCallback keyCallback;
-
+    private static MouseHandler mouseCallback;
 
     public static void main(String[] args) {
         System.out.println("Hello LWJGL " + Version.getVersion() + "!");
@@ -39,6 +40,9 @@ public class EngineTester {
         String title = "Spectrum";
         WindowHandler.createWindow(WIDTH, HEIGHT, title);
         glfwSetKeyCallback(WindowHandler.getWindow(), keyCallback = new KeyboardHandler());
+        glfwSetCursorPosCallback(WindowHandler.getWindow(), mouseCallback = new MouseHandler());
+        glfwSetInputMode(WindowHandler.getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
     }
 
     //Main Loop
@@ -56,11 +60,11 @@ public class EngineTester {
 
         Terrain terrain = new Terrain(0,-1,loader, new ModelTexture(loader.loadTexture("ice_ground")));
         Terrain terrain2 = new Terrain(-1,-1,loader, new ModelTexture(loader.loadTexture("ice_ground")));
-        Camera camera = new Camera();
+        Camera camera = new Camera(mouseCallback);
         MasterRenderHandler renderer = new MasterRenderHandler();
 
 
-        while(!KeyboardHandler.isKeyDown(GLFW_KEY_ESCAPE)) {
+        while(!KeyboardHandler.isKeyDown(GLFW_KEY_ESCAPE)  && !WindowHandler.close()) {
             camera.move();
             renderer.processTerrain(terrain);
             renderer.processTerrain(terrain2);

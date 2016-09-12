@@ -2,6 +2,8 @@ package Entities;
 
 import org.lwjglx.util.vector.Vector3f;
 import util.KeyboardHandler;
+import util.MouseHandler;
+
 import static org.lwjgl.glfw.GLFW.*;
 
 public class Camera {
@@ -10,22 +12,40 @@ public class Camera {
     private float pitch;
     private float yaw;
     private float roll;
-
-    public Camera(){}
+    private float mouseSensitivity = 0.1f;
+    private MouseHandler mouseHandler;
+    private float speed = 0.5f;
+    private float rotZ;
+    private float rotX;
+    public Camera(MouseHandler mouseHandler){
+        this.mouseHandler=mouseHandler;
+    }
 
     public void move(){
+
         if(KeyboardHandler.isKeyDown(GLFW_KEY_W)){
-            position.z -= 1;
+            position.x += Math.sin(Math.toRadians(yaw)) * speed;
+            position.z -= Math.cos(Math.toRadians(yaw)) * speed;
+
         }
         if(KeyboardHandler.isKeyDown(GLFW_KEY_S)){
-            position.z += 1;
-        }
-        if(KeyboardHandler.isKeyDown(GLFW_KEY_D)){
-            position.x += 1;
+            position.x -= Math.sin(Math.toRadians(yaw)) * speed;
+            position.z += Math.cos(Math.toRadians(yaw)) * speed;
+
         }
         if(KeyboardHandler.isKeyDown(GLFW_KEY_A)){
-            position.x -= 1;
+            position.x += Math.sin(Math.toRadians(yaw - 90)) * speed;
+            position.z -= Math.cos(Math.toRadians(yaw - 90)) * speed;
+
         }
+        if(KeyboardHandler.isKeyDown(GLFW_KEY_D)){
+            position.x += Math.sin(Math.toRadians(yaw + 90)) * speed;
+            position.z -= Math.cos(Math.toRadians(yaw + 90)) * speed;
+
+        }
+
+        pitch = mouseHandler.getY()*mouseSensitivity;
+        yaw = mouseHandler.getX()*mouseSensitivity;
     }
 
     public Vector3f getPosition() {
