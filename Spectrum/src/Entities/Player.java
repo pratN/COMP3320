@@ -6,7 +6,7 @@ import util.MouseHandler;
 
 import static org.lwjgl.glfw.GLFW.*;
 
-public class Camera {
+public class Player {
 
     private Vector3f position = new Vector3f(0,1,0);
     private float pitch;
@@ -16,7 +16,7 @@ public class Camera {
     private MouseHandler mouseHandler;
     private float speed = 0.5f;
 
-    public Camera(MouseHandler mouseHandler){
+    public Player(MouseHandler mouseHandler){
         this.mouseHandler=mouseHandler;
     }
 
@@ -41,6 +41,10 @@ public class Camera {
             position.x += Math.sin(Math.toRadians(yaw + 90)) * speed;
             position.z -= Math.cos(Math.toRadians(yaw + 90)) * speed;
 
+        }if(KeyboardHandler.isKeyDown(GLFW_KEY_SPACE)){
+            position.y+=speed;
+        }if(KeyboardHandler.isKeyDown(GLFW_KEY_LEFT_CONTROL)){
+            position.y-=speed;
         }
 
         pitch = mouseHandler.getY()*mouseSensitivity;

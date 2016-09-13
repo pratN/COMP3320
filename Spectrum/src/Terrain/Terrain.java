@@ -2,7 +2,8 @@ package Terrain;
 
 import Engine.ModelLoadHandler;
 import Models.RawModel;
-import Textures.ModelTexture;
+import Textures.*;
+;
 
 /**
  * Created by Beau on 12/09/2016.
@@ -15,10 +16,12 @@ public class Terrain {
     private float x;
     private float z;
     private RawModel model;
-    private ModelTexture texture;
+    private TerrainTexPack texturePack;
+    private TerrainTexture blendMap;
 
-    public Terrain(int gridX, int gridZ, ModelLoadHandler loader, ModelTexture texture){
-        this.texture=texture;
+    public Terrain(int gridX, int gridZ, ModelLoadHandler loader, TerrainTexPack texturePack, TerrainTexture blendMap){
+        this.texturePack=texturePack;
+        this.blendMap=blendMap;
         this.x=gridX*SIZE;
         this.z=gridZ*SIZE;
         this.model=generateTerrain(loader);
@@ -74,7 +77,11 @@ public class Terrain {
         return model;
     }
 
-    public ModelTexture getTexture() {
-        return texture;
+    public TerrainTexPack getTexturePack() {
+        return texturePack;
+    }
+
+    public TerrainTexture getBlendMap() {
+        return blendMap;
     }
 }

@@ -25,9 +25,9 @@ public class MasterRenderHandler {
     private static float NEAR_PLANE = 0.1f;
     private static float FAR_PLANE = 1000;
 
-    private static final float RED = 0.5f;
-    private static final float GREEN = 0.5f;
-    private static final float BLUE = 0.5f;
+    private static final float RED = 0.6f;
+    private static final float GREEN = 0.65f;
+    private static final float BLUE = 0.8f;
 
     private Matrix4f projectionMatrix;
     private EntityRenderHandler renderer;
@@ -52,18 +52,18 @@ public class MasterRenderHandler {
         glDisable(GL_CULL_FACE);
     }
 
-    public void render(Light sun, Camera camera){
+    public void render(Light sun, Player player){
         prepare();
         shader.start();
         shader.loadSkyColour(RED,GREEN,BLUE);
         shader.loadLight(sun);
-        shader.loadViewMatrix(camera);
+        shader.loadViewMatrix(player);
         renderer.render(entities);
         shader.stop();
         terrainShader.start();
         terrainShader.loadSkyColour(RED,GREEN,BLUE);
         terrainShader.loadLight(sun);
-        terrainShader.loadViewMatrix(camera);
+        terrainShader.loadViewMatrix(player);
         terrainRenderer.render(terrains);
         terrainShader.stop();
         terrains.clear();
