@@ -15,8 +15,7 @@ public class Camera {
     private float mouseSensitivity = 0.1f;
     private MouseHandler mouseHandler;
     private float speed = 0.5f;
-    private float rotZ;
-    private float rotX;
+
     public Camera(MouseHandler mouseHandler){
         this.mouseHandler=mouseHandler;
     }
