@@ -24,6 +24,11 @@ public class MasterRenderHandler {
     private static final float FOV = 70;
     private static float NEAR_PLANE = 0.1f;
     private static float FAR_PLANE = 1000;
+
+    private static final float RED = 0.5f;
+    private static final float GREEN = 0.5f;
+    private static final float BLUE = 0.5f;
+
     private Matrix4f projectionMatrix;
     private EntityRenderHandler renderer;
     private TerrainRenderer terrainRenderer;
@@ -50,11 +55,13 @@ public class MasterRenderHandler {
     public void render(Light sun, Camera camera){
         prepare();
         shader.start();
+        shader.loadSkyColour(RED,GREEN,BLUE);
         shader.loadLight(sun);
         shader.loadViewMatrix(camera);
         renderer.render(entities);
         shader.stop();
         terrainShader.start();
+        terrainShader.loadSkyColour(RED,GREEN,BLUE);
         terrainShader.loadLight(sun);
         terrainShader.loadViewMatrix(camera);
         terrainRenderer.render(terrains);
@@ -85,7 +92,7 @@ public class MasterRenderHandler {
     public void prepare() {
         glEnable(GL_DEPTH_TEST);
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-        glClearColor(0, 0, 0, 1);
+        glClearColor(RED, GREEN, BLUE, 1);
     }
     private void createProjectionMatrix(){
         float aspectRatio = (float) WIDTH / (float) HEIGHT;
