@@ -6,6 +6,8 @@ import Models.TexturedModel;
 import Shaders.StaticShader;
 import Terrain.Terrain;
 import Textures.ModelTexture;
+import objConverter.ModelData;
+import objConverter.OBJFileLoader;
 import org.lwjgl.*;
 
 //import World.World;
@@ -54,8 +56,14 @@ public class EngineTester {
 
         ModelLoadHandler loader = new ModelLoadHandler();
 
-        RawModel dragonModel = OBJLoader.loadObjModel("dragon", loader);
-        RawModel treeModel = OBJLoader.loadObjModel("tree", loader);
+        ModelData dragonData = OBJFileLoader.loadOBJ("dragon");
+        ModelData treeData = OBJFileLoader.loadOBJ("tree");
+
+        RawModel dragonModel = loader.loadToVAO(dragonData.getVertices(),dragonData.getTextureCoords(),dragonData.getNormals(),dragonData.getIndices());
+        RawModel treeModel = loader.loadToVAO(treeData.getVertices(),treeData.getTextureCoords(),treeData.getNormals(),treeData.getIndices());
+
+        //RawModel dragonModel = OBJLoader.loadObjModel("dragon", loader);
+        //RawModel treeModel = OBJLoader.loadObjModel("tree", loader);
 
         TexturedModel dragonTexturedModel = new TexturedModel(dragonModel, new ModelTexture(loader.loadTexture("red")));
         TexturedModel treeTexturedModel = new TexturedModel(treeModel, new ModelTexture(loader.loadTexture("tree")));
