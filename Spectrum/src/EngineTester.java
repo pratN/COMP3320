@@ -59,30 +59,21 @@ public class EngineTester {
         ModelLoadHandler loader = new ModelLoadHandler();
 
         ModelData dragonData = OBJFileLoader.loadOBJ("dragon");
-        ModelData treeData = OBJFileLoader.loadOBJ("tree");
         ModelData tree2Data = OBJFileLoader.loadOBJ("lowPolyTree");
 
         RawModel dragonModel = loader.loadToVAO(dragonData.getVertices(),dragonData.getTextureCoords(),dragonData.getNormals(),dragonData.getIndices());
-        RawModel treeModel = loader.loadToVAO(treeData.getVertices(),treeData.getTextureCoords(),treeData.getNormals(),treeData.getIndices());
         RawModel treeModel2 = loader.loadToVAO(tree2Data.getVertices(),tree2Data.getTextureCoords(),tree2Data.getNormals(),tree2Data.getIndices());
-        //RawModel dragonModel = OBJLoader.loadObjModel("dragon", loader);
-        //RawModel treeModel = OBJLoader.loadObjModel("tree", loader);
 
         TexturedModel dragonTexturedModel = new TexturedModel(dragonModel, new ModelTexture(loader.loadTexture("red")));
-        TexturedModel treeTexturedModel = new TexturedModel(treeModel, new ModelTexture(loader.loadTexture("tree")));
         TexturedModel tree2TexturedModel = new TexturedModel(treeModel2,new ModelTexture((loader.loadTexture("lowPolyTree"))));
         TexturedModel grassTexturedModel = new TexturedModel(OBJLoader.loadObjModel("grassModel",loader), new ModelTexture(loader.loadTexture("grassTexture")));
         grassTexturedModel.getTexture().setHasTransparency(true);
         grassTexturedModel.getTexture().setUseFakeLighting(true);
-        TexturedModel fernTexturedModel = new TexturedModel(OBJLoader.loadObjModel("fern",loader),new ModelTexture(loader.loadTexture("fern")));
-        fernTexturedModel.getTexture().setHasTransparency(true);
 
         List<Entity> flora = new ArrayList<>();
         Random random = new Random();
         for(int i = 0; i < 500; i++){
-            flora.add(new Entity(treeTexturedModel,new Vector3f(random.nextFloat() * 800 - 400, 0,random.nextFloat() * -600),0,0,0,3));
             flora.add(new Entity(grassTexturedModel,new Vector3f(random.nextFloat() * 800 - 400, 0,random.nextFloat() * -600),0,0,0,1));
-            flora.add(new Entity(fernTexturedModel,new Vector3f(random.nextFloat() * 800 - 400, 0,random.nextFloat() * -600),0,0,0,0.6f));
             flora.add(new Entity(tree2TexturedModel,new Vector3f((random.nextFloat())*800-400,0,random.nextFloat()*-600),0,0,0,0.4f));
 
         }
@@ -94,10 +85,10 @@ public class EngineTester {
         Light light = new Light(new Vector3f(3000,2000,20),new Vector3f(1,1,1));
 
 
-        TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("grassy2"));
-        TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("mud"));
-        TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("grassFlowers"));
-        TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("path"));
+        TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("grass_HIGH_RES"));
+        TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("soil_HIGH_RES"));
+        TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("flowers_HIGH_RES"));
+        TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("road_HIGH_RES"));
 
         TerrainTexPack texturePack = new TerrainTexPack(backgroundTexture,rTexture,gTexture,bTexture);
         TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("blendMap"));

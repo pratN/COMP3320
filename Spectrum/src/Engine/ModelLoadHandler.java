@@ -7,6 +7,7 @@ import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL14.GL_TEXTURE_LOD_BIAS;
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.*;
@@ -26,6 +27,7 @@ public class ModelLoadHandler {
     private static List<Integer> vaos = new ArrayList<>();
     private static List<Integer> vbos = new ArrayList<>();
     private List<Integer> textures = new ArrayList<>();
+    private static float LOD = -0.4f;
 
     /**
      *
@@ -71,6 +73,9 @@ public class ModelLoadHandler {
         Texture texture = null;
         try {
             texture = TextureLoader.getTexture("PNG", new FileInputStream("assets/" + fileName + ".png"));
+            glGenerateMipmap(GL_TEXTURE_2D);
+            glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_LINEAR);
+            glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_LOD_BIAS,LOD);
         } catch(FileNotFoundException e) {
             e.printStackTrace();
 
@@ -130,6 +135,10 @@ public class ModelLoadHandler {
         buffer.put(data);
         buffer.flip();
         return buffer;
+    }
+
+    public static void setLOD(float LOD) {
+        ModelLoadHandler.LOD = LOD;
     }
 
     /**

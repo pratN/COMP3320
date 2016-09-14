@@ -1,6 +1,7 @@
 package Entities;
 
 import Engine.WindowHandler;
+import org.lwjgl.glfw.GLFW;
 import util.KeyboardHandler;
 import util.MouseHandler;
 
@@ -22,7 +23,7 @@ public class Player extends Camera {
     private static final float GRAVITY = -30;
     private static final float JUMP_POWER = 15;
     private float upwardsSpeed = 0;
-    private static final float TERRAIN_HEIGHT = 1;
+    private static final float TERRAIN_HEIGHT = 2;
     private boolean airborne = false;
     public Player(MouseHandler mouseHandler) {
         this.mouseHandler = mouseHandler;
