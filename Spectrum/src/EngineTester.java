@@ -61,28 +61,28 @@ public class EngineTester {
         ModelData dragonData = OBJFileLoader.loadOBJ("dragon");
         ModelData tree2Data = OBJFileLoader.loadOBJ("lowPolyTree");
 
-        RawModel dragonModel = loader.loadToVAO(dragonData.getVertices(),dragonData.getTextureCoords(),dragonData.getNormals(),dragonData.getIndices());
-        RawModel treeModel2 = loader.loadToVAO(tree2Data.getVertices(),tree2Data.getTextureCoords(),tree2Data.getNormals(),tree2Data.getIndices());
+        RawModel dragonModel = loader.loadToVAO(dragonData.getVertices(), dragonData.getTextureCoords(), dragonData.getNormals(), dragonData.getIndices());
+        RawModel treeModel2 = loader.loadToVAO(tree2Data.getVertices(), tree2Data.getTextureCoords(), tree2Data.getNormals(), tree2Data.getIndices());
 
         TexturedModel dragonTexturedModel = new TexturedModel(dragonModel, new ModelTexture(loader.loadTexture("red")));
-        TexturedModel tree2TexturedModel = new TexturedModel(treeModel2,new ModelTexture((loader.loadTexture("lowPolyTree"))));
-        TexturedModel grassTexturedModel = new TexturedModel(OBJLoader.loadObjModel("grassModel",loader), new ModelTexture(loader.loadTexture("grassTexture")));
+        TexturedModel tree2TexturedModel = new TexturedModel(treeModel2, new ModelTexture((loader.loadTexture("lowPolyTree"))));
+        TexturedModel grassTexturedModel = new TexturedModel(OBJLoader.loadObjModel("grassModel", loader), new ModelTexture(loader.loadTexture("grassTexture")));
         grassTexturedModel.getTexture().setHasTransparency(true);
         grassTexturedModel.getTexture().setUseFakeLighting(true);
 
         List<Entity> flora = new ArrayList<>();
         Random random = new Random();
-        for(int i = 0; i < 500; i++){
-            flora.add(new Entity(grassTexturedModel,new Vector3f(random.nextFloat() * 800 - 400, 0,random.nextFloat() * -600),0,0,0,1));
-            flora.add(new Entity(tree2TexturedModel,new Vector3f((random.nextFloat())*800-400,0,random.nextFloat()*-600),0,0,0,0.4f));
+        for(int i = 0; i < 500; i++) {
+            flora.add(new Entity(grassTexturedModel, new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600), 0, 0, 0, 1));
+            flora.add(new Entity(tree2TexturedModel, new Vector3f((random.nextFloat()) * 800 - 400, 0, random.nextFloat() * -600), 0, 0, 0, 0.4f));
 
         }
 
         ModelTexture dragonTexture = dragonTexturedModel.getTexture();
         dragonTexture.setShineDamper(5);
         dragonTexture.setReflectivity(0.75f);
-        Entity dragonEntity = new Entity(dragonTexturedModel, new Vector3f(0,0,-10),0,0,0, 0.25f);
-        Light light = new Light(new Vector3f(3000,2000,20),new Vector3f(1,1,1));
+        Entity dragonEntity = new Entity(dragonTexturedModel, new Vector3f(0, 0, -10), 0, 0, 0, 0.25f);
+        Light light = new Light(new Vector3f(3000, 2000, 20), new Vector3f(1, 1, 1));
 
 
         TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("grass_HIGH_RES"));
@@ -90,29 +90,25 @@ public class EngineTester {
         TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("flowers_HIGH_RES"));
         TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("road_HIGH_RES"));
 
-        TerrainTexPack texturePack = new TerrainTexPack(backgroundTexture,rTexture,gTexture,bTexture);
+        TerrainTexPack texturePack = new TerrainTexPack(backgroundTexture, rTexture, gTexture, bTexture);
         TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("blendMap"));
 
 
-
-
-        Terrain terrain = new Terrain(0,-1,loader, texturePack,blendMap);
-         Terrain terrain2 = new Terrain(-1,-1,loader,  texturePack,blendMap);
-
-
+        Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap);
+        Terrain terrain2 = new Terrain(-1, -1, loader, texturePack, blendMap);
 
 
         Player player = new Player(mouseCallback);
         MasterRenderHandler renderer = new MasterRenderHandler();
 
 
-        while(!KeyboardHandler.isKeyDown(GLFW_KEY_ESCAPE)  && !WindowHandler.close()) {
+        while(!KeyboardHandler.isKeyDown(GLFW_KEY_ESCAPE) && !WindowHandler.close()) {
             player.move();
             renderer.processTerrain(terrain);
             renderer.processTerrain(terrain2);
             renderer.render(light, player);
             renderer.processEntity(dragonEntity);
-            flora.forEach(renderer::processEntity);
+            flora.forEach(renderer:: processEntity);
             WindowHandler.updateWindow();
         }
         renderer.cleanUp();
