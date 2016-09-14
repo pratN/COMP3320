@@ -70,20 +70,6 @@ public class EngineTester {
         grassTexturedModel.getTexture().setHasTransparency(true);
         grassTexturedModel.getTexture().setUseFakeLighting(true);
 
-        List<Entity> flora = new ArrayList<>();
-        Random random = new Random();
-        for(int i = 0; i < 500; i++) {
-            flora.add(new Entity(grassTexturedModel, new Vector3f(random.nextFloat() * 800 - 400, 0, random.nextFloat() * -600), 0, 0, 0, 1));
-            flora.add(new Entity(tree2TexturedModel, new Vector3f((random.nextFloat()) * 800 - 400, 0, random.nextFloat() * -600), 0, 0, 0, 0.4f));
-
-        }
-
-        ModelTexture dragonTexture = dragonTexturedModel.getTexture();
-        dragonTexture.setShineDamper(5);
-        dragonTexture.setReflectivity(0.75f);
-        Entity dragonEntity = new Entity(dragonTexturedModel, new Vector3f(0, 0, -10), 0, 0, 0, 0.25f);
-        Light light = new Light(new Vector3f(3000, 2000, 20), new Vector3f(1, 1, 1));
-
 
         TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("grass_HIGH_RES"));
         TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("soil_HIGH_RES"));
@@ -94,8 +80,31 @@ public class EngineTester {
         TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("blendMap"));
 
 
-        Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap);
-        Terrain terrain2 = new Terrain(-1, -1, loader, texturePack, blendMap);
+        Terrain terrain = new Terrain(0,-1, loader, texturePack, blendMap,"heightMap");
+        List<Entity> flora = new ArrayList<>();
+        Random random = new Random();
+        for(int i = 0; i < 400; i++) {
+            if (i%20 ==0){
+                float z = random.nextFloat() *800-400;
+                float x = random.nextFloat() *600;
+                float y = terrain.getHeightOfTerrain(x,z);
+                flora.add(new Entity(grassTexturedModel, new Vector3f(x,y,z), 0, random.nextFloat()*360, 0, 1));
+
+            }if(i%5==0){
+                float z = random.nextFloat() *800-400;
+                float x = random.nextFloat() *600;
+                float y = terrain.getHeightOfTerrain(x,z);
+                flora.add(new Entity(tree2TexturedModel, new Vector3f(x,y,z), 0, random.nextFloat()*360, 0, 0.4f));
+            }
+
+        }
+
+        ModelTexture dragonTexture = dragonTexturedModel.getTexture();
+        dragonTexture.setShineDamper(5);
+        dragonTexture.setReflectivity(0.75f);
+        Entity dragonEntity = new Entity(dragonTexturedModel, new Vector3f(0, 0, -10), 0, 0, 0, 0.25f);
+        Light light = new Light(new Vector3f(3000, 2000, 20), new Vector3f(1, 1, 1));
+
 
 
         Player player = new Player(mouseCallback);
@@ -103,9 +112,8 @@ public class EngineTester {
 
 
         while(!KeyboardHandler.isKeyDown(GLFW_KEY_ESCAPE) && !WindowHandler.close()) {
-            player.move();
+            player.move(terrain);
             renderer.processTerrain(terrain);
-            renderer.processTerrain(terrain2);
             renderer.render(light, player);
             renderer.processEntity(dragonEntity);
             flora.forEach(renderer:: processEntity);

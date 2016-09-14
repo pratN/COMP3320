@@ -1,9 +1,9 @@
 package Entities;
 
 import Engine.WindowHandler;
-import org.lwjgl.glfw.GLFW;
 import util.KeyboardHandler;
 import util.MouseHandler;
+import Terrain.Terrain;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -17,38 +17,36 @@ public class Player extends Camera {
     private float strafeSpeed = 0;
     protected float mouseSensitivity = 0.1f;
     private MouseHandler mouseHandler;
-    private float dx=0;
-    private float dz=0;
-    private float dy=0;
+    private float dx = 0;
+    private float dz = 0;
+    private float dy = 0;
     private static final float GRAVITY = -30;
     private static final float JUMP_POWER = 15;
     private float upwardsSpeed = 0;
-    private static final float TERRAIN_HEIGHT = 2;
     private boolean airborne = false;
+
     public Player(MouseHandler mouseHandler) {
         this.mouseHandler = mouseHandler;
     }
 
-    public void move() {
+    public void move(Terrain terrain) {
         checkInputs();
         super.setPitch(pitch);
         super.setYaw(yaw);
-        position.x=dx;
-        position.z=dz;
-        upwardsSpeed +=GRAVITY*WindowHandler.getFrameTimeSeconds();
-        dy=upwardsSpeed*WindowHandler.getFrameTimeSeconds();
-        increasePosition(0,dy,0);
-
-        if (getPosition().y<TERRAIN_HEIGHT){
-            upwardsSpeed=0;
-            airborne=false;
-            getPosition().y=TERRAIN_HEIGHT;
+        position.x = dx;
+        position.z = dz;
+        upwardsSpeed += GRAVITY * WindowHandler.getFrameTimeSeconds();
+        dy = upwardsSpeed * WindowHandler.getFrameTimeSeconds();
+        increasePosition(0, dy, 0);
+        float terrainHeight = terrain.getHeightOfTerrain(super.getPosition().x, super.getPosition().z) + 2;
+        if(getPosition().y < terrainHeight) {
+            upwardsSpeed = 0;
+            airborne = false;
+            position.y = terrainHeight;
         }
-
-
-
     }
-    private void jump(){
+
+    private void jump() {
         if(!airborne) {
             this.upwardsSpeed = JUMP_POWER;
             airborne = true;
