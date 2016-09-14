@@ -1,69 +1,90 @@
 package Entities;
 
-import org.lwjglx.util.vector.Vector3f;
+import Engine.WindowHandler;
 import util.KeyboardHandler;
 import util.MouseHandler;
 
 import static org.lwjgl.glfw.GLFW.*;
 
-public class Player {
 
-    private Vector3f position = new Vector3f(0,1,0);
-    private float pitch;
-    private float yaw;
-    private float roll;
-    private float mouseSensitivity = 0.1f;
+/**
+ * Created by Beau on 14/09/2016.
+ */
+public class Player extends Camera {
+    private float RUN_SPEED = 20;
+    private float currentSpeed = 0;
+    private float strafeSpeed = 0;
+    protected float mouseSensitivity = 0.1f;
     private MouseHandler mouseHandler;
-    private float speed = 0.5f;
-
-    public Player(MouseHandler mouseHandler){
-        this.mouseHandler=mouseHandler;
+    private float dx=0;
+    private float dz=0;
+    private float dy=0;
+    private static final float GRAVITY = -30;
+    private static final float JUMP_POWER = 15;
+    private float upwardsSpeed = 0;
+    private static final float TERRAIN_HEIGHT = 1;
+    private boolean airborne = false;
+    public Player(MouseHandler mouseHandler) {
+        this.mouseHandler = mouseHandler;
     }
 
-    public void move(){
+    public void move() {
+        checkInputs();
+        super.setPitch(pitch);
+        super.setYaw(yaw);
+        position.x=dx;
+        position.z=dz;
+        upwardsSpeed +=GRAVITY*WindowHandler.getFrameTimeSeconds();
+        dy=upwardsSpeed*WindowHandler.getFrameTimeSeconds();
+        increasePosition(0,dy,0);
 
-        if(KeyboardHandler.isKeyDown(GLFW_KEY_W)){
-            position.x += Math.sin(Math.toRadians(yaw)) * speed;
-            position.z -= Math.cos(Math.toRadians(yaw)) * speed;
-
-        }
-        if(KeyboardHandler.isKeyDown(GLFW_KEY_S)){
-            position.x -= Math.sin(Math.toRadians(yaw)) * speed;
-            position.z += Math.cos(Math.toRadians(yaw)) * speed;
-
-        }
-        if(KeyboardHandler.isKeyDown(GLFW_KEY_A)){
-            position.x += Math.sin(Math.toRadians(yaw - 90)) * speed;
-            position.z -= Math.cos(Math.toRadians(yaw - 90)) * speed;
-
-        }
-        if(KeyboardHandler.isKeyDown(GLFW_KEY_D)){
-            position.x += Math.sin(Math.toRadians(yaw + 90)) * speed;
-            position.z -= Math.cos(Math.toRadians(yaw + 90)) * speed;
-
-        }if(KeyboardHandler.isKeyDown(GLFW_KEY_SPACE)){
-            position.y+=speed;
-        }if(KeyboardHandler.isKeyDown(GLFW_KEY_LEFT_CONTROL)){
-            position.y-=speed;
+        if (getPosition().y<TERRAIN_HEIGHT){
+            upwardsSpeed=0;
+            airborne=false;
+            getPosition().y=TERRAIN_HEIGHT;
         }
 
-        pitch = mouseHandler.getY()*mouseSensitivity;
-        yaw = mouseHandler.getX()*mouseSensitivity;
+
+
+    }
+    private void jump(){
+        if(!airborne) {
+            this.upwardsSpeed = JUMP_POWER;
+            airborne = true;
+        }
     }
 
-    public Vector3f getPosition() {
-        return position;
-    }
+    private void checkInputs() {
+        if(KeyboardHandler.isKeyDown(GLFW_KEY_W)) {
+            currentSpeed = RUN_SPEED;
+            dx += Math.sin(Math.toRadians(yaw)) * (currentSpeed * WindowHandler.getFrameTimeSeconds());
+            dz -= Math.cos(Math.toRadians(yaw)) * (currentSpeed * WindowHandler.getFrameTimeSeconds());
 
-    public float getPitch() {
-        return pitch;
-    }
+        } else if(KeyboardHandler.isKeyDown(GLFW_KEY_S)) {
+            currentSpeed = RUN_SPEED;
+            dx -= Math.sin(Math.toRadians(yaw)) * (currentSpeed * WindowHandler.getFrameTimeSeconds());
+            dz += Math.cos(Math.toRadians(yaw)) * (currentSpeed * WindowHandler.getFrameTimeSeconds());
 
-    public float getYaw() {
-        return yaw;
-    }
+        } else currentSpeed = 0;
+        if(KeyboardHandler.isKeyDown(GLFW_KEY_A)) {
+            strafeSpeed = RUN_SPEED;
+            dx += Math.sin(Math.toRadians(yaw - 90)) * (strafeSpeed * WindowHandler.getFrameTimeSeconds());
+            dz -= Math.cos(Math.toRadians(yaw - 90)) * (strafeSpeed * WindowHandler.getFrameTimeSeconds());
 
-    public float getRoll() {
-        return roll;
+        } else if(KeyboardHandler.isKeyDown(GLFW_KEY_D)) {
+            strafeSpeed = RUN_SPEED;
+            dx += Math.sin(Math.toRadians(yaw + 90)) * (strafeSpeed * WindowHandler.getFrameTimeSeconds());
+            dz -= Math.cos(Math.toRadians(yaw + 90)) * (strafeSpeed * WindowHandler.getFrameTimeSeconds());
+
+        } else {
+            strafeSpeed = 0;
+        }
+        pitch = mouseHandler.getY() * mouseSensitivity;
+        yaw = mouseHandler.getX() * mouseSensitivity;
+
+        if(KeyboardHandler.isKeyDown(GLFW_KEY_SPACE)) {
+            jump();
+        }
+
     }
 }

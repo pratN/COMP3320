@@ -13,6 +13,8 @@ import static org.lwjgl.opengl.GL11.*;
 public class WindowHandler {
     private static long window;
     private static Format.Field errorCallback;
+    private static float lastFrameTime;
+    private static float delta;
 
     /**
      * Set up and create the window display
@@ -55,7 +57,7 @@ public class WindowHandler {
         );
 
         GL.createCapabilities();
-        glClearColor(0.04f, 0.22f,.88f, 0.0f);
+        lastFrameTime = getCurrentTime();
 
     }
 
@@ -66,14 +68,25 @@ public class WindowHandler {
             // Poll for window events. The key callback above will only be
             // invoked during this call.
             glfwPollEvents();
+        float currentFrameTime = getCurrentTime();
+        delta = (currentFrameTime-lastFrameTime)/1000;
+        lastFrameTime=currentFrameTime;
     }
 
+    public static float getFrameTimeSeconds(){
+        return delta;
+    }
 
     public static void closeWindow() {
         glfwFreeCallbacks(window);
         glfwDestroyWindow(window);
         glfwTerminate();
         glfwSetErrorCallback(null).free();
+
+    }
+
+    private static float getCurrentTime(){
+        return (float) (glfwGetTime() * 1000);
 
     }
 

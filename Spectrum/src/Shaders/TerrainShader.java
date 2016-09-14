@@ -1,6 +1,6 @@
 package Shaders;
 
-import Entities.Player;
+import Entities.Camera;
 import Entities.Light;
 import org.lwjglx.util.vector.Matrix4f;
 import org.lwjglx.util.vector.Vector3f;
@@ -81,8 +81,8 @@ public class TerrainShader extends ShaderProgram {
 
     }
 
-    public void loadViewMatrix(Player player) {
-        Matrix4f viewMatrix = Maths.createViewMatrix(player);
+    public void loadViewMatrix(Camera camera) {
+        Matrix4f viewMatrix = Maths.createViewMatrix(camera);
         super.loadMatrix(location_viewMatrix, viewMatrix);
     }
 

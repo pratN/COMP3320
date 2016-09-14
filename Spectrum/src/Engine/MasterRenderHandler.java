@@ -52,18 +52,18 @@ public class MasterRenderHandler {
         glDisable(GL_CULL_FACE);
     }
 
-    public void render(Light sun, Player player){
+    public void render(Light sun, Camera camera){
         prepare();
         shader.start();
         shader.loadSkyColour(RED,GREEN,BLUE);
         shader.loadLight(sun);
-        shader.loadViewMatrix(player);
+        shader.loadViewMatrix(camera);
         renderer.render(entities);
         shader.stop();
         terrainShader.start();
         terrainShader.loadSkyColour(RED,GREEN,BLUE);
         terrainShader.loadLight(sun);
-        terrainShader.loadViewMatrix(player);
+        terrainShader.loadViewMatrix(camera);
         terrainRenderer.render(terrains);
         terrainShader.stop();
         terrains.clear();
