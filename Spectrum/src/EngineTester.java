@@ -33,7 +33,6 @@ public class EngineTester {
     private static int HEIGHT = 720;
     private static GLFWKeyCallback keyCallback;
     private static MouseHandler mouseCallback;
-    private static Light light = new Light(new Vector3f(3000, 2000, 20), new Vector3f(1, 1, 1));
     private static int state = 0;
 
     public static void main(String[] args) {
@@ -109,6 +108,12 @@ public class EngineTester {
             }
 
         }
+        List<Light> lights = new ArrayList<>();
+        lights.add(new Light(new Vector3f(0, 10000, -7000), new Vector3f(1, 1, 1)));
+        lights.add(new Light(new Vector3f(-200, 10, -200), new Vector3f(10, 0, 0)));
+        lights.add(new Light(new Vector3f(200, 10, 200), new Vector3f(0, 0, 10)));
+
+
         ModelTexture dragonTexture = new ModelTexture(loader.loadTexture("dragons"));
         dragonTexture.setNumberOfRows(2);
 
@@ -128,10 +133,10 @@ public class EngineTester {
         MasterRenderHandler renderer = new MasterRenderHandler();
 
         while(!KeyboardHandler.isKeyDown(GLFW_KEY_ESCAPE) && !WindowHandler.close()) {
-            checkInputs();
+           // checkInputs();
             player.move(terrain);
             renderer.processTerrain(terrain);
-            renderer.render(light, player);
+            renderer.render(lights, player);
             //if(state == 1)
                 renderer.processEntity(redDragonEntity);
            // else if(state == 2)
@@ -150,7 +155,7 @@ public class EngineTester {
         loader.cleanUp();
     }
 
-    public static void checkInputs() {
+    /*public static void checkInputs() {
         if(KeyboardHandler.isKeyDown(GLFW_KEY_1)) {
             state = 1;
            light.setColour(new Vector3f(1, 0.25f,0.25f ));
@@ -165,5 +170,5 @@ public class EngineTester {
             light.setColour(new Vector3f(0.25f, 0.25f, 1));
         }
 
-    }
+    }*/
 }
