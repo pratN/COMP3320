@@ -42,6 +42,14 @@ public class Camera {
         this.pitch = pitch;
     }
 
+    public void increasePitch(float pitch){
+        this.pitch+=pitch;
+    }
+
+    public void increaseYaw(float yaw){
+        this.yaw+= yaw;
+    }
+
     public Vector3f getPosition() {
         return position;
     }

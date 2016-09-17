@@ -20,6 +20,8 @@ public class Player extends Camera {
     private float dx = 0;
     private float dz = 0;
     private float dy = 0;
+    private float mouseDX =0;
+    private float mouseDY =0;
     private static final float GRAVITY = -30;
     private static final float JUMP_POWER = 15;
     private float upwardsSpeed = 0;
