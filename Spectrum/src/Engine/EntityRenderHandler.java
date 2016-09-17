@@ -63,6 +63,7 @@ public class EntityRenderHandler {
             MasterRenderHandler.disableCulling();
         }
         shader.loadFakeLightingVariable(texture.isUseFakeLighting());
+        shader.loadNumberOfRows(texture.getNumberOfRows());
         shader.loadShineVariables(texture.getShineDamper(),texture.getReflectivity());
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, model.getTexture().getID());
@@ -79,6 +80,7 @@ public class EntityRenderHandler {
     public void prepareInstance(Entity entity){
         Matrix4f transformationMatrix = Maths.createTransformationMatrix(entity.getPosition(), entity.getRotX(), entity.getRotY(), entity.getRotZ(), entity.getScale());
         shader.loadTransformationMatrix(transformationMatrix);
+        shader.loadOffset(entity.getTextureXOffset(),entity.getTextureYOffset());
     }
 
 

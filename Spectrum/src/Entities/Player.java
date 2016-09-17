@@ -58,23 +58,19 @@ public class Player extends Camera {
             currentSpeed = RUN_SPEED;
             dx += Math.sin(Math.toRadians(yaw)) * (currentSpeed * WindowHandler.getFrameTimeSeconds());
             dz -= Math.cos(Math.toRadians(yaw)) * (currentSpeed * WindowHandler.getFrameTimeSeconds());
-
         } else if(KeyboardHandler.isKeyDown(GLFW_KEY_S)) {
             currentSpeed = RUN_SPEED;
             dx -= Math.sin(Math.toRadians(yaw)) * (currentSpeed * WindowHandler.getFrameTimeSeconds());
             dz += Math.cos(Math.toRadians(yaw)) * (currentSpeed * WindowHandler.getFrameTimeSeconds());
-
         } else currentSpeed = 0;
         if(KeyboardHandler.isKeyDown(GLFW_KEY_A)) {
             strafeSpeed = RUN_SPEED;
             dx += Math.sin(Math.toRadians(yaw - 90)) * (strafeSpeed * WindowHandler.getFrameTimeSeconds());
             dz -= Math.cos(Math.toRadians(yaw - 90)) * (strafeSpeed * WindowHandler.getFrameTimeSeconds());
-
         } else if(KeyboardHandler.isKeyDown(GLFW_KEY_D)) {
             strafeSpeed = RUN_SPEED;
             dx += Math.sin(Math.toRadians(yaw + 90)) * (strafeSpeed * WindowHandler.getFrameTimeSeconds());
             dz -= Math.cos(Math.toRadians(yaw + 90)) * (strafeSpeed * WindowHandler.getFrameTimeSeconds());
-
         } else {
             strafeSpeed = 0;
         }

@@ -1,4 +1,3 @@
-import Entities.Camera;
 import Entities.Entity;
 import Entities.Light;
 import Entities.Player;
@@ -32,6 +31,8 @@ public class EngineTester {
     private static int HEIGHT = 720;
     private static GLFWKeyCallback keyCallback;
     private static MouseHandler mouseCallback;
+    private static Light light = new Light(new Vector3f(3000, 2000, 20), new Vector3f(1, 1, 1));
+    private static int state = 0;
 
     public static void main(String[] args) {
         System.out.println("Hello LWJGL " + Version.getVersion() + "!");
@@ -55,22 +56,27 @@ public class EngineTester {
 
     //Main Loop
     private static void loop() {
-
+        //Raw model loader
         ModelLoadHandler loader = new ModelLoadHandler();
 
+        //Parse objects
         ModelData dragonData = OBJFileLoader.loadOBJ("dragon");
         ModelData tree2Data = OBJFileLoader.loadOBJ("lowPolyTree");
 
+        //Load  raw data as a model
         RawModel dragonModel = loader.loadToVAO(dragonData.getVertices(), dragonData.getTextureCoords(), dragonData.getNormals(), dragonData.getIndices());
         RawModel treeModel2 = loader.loadToVAO(tree2Data.getVertices(), tree2Data.getTextureCoords(), tree2Data.getNormals(), tree2Data.getIndices());
 
-        TexturedModel dragonTexturedModel = new TexturedModel(dragonModel, new ModelTexture(loader.loadTexture("red")));
-        TexturedModel tree2TexturedModel = new TexturedModel(treeModel2, new ModelTexture((loader.loadTexture("lowPolyTree"))));
-        TexturedModel grassTexturedModel = new TexturedModel(OBJLoader.loadObjModel("grassModel", loader), new ModelTexture(loader.loadTexture("grassTexture")));
-        grassTexturedModel.getTexture().setHasTransparency(true);
-        grassTexturedModel.getTexture().setUseFakeLighting(true);
+        //texture raw model
+        ModelTexture fernAtlas = new ModelTexture(loader.loadTexture("fern"));
+        fernAtlas.setNumberOfRows(2);
+        ModelTexture treeTextureAtlas =  new ModelTexture(loader.loadTexture("lowPolyTree"));
+        treeTextureAtlas.setNumberOfRows(2);
+        TexturedModel tree2TexturedModel = new TexturedModel(treeModel2,treeTextureAtlas);
+        TexturedModel fernTexturedModel = new TexturedModel(OBJLoader.loadObjModel("fern", loader), fernAtlas );
+        fernTexturedModel.getTexture().setHasTransparency(true);
 
-
+        //texture terrain
         TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("grass_HIGH_RES"));
         TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("soil_HIGH_RES"));
         TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("flowers_HIGH_RES"));
@@ -79,47 +85,76 @@ public class EngineTester {
         TerrainTexPack texturePack = new TerrainTexPack(backgroundTexture, rTexture, gTexture, bTexture);
         TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("blendMap"));
 
+        //load terrain
+        Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "heightMap");
 
-        Terrain terrain = new Terrain(0,-1, loader, texturePack, blendMap,"heightMap");
+        //create entities
         List<Entity> flora = new ArrayList<>();
-        Random random = new Random();
+        Random random = new Random(676452);
         for(int i = 0; i < 400; i++) {
-            if (i%20 ==0){
-                float z = random.nextFloat() *800-400;
-                float x = random.nextFloat() *600;
-                float y = terrain.getHeightOfTerrain(x,z);
-                flora.add(new Entity(grassTexturedModel, new Vector3f(x,y,z), 0, random.nextFloat()*360, 0, 1));
+            if(i % 2 == 0) {
+                float z = random.nextFloat() * -800;
+                float x = random.nextFloat() * 800;
+                float y = terrain.getHeightOfTerrain(x, z);
+                flora.add(new Entity(fernTexturedModel, random.nextInt(4), new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.5f));
 
-            }if(i%5==0){
-                float z = random.nextFloat() *800-400;
-                float x = random.nextFloat() *600;
-                float y = terrain.getHeightOfTerrain(x,z);
-                flora.add(new Entity(tree2TexturedModel, new Vector3f(x,y,z), 0, random.nextFloat()*360, 0, 0.4f));
+            }
+            if(i % 5 == 0) {
+                float z = random.nextFloat() * -800;
+                float x = random.nextFloat() * 800;
+                float y = terrain.getHeightOfTerrain(x, z);
+                flora.add(new Entity(tree2TexturedModel, random.nextInt(4),new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.4f));
             }
 
         }
+        ModelTexture dragonTexture = new ModelTexture(loader.loadTexture("dragons"));
+        dragonTexture.setNumberOfRows(2);
 
-        ModelTexture dragonTexture = dragonTexturedModel.getTexture();
+        TexturedModel dragon = new TexturedModel(dragonModel,dragonTexture);
         dragonTexture.setShineDamper(5);
         dragonTexture.setReflectivity(0.75f);
-        Entity dragonEntity = new Entity(dragonTexturedModel, new Vector3f(0, 0, -10), 0, 0, 0, 0.25f);
-        Light light = new Light(new Vector3f(3000, 2000, 20), new Vector3f(1, 1, 1));
-
-
+        Entity redDragonEntity = new Entity(dragon,0, new Vector3f(0, 1, -10), 0, 0, 0, 0.25f);
+        Entity blueDragonEntity = new Entity(dragon,1, new Vector3f(5, 1, -10), 0, 0, 0, 0.25f);
+        Entity greenDragonEntity = new Entity(dragon,2, new Vector3f(10, 1, -10), 0, 0, 0, 0.25f);
+        Entity whiteDragonEntity = new Entity(dragon,3, new Vector3f(15, 1, -10), 0, 0, 0, 0.25f);
 
         Player player = new Player(mouseCallback);
         MasterRenderHandler renderer = new MasterRenderHandler();
 
-
         while(!KeyboardHandler.isKeyDown(GLFW_KEY_ESCAPE) && !WindowHandler.close()) {
+            checkInputs();
             player.move(terrain);
             renderer.processTerrain(terrain);
             renderer.render(light, player);
-            renderer.processEntity(dragonEntity);
+            //if(state == 1)
+                renderer.processEntity(redDragonEntity);
+           // else if(state == 2)
+                renderer.processEntity(blueDragonEntity);
+            //else if(state == 3)
+                renderer.processEntity(greenDragonEntity);
+            renderer.processEntity(whiteDragonEntity);
+
             flora.forEach(renderer:: processEntity);
             WindowHandler.updateWindow();
         }
         renderer.cleanUp();
         loader.cleanUp();
+    }
+
+    public static void checkInputs() {
+        if(KeyboardHandler.isKeyDown(GLFW_KEY_1)) {
+            state = 1;
+           light.setColour(new Vector3f(1, 0.25f,0.25f ));
+        } else if(KeyboardHandler.isKeyDown((GLFW_KEY_0))) {
+            state = 0;
+           light.setColour(new Vector3f(1, 1, 1));
+        } else if(KeyboardHandler.isKeyDown((GLFW_KEY_2))) {
+            state =  2;
+           light.setColour(new Vector3f(0.25f, 1, 0.25f));
+        } else if(KeyboardHandler.isKeyDown((GLFW_KEY_3))) {
+            state = 3;
+            light.setColour(new Vector3f(0.25f, 0.25f, 1));
+        }
+
     }
 }
