@@ -116,11 +116,10 @@ public class EngineTester {
         lights.add(new Light(new Vector3f(185, 10, -293), new Vector3f(2, 0, 0), new Vector3f(1,0.01f,0.002f)));
         lights.add(new Light(new Vector3f(370, 17, -293), new Vector3f(0, 2, 2), new Vector3f(1,0.01f,0.002f)));
         lights.add(new Light(new Vector3f(293, 7, -305), new Vector3f(2, 2, 0), new Vector3f(1,0.01f,0.002f)));
-
         entities.add(new Entity(lamp,new Vector3f(185, -4.7f, -293),0,0,0,1 ));
         entities.add(new Entity(lamp,new Vector3f(370, 4.2f, -293),0,0,0,1 ));
         entities.add(new Entity(lamp,new Vector3f(293, -6.8f, -305),0,0,0,1 ));
-
+        lamp.getTexture().setUseFakeLighting(true);
         ModelTexture dragonTexture = new ModelTexture(loader.loadTexture("dragons"));
         dragonTexture.setNumberOfRows(2);
 
@@ -136,7 +135,7 @@ public class EngineTester {
         guis.add(gui);
 
         GUIRenderer guiRenderer = new GUIRenderer(loader);
-        Player player = new Player(mouseCallback);
+        Player player = new Player(mouseCallback,  new Vector3f(150,5,-290));
         MasterRenderHandler renderer = new MasterRenderHandler();
 
         while(!KeyboardHandler.isKeyDown(GLFW_KEY_ESCAPE) && !WindowHandler.close()) {

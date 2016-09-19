@@ -1,6 +1,7 @@
 package Entities;
 
 import Engine.WindowHandler;
+import org.lwjglx.util.vector.Vector3f;
 import util.KeyboardHandler;
 import util.MouseHandler;
 import Terrain.Terrain;
@@ -29,6 +30,10 @@ public class Player extends Camera {
 
     public Player(MouseHandler mouseHandler) {
         this.mouseHandler = mouseHandler;
+    }
+    public Player(MouseHandler mouseHandler, Vector3f pos) {
+        this.mouseHandler = mouseHandler;
+        this.position = pos;
     }
 
     public void move(Terrain terrain) {
