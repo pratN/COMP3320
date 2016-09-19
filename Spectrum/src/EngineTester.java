@@ -63,10 +63,12 @@ public class EngineTester {
         //Parse objects
         ModelData dragonData = OBJFileLoader.loadOBJ("dragon");
         ModelData tree2Data = OBJFileLoader.loadOBJ("lowPolyTree");
+        ModelData lampData = OBJFileLoader.loadOBJ("lamp");
 
         //Load  raw data as a model
         RawModel dragonModel = loader.loadToVAO(dragonData.getVertices(), dragonData.getTextureCoords(), dragonData.getNormals(), dragonData.getIndices());
         RawModel treeModel2 = loader.loadToVAO(tree2Data.getVertices(), tree2Data.getTextureCoords(), tree2Data.getNormals(), tree2Data.getIndices());
+        RawModel lampModel =  loader.loadToVAO(lampData.getVertices(),lampData.getTextureCoords(),lampData.getNormals(),lampData.getIndices());
 
         //texture raw model
         ModelTexture fernAtlas = new ModelTexture(loader.loadTexture("fern"));
@@ -75,6 +77,7 @@ public class EngineTester {
         treeTextureAtlas.setNumberOfRows(2);
         TexturedModel tree2TexturedModel = new TexturedModel(treeModel2,treeTextureAtlas);
         TexturedModel fernTexturedModel = new TexturedModel(OBJLoader.loadObjModel("fern", loader), fernAtlas );
+        TexturedModel lamp = new TexturedModel(lampModel, new ModelTexture(loader.loadTexture("lamp")));
         fernTexturedModel.getTexture().setHasTransparency(true);
 
         //texture terrain
@@ -90,29 +93,33 @@ public class EngineTester {
         Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "heightMap");
 
         //create entities
-        List<Entity> flora = new ArrayList<>();
+        List<Entity> entities = new ArrayList<>();
         Random random = new Random(676452);
         for(int i = 0; i < 400; i++) {
             if(i % 2 == 0) {
                 float z = random.nextFloat() * -800;
                 float x = random.nextFloat() * 800;
                 float y = terrain.getHeightOfTerrain(x, z);
-                flora.add(new Entity(fernTexturedModel, random.nextInt(4), new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.5f));
+                entities.add(new Entity(fernTexturedModel, random.nextInt(4), new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.5f));
 
             }
             if(i % 5 == 0) {
                 float z = random.nextFloat() * -800;
                 float x = random.nextFloat() * 800;
                 float y = terrain.getHeightOfTerrain(x, z);
-                flora.add(new Entity(tree2TexturedModel, random.nextInt(4),new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.4f));
+                entities.add(new Entity(tree2TexturedModel, random.nextInt(4),new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.4f));
             }
 
         }
         List<Light> lights = new ArrayList<>();
-        lights.add(new Light(new Vector3f(0, 10000, -7000), new Vector3f(1, 1, 1)));
-        lights.add(new Light(new Vector3f(-200, 10, -200), new Vector3f(10, 0, 0)));
-        lights.add(new Light(new Vector3f(200, 10, 200), new Vector3f(0, 0, 10)));
+        lights.add(new Light(new Vector3f(0, 10000, -7000), new Vector3f(0.4f, 0.4f, 0.4f)));
+        lights.add(new Light(new Vector3f(185, 10, -293), new Vector3f(2, 0, 0), new Vector3f(1,0.01f,0.002f)));
+        lights.add(new Light(new Vector3f(370, 17, -293), new Vector3f(0, 2, 2), new Vector3f(1,0.01f,0.002f)));
+        lights.add(new Light(new Vector3f(293, 7, -305), new Vector3f(2, 2, 0), new Vector3f(1,0.01f,0.002f)));
 
+        entities.add(new Entity(lamp,new Vector3f(185, -4.7f, -293),0,0,0,1 ));
+        entities.add(new Entity(lamp,new Vector3f(370, 4.2f, -293),0,0,0,1 ));
+        entities.add(new Entity(lamp,new Vector3f(293, -6.8f, -305),0,0,0,1 ));
 
         ModelTexture dragonTexture = new ModelTexture(loader.loadTexture("dragons"));
         dragonTexture.setNumberOfRows(2);
@@ -145,7 +152,7 @@ public class EngineTester {
                 renderer.processEntity(greenDragonEntity);
             renderer.processEntity(whiteDragonEntity);
 
-            flora.forEach(renderer:: processEntity);
+            entities.forEach(renderer:: processEntity);
             // Uncomment to  display GUI
             // guiRenderer.render(guis);
             WindowHandler.updateWindow();
