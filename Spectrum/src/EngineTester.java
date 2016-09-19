@@ -136,7 +136,7 @@ public class EngineTester {
 
         GUIRenderer guiRenderer = new GUIRenderer(loader);
         Player player = new Player(mouseCallback,  new Vector3f(150,5,-290));
-        MasterRenderHandler renderer = new MasterRenderHandler();
+        MasterRenderHandler renderer = new MasterRenderHandler(loader);
 
         while(!KeyboardHandler.isKeyDown(GLFW_KEY_ESCAPE) && !WindowHandler.close()) {
            // checkInputs();

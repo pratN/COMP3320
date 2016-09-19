@@ -3,6 +3,7 @@ package Engine;
 import Entities.*;
 import Models.*;
 import Shaders.*;
+import Skybox.SkyboxRenderer;
 import Terrain.Terrain;
 import org.lwjglx.util.vector.Matrix4f;
 
@@ -35,12 +36,14 @@ public class MasterRenderHandler {
     private TerrainShader terrainShader = new TerrainShader();
     private Map<TexturedModel, List<Entity>> entities = new HashMap<>();
     private List<Terrain> terrains = new ArrayList<>();
+    private SkyboxRenderer skyboxRenderer;
 
-    public MasterRenderHandler(){
+    public MasterRenderHandler(ModelLoadHandler loader){
         enableCulling();
         createProjectionMatrix();
         renderer = new EntityRenderHandler(shader,WIDTH, HEIGHT, projectionMatrix);
         terrainRenderer = new TerrainRenderer(terrainShader, projectionMatrix);
+        skyboxRenderer = new SkyboxRenderer(loader,projectionMatrix);
     }
 
     public static void enableCulling(){
@@ -66,6 +69,7 @@ public class MasterRenderHandler {
         terrainShader.loadViewMatrix(camera);
         terrainRenderer.render(terrains);
         terrainShader.stop();
+        skyboxRenderer.render(camera);
         terrains.clear();
         entities.clear();
     }
