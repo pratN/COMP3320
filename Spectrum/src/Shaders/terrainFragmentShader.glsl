@@ -20,6 +20,7 @@ uniform vec3 skyColour;
 uniform vec3 attenuation[4];
 
 
+
 void main(void) {
 
     vec4 blendMapColour = texture(blendMap, pass_textureCoordinates);

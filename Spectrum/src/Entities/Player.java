@@ -13,7 +13,7 @@ import static org.lwjgl.glfw.GLFW.*;
  * Created by Beau on 14/09/2016.
  */
 public class Player extends Camera {
-    private float RUN_SPEED = 20;
+    private float RUN_SPEED = 100;
     private float currentSpeed = 0;
     private float strafeSpeed = 0;
     protected float mouseSensitivity = 0.1f;
@@ -24,7 +24,7 @@ public class Player extends Camera {
     private float mouseDX =0;
     private float mouseDY =0;
     private static final float GRAVITY = -30;
-    private static final float JUMP_POWER = 15;
+    private static final float JUMP_POWER = 20;
     private float upwardsSpeed = 0;
     private boolean airborne = false;
 
@@ -46,7 +46,7 @@ public class Player extends Camera {
         dy = upwardsSpeed * WindowHandler.getFrameTimeSeconds();
         increasePosition(0, dy, 0);
         float terrainHeight = terrain.getHeightOfTerrain(super.getPosition().x, super.getPosition().z) + 2;
-        if(getPosition().y < terrainHeight) {
+        if(getPosition().y < terrainHeight){
             upwardsSpeed = 0;
             airborne = false;
             position.y = terrainHeight;

@@ -18,6 +18,7 @@ import Engine.*;
 import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjglx.util.vector.Vector2f;
 import org.lwjglx.util.vector.Vector3f;
+import org.lwjglx.util.vector.Vector4f;
 import util.KeyboardHandler;
 import util.MouseHandler;
 
@@ -139,16 +140,16 @@ public class EngineTester {
         MasterRenderHandler renderer = new MasterRenderHandler(loader);
 
         while(!KeyboardHandler.isKeyDown(GLFW_KEY_ESCAPE) && !WindowHandler.close()) {
-           // checkInputs();
+            // checkInputs();
             player.move(terrain);
             renderer.processTerrain(terrain);
-            renderer.render(lights, player);
+            renderer.render(lights, player,new Vector4f(0,1,0,10000000));
             //if(state == 1)
-                renderer.processEntity(redDragonEntity);
-           // else if(state == 2)
-                renderer.processEntity(blueDragonEntity);
+            renderer.processEntity(redDragonEntity);
+            // else if(state == 2)
+            renderer.processEntity(blueDragonEntity);
             //else if(state == 3)
-                renderer.processEntity(greenDragonEntity);
+            renderer.processEntity(greenDragonEntity);
             renderer.processEntity(whiteDragonEntity);
 
             entities.forEach(renderer:: processEntity);
@@ -175,6 +176,5 @@ public class EngineTester {
             state = 3;
             light.setColour(new Vector3f(0.25f, 0.25f, 1));
         }
-
     }*/
 }

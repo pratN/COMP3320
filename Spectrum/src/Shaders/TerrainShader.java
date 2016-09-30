@@ -4,6 +4,7 @@ import Entities.Camera;
 import Entities.Light;
 import org.lwjglx.util.vector.Matrix4f;
 import org.lwjglx.util.vector.Vector3f;
+import org.lwjglx.util.vector.Vector4f;
 import util.Maths;
 
 import java.util.List;
@@ -31,6 +32,7 @@ public class TerrainShader extends ShaderProgram {
     private int location_bTexture;
     private int location_blendMap;
     private int location_attenuation[];
+    private int location_waterPlane;
 
 
     public TerrainShader() {
@@ -50,6 +52,7 @@ public class TerrainShader extends ShaderProgram {
         location_gTexture = super.getUniformLocation("gTexture");
         location_bTexture = super.getUniformLocation("bTexture");
         location_blendMap = super.getUniformLocation("blendMap");
+        location_waterPlane = super.getUniformLocation("waterPlane");
         location_lightPosition = new int[MAX_LIGHTS];
         location_lightColour = new int[MAX_LIGHTS];
         location_attenuation = new int[MAX_LIGHTS];
@@ -71,6 +74,8 @@ public class TerrainShader extends ShaderProgram {
     public void loadSkyColour(float r, float g, float b) {
         super.loadVector(location_skyColour, new Vector3f(r, g, b));
     }
+
+    public void loadClipWaterPlane(Vector4f plane){super.loadVector(location_waterPlane,plane);}
 
     public void loadShineVariables(float damper, float reflectivity) {
         super.loadFloat(location_shineDamper, damper);

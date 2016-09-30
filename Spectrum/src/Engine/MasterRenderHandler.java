@@ -6,6 +6,7 @@ import Shaders.*;
 import Skybox.SkyboxRenderer;
 import Terrain.Terrain;
 import org.lwjglx.util.vector.Matrix4f;
+import org.lwjglx.util.vector.Vector4f;
 
 import java.util.*;
 
@@ -51,19 +52,23 @@ public class MasterRenderHandler {
         glCullFace(GL_BACK);
     }
 
+    public Matrix4f getProjectionMatrix(){return projectionMatrix;}
+
     public static void disableCulling(){
         glDisable(GL_CULL_FACE);
     }
 
-    public void render(List<Light> lights, Camera camera){
+    public void render(List<Light> lights, Camera camera,Vector4f waterClipPlane){
         prepare();
         shader.start();
+        shader.loadClipWaterPlane(waterClipPlane);
         shader.loadSkyColour(RED,GREEN,BLUE);
         shader.loadLights(lights);
         shader.loadViewMatrix(camera);
         renderer.render(entities);
         shader.stop();
         terrainShader.start();
+        terrainShader.loadClipWaterPlane(waterClipPlane);
         terrainShader.loadSkyColour(RED,GREEN,BLUE);
         terrainShader.loadLights(lights);
         terrainShader.loadViewMatrix(camera);
@@ -77,6 +82,7 @@ public class MasterRenderHandler {
     public void processTerrain(Terrain terrain){
         terrains.add(terrain);
     }
+
     public void processEntity(Entity entity){
         TexturedModel entityModel = entity.getModel();
         List<Entity> batch = entities.get(entityModel);
@@ -88,6 +94,9 @@ public class MasterRenderHandler {
             entities.put(entityModel,newBatch);
         }
     }
+
+    //public void clip(Vector4f waterClipPlane){shader.loadClipWaterPlane(waterClipPlane);}
+
     public void cleanUp(){
         shader.cleanUp();
         terrainShader.cleanUp();

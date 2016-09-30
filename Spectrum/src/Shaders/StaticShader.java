@@ -5,6 +5,7 @@ import Entities.Light;
 import org.lwjglx.util.vector.Matrix4f;
 import org.lwjglx.util.vector.Vector2f;
 import org.lwjglx.util.vector.Vector3f;
+import org.lwjglx.util.vector.Vector4f;
 import util.Maths;
 
 import java.util.List;
@@ -27,6 +28,7 @@ public class StaticShader extends ShaderProgram{
     private int location_numberOfRows;
     private int location_offset;
     private int location_attenuation[];
+    private int location_waterPlane;
 
     public StaticShader(){
         super(VERTEX_FILE,FRAG_FILE);
@@ -43,6 +45,7 @@ public class StaticShader extends ShaderProgram{
         location_skyColour = super.getUniformLocation("skyColour");
         location_numberOfRows = super.getUniformLocation("numberOfRows");
         location_offset = super.getUniformLocation("offset");
+        location_waterPlane = super.getUniformLocation("waterPlane");
 
         location_lightPosition = new int[MAX_LIGHTS];
         location_lightColour = new int[MAX_LIGHTS];
@@ -69,6 +72,8 @@ public class StaticShader extends ShaderProgram{
     public void loadFakeLightingVariable(boolean useFake){
         super.loadBoolean(location_useFakeLighting,useFake);
     }
+
+    public void loadClipWaterPlane(Vector4f plane){super.loadVector(location_waterPlane,plane);}
 
     public void loadShineVariables(float damper, float reflectivity){
         super.loadFloat(location_shineDamper,damper);

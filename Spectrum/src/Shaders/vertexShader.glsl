@@ -19,6 +19,8 @@ uniform vec2 offset;
 
 uniform float useFakeLighting;
 
+uniform vec4 waterPlane;
+
 const float density = 0.0035;
 const float gradient = 5.0;
 
@@ -28,6 +30,9 @@ void main(void) {
     vec4 positionRelativeToCam = viewMatrix * worldPosition;
     gl_Position = projectionMatrix * positionRelativeToCam;
     pass_textureCoordinates = (textureCoordinates/numberOfRows)+offset;
+
+
+    gl_ClipDistance[0] = dot(worldPosition,waterPlane);
 
     vec3 actualNormal = normal;
     if(useFakeLighting>0.5){

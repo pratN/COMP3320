@@ -4,6 +4,7 @@ import org.lwjgl.BufferUtils;
 import org.lwjglx.util.vector.Matrix4f;
 import org.lwjglx.util.vector.Vector2f;
 import org.lwjglx.util.vector.Vector3f;
+import org.lwjglx.util.vector.Vector4f;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -86,6 +87,10 @@ public abstract class ShaderProgram {
 
     protected void loadVector(int location, Vector3f vector){
         glUniform3f(location,vector.x,vector.y,vector.z);
+    }
+
+    protected void loadVector(int location, Vector4f vector){
+        glUniform4f(location,vector.x,vector.y,vector.z, vector.w);
     }
 
     protected void load2DVector(int location, Vector2f vector){
