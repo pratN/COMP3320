@@ -16,6 +16,8 @@ import org.lwjgl.*;
 
 import Engine.*;
 import org.lwjgl.glfw.GLFWKeyCallback;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL30;
 import org.lwjglx.util.vector.Vector2f;
 import org.lwjglx.util.vector.Vector3f;
 import org.lwjglx.util.vector.Vector4f;
@@ -26,9 +28,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import water.*;
+
 import static org.lwjgl.glfw.GLFW.*;
 
-public class EngineTester {
+public class EngineTester2 {
 
     private static int WIDTH = 1280;
     private static int HEIGHT = 720;
@@ -91,7 +95,7 @@ public class EngineTester {
         TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("blendMap"));
 
         //load terrain
-        Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "heightMap");
+        Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "hm3");
 
         //create entities
         List<Entity> entities = new ArrayList<>();
@@ -113,13 +117,9 @@ public class EngineTester {
 
         }
         List<Light> lights = new ArrayList<>();
-        lights.add(new Light(new Vector3f(0, 10000, -7000), new Vector3f(0.4f, 0.4f, 0.4f)));
-        lights.add(new Light(new Vector3f(185, 10, -293), new Vector3f(2, 0, 0), new Vector3f(1,0.01f,0.002f)));
-        lights.add(new Light(new Vector3f(370, 17, -293), new Vector3f(0, 2, 2), new Vector3f(1,0.01f,0.002f)));
-        lights.add(new Light(new Vector3f(293, 7, -305), new Vector3f(2, 2, 0), new Vector3f(1,0.01f,0.002f)));
-        entities.add(new Entity(lamp,new Vector3f(185, -4.7f, -293),0,0,0,1 ));
-        entities.add(new Entity(lamp,new Vector3f(370, 4.2f, -293),0,0,0,1 ));
-        entities.add(new Entity(lamp,new Vector3f(293, -6.8f, -305),0,0,0,1 ));
+        lights.add(new Light(new Vector3f(0, 10000, -7000), new Vector3f(0.6f, 0.6f, 0.6f)));
+        lights.add(new Light(new Vector3f(380, 0, -380), new Vector3f(3, 3, 3), new Vector3f(1,0.01f,0.002f)));
+        entities.add(new Entity(lamp,new Vector3f(380, -20, -380),0,0,0,1 ));
         lamp.getTexture().setUseFakeLighting(true);
         ModelTexture dragonTexture = new ModelTexture(loader.loadTexture("dragons"));
         dragonTexture.setNumberOfRows(2);
@@ -127,38 +127,47 @@ public class EngineTester {
         TexturedModel dragon = new TexturedModel(dragonModel,dragonTexture);
         dragonTexture.setShineDamper(5);
         dragonTexture.setReflectivity(0.75f);
-        Entity redDragonEntity = new Entity(dragon,0, new Vector3f(0, 1, -10), 0, 0, 0, 0.25f);
-        Entity blueDragonEntity = new Entity(dragon,1, new Vector3f(5, 1, -10), 0, 0, 0, 0.25f);
-        Entity greenDragonEntity = new Entity(dragon,2, new Vector3f(10, 1, -10), 0, 0, 0, 0.25f);
-        Entity whiteDragonEntity = new Entity(dragon,3, new Vector3f(15, 1, -10), 0, 0, 0, 0.25f);
+        entities.add(new Entity(dragon,0, new Vector3f(600, -10, -600), 0, 0, 0, 6f));
+
         List<GuiTexture> guis = new ArrayList<>();
-        GuiTexture gui = new GuiTexture(loader.loadTexture("fern"), new Vector2f(0.5f,0.5f), new Vector2f(0.25f,0.25f) );
+        GuiTexture gui = new GuiTexture(loader.loadTexture("fern"), new Vector2f(0f,0f), new Vector2f(1f,1f) );
         guis.add(gui);
 
         GUIRenderer guiRenderer = new GUIRenderer(loader);
         Player player = new Player(mouseCallback,  new Vector3f(150,5,-290));
         MasterRenderHandler renderer = new MasterRenderHandler(loader);
 
+
+
+        //make a list of water tiles
+        //ideally only 1 tile or atleast have all same height as reflection only works off one height for now
+        List<WaterTile> waters = new ArrayList<WaterTile>();
+        waters.add(new WaterTile(400,-400,-20,300,20)); //the tiles where to add the water (size specified in tiles class)
+        //waters.add(new WaterTile(20,0,20,300,20));
+        //(x,z,y,size,#tiles used for texturing)
+        Water water = new Water(waters,loader,renderer);
+
+
         while(!KeyboardHandler.isKeyDown(GLFW_KEY_ESCAPE) && !WindowHandler.close()) {
             // checkInputs();
+
             player.move(terrain);
             renderer.processTerrain(terrain);
-            renderer.render(lights, player,new Vector4f(0,1,0,10000000));
-
-
-            //if(state == 1)
-            renderer.processEntity(redDragonEntity);
-            // else if(state == 2)
-            renderer.processEntity(blueDragonEntity);
-            //else if(state == 3)
-            renderer.processEntity(greenDragonEntity);
-            renderer.processEntity(whiteDragonEntity);
-
+            renderer.render(lights, player,new Vector4f(0,1,0,10000000)); //backup incase some drivers dont support gldisable properly (clip at unreasonable height)
             entities.forEach(renderer:: processEntity);
+
+            // just call this to make the water
+            //must have all entities in the list and not created seperately (unless not needed for reflection)\
+            //the sun must be the first light in list of lights
+            water.setWater(renderer,player,terrain,entities,lights);
+
+
             // Uncomment to  display GUI
-            // guiRenderer.render(guis);
+           // guiRenderer.render(guis);
             WindowHandler.updateWindow();
         }
+        //then call this to clean up water
+        water.cleanUp();
         guiRenderer.cleanUp();
         renderer.cleanUp();
         loader.cleanUp();
@@ -178,5 +187,6 @@ public class EngineTester {
             state = 3;
             light.setColour(new Vector3f(0.25f, 0.25f, 1));
         }
+
     }*/
 }
