@@ -1,7 +1,7 @@
 import Entities.Entity;
 import Entities.Light;
 import Entities.Player;
-import Interface.GuiTexture;
+import Interface.GUITexture;
 import Models.RawModel;
 import Models.TexturedModel;
 import Terrain.Terrain;
@@ -16,8 +16,6 @@ import org.lwjgl.*;
 
 import Engine.*;
 import org.lwjgl.glfw.GLFWKeyCallback;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL30;
 import org.lwjglx.util.vector.Vector2f;
 import org.lwjglx.util.vector.Vector3f;
 import org.lwjglx.util.vector.Vector4f;
@@ -39,6 +37,7 @@ public class EngineTester2 {
     private static GLFWKeyCallback keyCallback;
     private static MouseHandler mouseCallback;
     private static int state = 0;
+    private static  List<Light> lights = new ArrayList<>();
 
     public static void main(String[] args) {
         System.out.println("Hello LWJGL " + Version.getVersion() + "!");
@@ -116,7 +115,7 @@ public class EngineTester2 {
             }
 
         }
-        List<Light> lights = new ArrayList<>();
+
         lights.add(new Light(new Vector3f(0, 10000, -7000), new Vector3f(0.6f, 0.6f, 0.6f)));
         lights.add(new Light(new Vector3f(380, 0, -380), new Vector3f(3, 3, 3), new Vector3f(1,0.01f,0.002f)));
         entities.add(new Entity(lamp,new Vector3f(380, -20, -380),0,0,0,1 ));
@@ -129,8 +128,8 @@ public class EngineTester2 {
         dragonTexture.setReflectivity(0.75f);
         entities.add(new Entity(dragon,0, new Vector3f(600, -10, -600), 0, 0, 0, 6f));
 
-        List<GuiTexture> guis = new ArrayList<>();
-        GuiTexture gui = new GuiTexture(loader.loadTexture("fern"), new Vector2f(0f,0f), new Vector2f(1f,1f) );
+        List<GUITexture> guis = new ArrayList<>();
+        GUITexture gui = new GUITexture(loader.loadTexture("fern"), new Vector2f(0f,0f), new Vector2f(1f,1f) );
         guis.add(gui);
 
         GUIRenderer guiRenderer = new GUIRenderer(loader);
@@ -142,14 +141,14 @@ public class EngineTester2 {
         //make a list of water tiles
         //ideally only 1 tile or atleast have all same height as reflection only works off one height for now
         List<WaterTile> waters = new ArrayList<WaterTile>();
-        waters.add(new WaterTile(400,-400,-20,300,20)); //the tiles where to add the water (size specified in tiles class)
+        waters.add(new WaterTile(400,-400,-10,300,20)); //the tiles where to add the water (size specified in tiles class)
         //waters.add(new WaterTile(20,0,20,300,20));
         //(x,z,y,size,#tiles used for texturing)
         Water water = new Water(waters,loader,renderer);
 
 
         while(!KeyboardHandler.isKeyDown(GLFW_KEY_ESCAPE) && !WindowHandler.close()) {
-            // checkInputs();
+            checkInputs();
 
             player.move(terrain);
             renderer.processTerrain(terrain);
@@ -173,20 +172,20 @@ public class EngineTester2 {
         loader.cleanUp();
     }
 
-    /*public static void checkInputs() {
+    public static void checkInputs() {
         if(KeyboardHandler.isKeyDown(GLFW_KEY_1)) {
             state = 1;
-           light.setColour(new Vector3f(1, 0.25f,0.25f ));
+            lights.get(0).setColour(new Vector3f(1, 0.1f,0.1f ));
         } else if(KeyboardHandler.isKeyDown((GLFW_KEY_0))) {
             state = 0;
-           light.setColour(new Vector3f(1, 1, 1));
+            lights.get(0).setColour(new Vector3f(1, 1, 1));
         } else if(KeyboardHandler.isKeyDown((GLFW_KEY_2))) {
             state =  2;
-           light.setColour(new Vector3f(0.25f, 1, 0.25f));
+           lights.get(0).setColour(new Vector3f(0.1f, 1, 0.1f));
         } else if(KeyboardHandler.isKeyDown((GLFW_KEY_3))) {
             state = 3;
-            light.setColour(new Vector3f(0.25f, 0.25f, 1));
+            lights.get(0).setColour(new Vector3f(0.1f, 0.1f, 1));
         }
 
-    }*/
+    }
 }

@@ -1,7 +1,7 @@
 import Entities.Entity;
 import Entities.Light;
 import Entities.Player;
-import Interface.GuiTexture;
+import Interface.GUITexture;
 import Models.RawModel;
 import Models.TexturedModel;
 import Terrain.Terrain;
@@ -131,8 +131,8 @@ public class EngineTester {
         Entity blueDragonEntity = new Entity(dragon,1, new Vector3f(5, 1, -10), 0, 0, 0, 0.25f);
         Entity greenDragonEntity = new Entity(dragon,2, new Vector3f(10, 1, -10), 0, 0, 0, 0.25f);
         Entity whiteDragonEntity = new Entity(dragon,3, new Vector3f(15, 1, -10), 0, 0, 0, 0.25f);
-        List<GuiTexture> guis = new ArrayList<>();
-        GuiTexture gui = new GuiTexture(loader.loadTexture("fern"), new Vector2f(0.5f,0.5f), new Vector2f(0.25f,0.25f) );
+        List<GUITexture> guis = new ArrayList<>();
+        GUITexture gui = new GUITexture(loader.loadTexture("fern"), new Vector2f(0.5f,0.5f), new Vector2f(0.25f,0.25f) );
         guis.add(gui);
 
         GUIRenderer guiRenderer = new GUIRenderer(loader);

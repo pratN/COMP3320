@@ -2,13 +2,10 @@
 
 package water;
 
-import Interface.GuiTexture;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
-import org.lwjglx.util.vector.Vector2f;
 import org.lwjglx.util.vector.Vector4f;
 
-import java.util.ArrayList;
 import java.util.List;
 import Entities.Entity;
 import Entities.Light;
@@ -20,8 +17,6 @@ import static org.lwjgl.opengl.GL11.*;
 /**
  * Created by Brendon on 28/09/2016.
  */
-
-import Models.RawModel;
 
 
 public class Water {
@@ -86,7 +81,7 @@ public class Water {
 
 
         /*
-            List<GuiTexture> guis = new ArrayList<>();
+            List<GUITexture> guis = new ArrayList<>();
 
             float[]  positions ={-1,1,-1,-1,1,1,1,-1};
             RawModel quad = loader.loadToVAO(positions,2);
@@ -96,7 +91,7 @@ public class Water {
 
 
 
-            GuiTexture gui = new GuiTexture(fbos.getUnderRefractionTexture(), new Vector2f(0f,0f), new Vector2f(1f,1f) );
+            GUITexture gui = new GUITexture(fbos.getUnderRefractionTexture(), new Vector2f(0f,0f), new Vector2f(1f,1f) );
             guis.add(gui);
             guiRenderer.render(guis);*/
 

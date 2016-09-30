@@ -1,6 +1,6 @@
 package Engine;
 
-import Interface.GuiTexture;
+import Interface.GUITexture;
 import Models.RawModel;
 import Shaders.GuiShader;
 import org.lwjglx.util.vector.Matrix4f;
@@ -25,14 +25,14 @@ public class GUIRenderer {
         shader =  new GuiShader();
     }
 
-    public void render(List<GuiTexture>  guis){
+    public void render(List<GUITexture>  guis){
         shader.start();
         glBindVertexArray(quad.getVaoID());
         glEnableVertexAttribArray(0);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
         glDisable(GL_DEPTH_TEST);
-        for(GuiTexture gui:guis){
+        for(GUITexture gui:guis){
             glActiveTexture(GL_TEXTURE0);
             glBindTexture(GL_TEXTURE_2D,gui.getTexture());
             Matrix4f matrix = Maths.createTransformationMatrix(gui.getPosition(),gui.getScale());

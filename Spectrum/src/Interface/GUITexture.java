@@ -5,12 +5,12 @@ import org.lwjglx.util.vector.Vector2f;
 /**
  * Created by Beau on 17/09/2016.
  */
-public class GuiTexture {
+public class GUITexture {
     private int texture;
     private Vector2f position;
     private Vector2f scale;
 
-    public GuiTexture(int texture, Vector2f position, Vector2f scale) {
+    public GUITexture(int texture, Vector2f position, Vector2f scale) {
         this.texture = texture;
         this.position = position;
         this.scale = scale;
