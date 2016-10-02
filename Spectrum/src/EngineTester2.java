@@ -116,7 +116,7 @@ public class EngineTester2 {
 
         }
 
-        lights.add(new Light(new Vector3f(0, 10000, -7000), new Vector3f(0.6f, 0.6f, 0.6f)));
+        lights.add(new Light(new Vector3f(0, 10000, -7000), new Vector3f(0.8f, 0.8f, 0.8f)));
         lights.add(new Light(new Vector3f(380, 0, -380), new Vector3f(3, 3, 3), new Vector3f(1,0.01f,0.002f)));
         entities.add(new Entity(lamp,new Vector3f(380, -20, -380),0,0,0,1 ));
         lamp.getTexture().setUseFakeLighting(true);
@@ -141,7 +141,7 @@ public class EngineTester2 {
         //make a list of water tiles
         //ideally only 1 tile or atleast have all same height as reflection only works off one height for now
         List<WaterTile> waters = new ArrayList<WaterTile>();
-        waters.add(new WaterTile(400,-400,-10,300,20)); //the tiles where to add the water (size specified in tiles class)
+        waters.add(new WaterTile(400,-400,-20,300,20)); //the tiles where to add the water (size specified in tiles class)
         //waters.add(new WaterTile(20,0,20,300,20));
         //(x,z,y,size,#tiles used for texturing)
         Water water = new Water(waters,loader,renderer);
