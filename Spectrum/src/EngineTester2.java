@@ -133,7 +133,7 @@ public class EngineTester2 {
         guis.add(gui);
 
         GUIRenderer guiRenderer = new GUIRenderer(loader);
-        Player player = new Player(mouseCallback,  new Vector3f(150,5,-290));
+        Player player = new Player(mouseCallback,  new Vector3f(100,10,-200));
         MasterRenderHandler renderer = new MasterRenderHandler(loader);
 
 
@@ -149,18 +149,14 @@ public class EngineTester2 {
 
         while(!KeyboardHandler.isKeyDown(GLFW_KEY_ESCAPE) && !WindowHandler.close()) {
             checkInputs();
-
             player.move(terrain);
             renderer.processTerrain(terrain);
             renderer.render(lights, player,new Vector4f(0,1,0,10000000)); //backup incase some drivers dont support gldisable properly (clip at unreasonable height)
             entities.forEach(renderer:: processEntity);
-
             // just call this to make the water
             //must have all entities in the list and not created seperately (unless not needed for reflection)\
             //the sun must be the first light in list of lights
             water.setWater(renderer,player,terrain,entities,lights);
-
-
             // Uncomment to  display GUI
            // guiRenderer.render(guis);
             WindowHandler.updateWindow();

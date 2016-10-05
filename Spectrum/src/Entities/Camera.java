@@ -12,16 +12,10 @@ public class Camera {
     protected float pitch;
     protected float yaw;
     protected float roll;
-    private float speed = 0.5f;
-
 
     public Camera(){}
 
 
-
-    public void move(){
-
-    }
 
     public void setPosition(float x, float y, float z){
         position.x=x;
