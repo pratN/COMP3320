@@ -109,7 +109,12 @@ public class Player extends Camera {
         if(KeyboardHandler.isKeyDown(GLFW_KEY_SPACE)) {
             jump();
         }
+        if(KeyboardHandler.isKeyDown(GLFW_KEY_TAB)){
+            System.out.println("\nx: " + this.position.x);
+            System.out.println("y: " + this.position.y);
+            System.out.println("z: " + this.position.z);
 
+        }
     }
 
     public void resetValues(){
