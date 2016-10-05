@@ -28,8 +28,8 @@ public class MasterRenderHandler {
     private static float FAR_PLANE = 1000;
 
     private static final float RED = 0.6f;
-    private static final float GREEN = 0.65f;
-    private static final float BLUE = 0.8f;
+    private static final float GREEN = 0.6f;
+    private static final float BLUE = 0.6f;
 
     private Matrix4f projectionMatrix;
     private EntityRenderHandler renderer;
@@ -74,7 +74,7 @@ public class MasterRenderHandler {
         terrainShader.loadViewMatrix(camera);
         terrainRenderer.render(terrains);
         terrainShader.stop();
-        skyboxRenderer.render(camera);
+        skyboxRenderer.render(camera,RED,GREEN,BLUE);
         terrains.clear();
         entities.clear();
     }
