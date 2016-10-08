@@ -15,6 +15,8 @@ public class WindowHandler {
     private static Format.Field errorCallback;
     private static float lastFrameTime;
     private static float delta;
+    private static float WINDOW_WIDTH;
+    private static float WINDOW_HEIGHT;
 
     /**
      * Set up and create the window display
@@ -35,6 +37,8 @@ public class WindowHandler {
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         window = glfwCreateWindow(WIDTH, HEIGHT, title, 0, 0);
+        WINDOW_WIDTH = WIDTH;
+        WINDOW_HEIGHT = HEIGHT;
         if (window == 0) {
             throw new RuntimeException("Failed to create window");
         }
@@ -96,5 +100,21 @@ public class WindowHandler {
 
     public static boolean close(){
         return glfwWindowShouldClose(window);
+    }
+
+    public static float getWidth() {
+        return WINDOW_WIDTH;
+    }
+
+    public static void setWidth(float windowWidth) {
+        WINDOW_WIDTH = windowWidth;
+    }
+
+    public static float getHeight() {
+        return WINDOW_HEIGHT;
+    }
+
+    public static void setHeight(float windowHeight) {
+        WINDOW_HEIGHT = windowHeight;
     }
 }

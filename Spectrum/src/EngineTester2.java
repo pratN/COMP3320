@@ -1,3 +1,4 @@
+import Entities.Camera;
 import Entities.Entity;
 import Entities.Light;
 import Entities.Player;
@@ -15,6 +16,7 @@ import org.lwjgl.*;
 
 import Engine.*;
 import org.lwjgl.glfw.GLFWKeyCallback;
+import org.lwjglx.input.Mouse;
 import org.lwjglx.util.vector.Vector2f;
 import org.lwjglx.util.vector.Vector3f;
 import org.lwjglx.util.vector.Vector4f;
@@ -25,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import util.MousePicker;
 import water.*;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -37,6 +40,7 @@ public class EngineTester2 {
     private static MouseHandler mouseCallback;
     private static int state = 0;
     private static  List<Light> lights = new ArrayList<>();
+    private static List<Entity>  entities = new ArrayList<>();
 
     public static void main(String[] args) {
         System.out.println("Hello LWJGL " + Version.getVersion() + "!");
@@ -60,20 +64,24 @@ public class EngineTester2 {
 
     //Main Loop
     private static void loop() {
-        //Raw model loader
+        /*********************************************LOAD RENDERER AND LOADER**************************************************************/
         ModelLoadHandler loader = new ModelLoadHandler();
+        MasterRenderHandler renderer = new MasterRenderHandler(loader);
 
-        //Parse objects
+
+        /*********************************************PARSE OBJECTS*************************************************************************/
         ModelData dragonData = OBJFileLoader.loadOBJ("dragon");
         ModelData tree2Data = OBJFileLoader.loadOBJ("lowPolyTree");
         ModelData lampData = OBJFileLoader.loadOBJ("lamp");
 
-        //Load  raw data as a model
+
+        /*********************************************LOAD RAW DATA AS MODELS***************************************************************/
         RawModel dragonModel = loader.loadToVAO(dragonData.getVertices(), dragonData.getTextureCoords(), dragonData.getNormals(), dragonData.getIndices());
         RawModel treeModel2 = loader.loadToVAO(tree2Data.getVertices(), tree2Data.getTextureCoords(), tree2Data.getNormals(), tree2Data.getIndices());
         RawModel lampModel =  loader.loadToVAO(lampData.getVertices(),lampData.getTextureCoords(),lampData.getNormals(),lampData.getIndices());
 
-        //texture raw model
+
+        /*********************************************TEXTURE RAW MODELS********************************************************************/
         ModelTexture fernAtlas = new ModelTexture(loader.loadTexture("fern"));
         fernAtlas.setNumberOfRows(2);
         ModelTexture treeTextureAtlas =  new ModelTexture(loader.loadTexture("lowPolyTree"));
@@ -82,8 +90,13 @@ public class EngineTester2 {
         TexturedModel fernTexturedModel = new TexturedModel(OBJLoader.loadObjModel("fern", loader), fernAtlas );
         TexturedModel lamp = new TexturedModel(lampModel, new ModelTexture(loader.loadTexture("lamp")));
         fernTexturedModel.getTexture().setHasTransparency(true);
+        ModelTexture dragonTexture = new ModelTexture(loader.loadTexture("red"));
+        TexturedModel dragon = new TexturedModel(dragonModel,dragonTexture);
+        lamp.getTexture().setUseFakeLighting(true);
+        dragonTexture.setShineDamper(5);
+        dragonTexture.setReflectivity(0.75f);
 
-        //texture terrain
+        /*********************************************TEXTURE TERRAIN***********************************************************************/
         TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("grass_HIGH_RES"));
         TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("soil_HIGH_RES"));
         TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("flowers_HIGH_RES"));
@@ -92,50 +105,55 @@ public class EngineTester2 {
         TerrainTexPack texturePack = new TerrainTexPack(backgroundTexture, rTexture, gTexture, bTexture);
         TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("blendMap"));
 
-        //load terrain
+
+        /*********************************************LOAD TERRAIN*************************************************************************/
         Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "hm3");
 
-        //create entities
+
+        /*********************************************CREATE ENTITIES***********************************************************************/
         List<Entity> entities = new ArrayList<>();
         Random random = new Random(676452);
-        for(int i = 0; i < 400; i++) {
+        for(int i = 0; i < 800; i++) {
             if(i % 2 == 0) {
                 float z = random.nextFloat() * -800;
                 float x = random.nextFloat() * 800;
                 float y = terrain.getHeightOfTerrain(x, z);
-                entities.add(new Entity(fernTexturedModel, random.nextInt(4), new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.5f));
-
+                if(y > -20) {
+                    entities.add(new Entity(fernTexturedModel, random.nextInt(4), new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.5f));
+                }
             }
             if(i % 5 == 0) {
                 float z = random.nextFloat() * -800;
                 float x = random.nextFloat() * 800;
                 float y = terrain.getHeightOfTerrain(x, z);
-                entities.add(new Entity(tree2TexturedModel, random.nextInt(4),new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.4f));
+                if(y > -20) {
+                    entities.add(new Entity(tree2TexturedModel, random.nextInt(4), new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.4f));
+                }
             }
 
         }
+        entities.add(new Entity(dragon,new Vector3f(600, -10, -600), 0, 0, 0, 6f));
+        entities.add(new Entity(lamp,new Vector3f(380, -20, -380),0,0,0,1 ));
 
+
+        /*********************************************CREATE LIGHTS*************************************************************************/
         lights.add(new Light(new Vector3f(0, 10000, -7000), new Vector3f(0.8f, 0.8f, 0.8f)));
         lights.add(new Light(new Vector3f(380, 0, -380), new Vector3f(3, 3, 3), new Vector3f(1,0.01f,0.002f)));
-        entities.add(new Entity(lamp,new Vector3f(380, -20, -380),0,0,0,1 ));
-        lamp.getTexture().setUseFakeLighting(true);
-        ModelTexture dragonTexture = new ModelTexture(loader.loadTexture("red"));
 
-        TexturedModel dragon = new TexturedModel(dragonModel,dragonTexture);
-        dragonTexture.setShineDamper(5);
-        dragonTexture.setReflectivity(0.75f);
-        entities.add(new Entity(dragon,new Vector3f(600, -10, -600), 0, 0, 0, 6f));
 
+
+        /*********************************************CREATE GUIS***************************************************************************/
+        GUIRenderer guiRenderer = new GUIRenderer(loader);
         List<GUITexture> guis = new ArrayList<>();
         GUITexture gui = new GUITexture(loader.loadTexture("fern"), new Vector2f(0f,0f), new Vector2f(1f,1f) );
         guis.add(gui);
 
-        GUIRenderer guiRenderer = new GUIRenderer(loader);
+
+        /*********************************************CREATE PLAYER*************************************************************************/
         Player player = new Player(mouseCallback,  new Vector3f(424,-5,-432));
-        MasterRenderHandler renderer = new MasterRenderHandler(loader);
 
 
-
+        /*********************************************CREATE WATER**************************************************************************/
         //make a list of water tiles
         //ideally only 1 tile or atleast have all same height as reflection only works off one height for now
         List<WaterTile> waters = new ArrayList<>();
@@ -144,6 +162,15 @@ public class EngineTester2 {
         //(x,z,y,size,#tiles used for texturing)
         Water water = new Water(waters,loader,renderer);
 
+        /***********************************************************************************************************************************/
+        /*********************************************FUNCTIONALITY PROTOTYPING*************************************************************/
+        /***********************************************************************************************************************************/
+
+        //MousePicker picker = new MousePicker(player, renderer.getProjectionMatrix());
+
+
+
+        /***********************************************************************************************************************************/
 
         while(!KeyboardHandler.isKeyDown(GLFW_KEY_ESCAPE) && !WindowHandler.close()) {
             checkInputs();
