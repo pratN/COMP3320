@@ -39,7 +39,7 @@ public class Terrain {
     private RawModel generateTerrain(ModelLoadHandler loader, String heightMap) {
         BufferedImage image = null;
         try {
-            image = ImageIO.read(new File("assets/" + heightMap + ".png"));
+            image = ImageIO.read(new File("assets/textures/" + heightMap + ".png"));
         } catch(IOException e) {
             e.printStackTrace();
         }

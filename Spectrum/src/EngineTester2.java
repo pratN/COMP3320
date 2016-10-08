@@ -119,27 +119,26 @@ public class EngineTester2 {
         lights.add(new Light(new Vector3f(380, 0, -380), new Vector3f(3, 3, 3), new Vector3f(1,0.01f,0.002f)));
         entities.add(new Entity(lamp,new Vector3f(380, -20, -380),0,0,0,1 ));
         lamp.getTexture().setUseFakeLighting(true);
-        ModelTexture dragonTexture = new ModelTexture(loader.loadTexture("dragons"));
-        dragonTexture.setNumberOfRows(2);
+        ModelTexture dragonTexture = new ModelTexture(loader.loadTexture("red"));
 
         TexturedModel dragon = new TexturedModel(dragonModel,dragonTexture);
         dragonTexture.setShineDamper(5);
         dragonTexture.setReflectivity(0.75f);
-        entities.add(new Entity(dragon,0, new Vector3f(600, -10, -600), 0, 0, 0, 6f));
+        entities.add(new Entity(dragon,new Vector3f(600, -10, -600), 0, 0, 0, 6f));
 
         List<GUITexture> guis = new ArrayList<>();
         GUITexture gui = new GUITexture(loader.loadTexture("fern"), new Vector2f(0f,0f), new Vector2f(1f,1f) );
         guis.add(gui);
 
         GUIRenderer guiRenderer = new GUIRenderer(loader);
-        Player player = new Player(mouseCallback,  new Vector3f(100,10,-200));
+        Player player = new Player(mouseCallback,  new Vector3f(424,-5,-432));
         MasterRenderHandler renderer = new MasterRenderHandler(loader);
 
 
 
         //make a list of water tiles
         //ideally only 1 tile or atleast have all same height as reflection only works off one height for now
-        List<WaterTile> waters = new ArrayList<WaterTile>();
+        List<WaterTile> waters = new ArrayList<>();
         waters.add(new WaterTile(400,-400,-20,300,20)); //the tiles where to add the water (size specified in tiles class)
         //waters.add(new WaterTile(20,0,20,300,20));
         //(x,z,y,size,#tiles used for texturing)

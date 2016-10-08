@@ -78,7 +78,7 @@ public class ModelLoadHandler {
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_CUBE_MAP,texID);
         for(int i = 0;i<textureFiles.length;i++){
-            TextureData data = decodeTextureFile("assets/"+textureFiles[i]+".png");
+            TextureData data = decodeTextureFile("assets/textures/"+textureFiles[i]+".png");
             glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X+i,0,GL_RGBA,data.getWidth(),data.getHeight(),0,GL_RGBA,GL_UNSIGNED_BYTE,data.getBuffer());
         }
         glTexParameteri(GL_TEXTURE_CUBE_MAP,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
@@ -121,7 +121,7 @@ public class ModelLoadHandler {
     public int loadTexture(String fileName) {
         Texture texture = null;
         try {
-            texture = TextureLoader.getTexture("PNG", new FileInputStream("assets/" + fileName + ".png"));
+            texture = TextureLoader.getTexture("PNG", new FileInputStream("assets/textures/" + fileName + ".png"));
             glGenerateMipmap(GL_TEXTURE_2D);
             glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_LINEAR);
             glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_LOD_BIAS,LOD);

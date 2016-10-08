@@ -18,7 +18,7 @@ import org.lwjglx.util.vector.Vector3f;
 
 public class OBJFileLoader {
 
-    private static final String ASSET_LOC = "assets/";
+    private static final String ASSET_LOC = "assets/models/";
 
     public static ModelData loadOBJ(String objFileName) {
         FileReader isr = null;
