@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Random;
 
 import util.MousePicker;
+import util.NormalMappedObjLoader;
 import water.*;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -79,22 +80,49 @@ public class EngineTester2 {
         RawModel dragonModel = loader.loadToVAO(dragonData.getVertices(), dragonData.getTextureCoords(), dragonData.getNormals(), dragonData.getIndices());
         RawModel treeModel2 = loader.loadToVAO(tree2Data.getVertices(), tree2Data.getTextureCoords(), tree2Data.getNormals(), tree2Data.getIndices());
         RawModel lampModel =  loader.loadToVAO(lampData.getVertices(),lampData.getTextureCoords(),lampData.getNormals(),lampData.getIndices());
+        RawModel crateModel = NormalMappedObjLoader.loadOBJ("crate",loader);
+        RawModel barrelModel = NormalMappedObjLoader.loadOBJ("barrel",loader);
+        RawModel rockModel = NormalMappedObjLoader.loadOBJ("boulder",loader);
 
 
-        /*********************************************TEXTURE RAW MODELS********************************************************************/
+        /*********************************************CREATE MODEL TEXTURES*****************************************************************/
         ModelTexture fernAtlas = new ModelTexture(loader.loadTexture("fern"));
         fernAtlas.setNumberOfRows(2);
         ModelTexture treeTextureAtlas =  new ModelTexture(loader.loadTexture("lowPolyTree"));
+        ModelTexture dragonTexture = new ModelTexture(loader.loadTexture("red"));
+        dragonTexture.setShineDamper(5);
+        dragonTexture.setReflectivity(0.75f);
         treeTextureAtlas.setNumberOfRows(2);
+
+        ModelTexture crateAtlasTexture = new ModelTexture((loader.loadTexture("crateAtlas")));
+        crateAtlasTexture.setNumberOfRows(2);
+        crateAtlasTexture.setNormalMap(loader.loadTexture("crateNormal"));
+        crateAtlasTexture.setShineDamper(10);
+        crateAtlasTexture.setReflectivity(0.3f);
+
+        ModelTexture barrelTexture = new ModelTexture((loader.loadTexture("barrel")));
+        barrelTexture.setNormalMap(loader.loadTexture("barrelNormal"));
+        barrelTexture.setShineDamper(10);
+        barrelTexture.setReflectivity(0.2f);
+
+        ModelTexture rockTexture = new ModelTexture((loader.loadTexture("boulder")));
+        rockTexture.setNormalMap(loader.loadTexture("boulderNormal"));
+        rockTexture.setShineDamper(10);
+        rockTexture.setReflectivity(0.1f);
+
+
+        /*********************************************TEXTURE RAW MODELS*********************************************************************/
         TexturedModel tree2TexturedModel = new TexturedModel(treeModel2,treeTextureAtlas);
         TexturedModel fernTexturedModel = new TexturedModel(OBJLoader.loadObjModel("fern", loader), fernAtlas );
         TexturedModel lamp = new TexturedModel(lampModel, new ModelTexture(loader.loadTexture("lamp")));
         fernTexturedModel.getTexture().setHasTransparency(true);
-        ModelTexture dragonTexture = new ModelTexture(loader.loadTexture("red"));
         TexturedModel dragon = new TexturedModel(dragonModel,dragonTexture);
         lamp.getTexture().setUseFakeLighting(true);
-        dragonTexture.setShineDamper(5);
-        dragonTexture.setReflectivity(0.75f);
+
+        TexturedModel crate = new TexturedModel(crateModel,crateAtlasTexture);
+        TexturedModel barrel = new TexturedModel(barrelModel,barrelTexture);
+        TexturedModel rock = new TexturedModel(rockModel,rockTexture);
+
 
         /*********************************************TEXTURE TERRAIN***********************************************************************/
         TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("grass_HIGH_RES"));
@@ -112,14 +140,48 @@ public class EngineTester2 {
 
         /*********************************************CREATE ENTITIES***********************************************************************/
         List<Entity> entities = new ArrayList<>();
+        List<Entity> normalMapEntities = new ArrayList<>();
         Random random = new Random(676452);
-        for(int i = 0; i < 800; i++) {
+        for(int i = 0; i < 2000; i++) {
             if(i % 2 == 0) {
                 float z = random.nextFloat() * -800;
                 float x = random.nextFloat() * 800;
                 float y = terrain.getHeightOfTerrain(x, z);
                 if(y > -20) {
                     entities.add(new Entity(fernTexturedModel, random.nextInt(4), new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.5f));
+                }
+            }
+            if(i%50 == 0) {
+                float z = random.nextFloat() * -800;
+                float x = random.nextFloat() * 800;
+                float y = terrain.getHeightOfTerrain(x, z)+3;
+                float rotY = random.nextInt();
+
+                if(y > -20) {
+                    normalMapEntities.add(new Entity(crate,random.nextInt(4),new Vector3f(x,y,z), 0,rotY,0,0.025f));
+
+                }
+            }
+            if(i%100 == 0) {
+                float z = random.nextFloat() * -800;
+                float x = random.nextFloat() * 800;
+                float y = terrain.getHeightOfTerrain(x, z)+3;
+
+                if(y > -20) {
+                    normalMapEntities.add(new Entity(barrel,new Vector3f(x,y,z), 0,0,0,1));
+
+                }
+            }
+            if(i%10 == 0) {
+                float z = random.nextFloat() * -800;
+                float x = random.nextFloat() * 800;
+                float y = terrain.getHeightOfTerrain(x, z)+3;
+                float rotX = random.nextInt();
+                float rotY = random.nextInt();
+                float rotZ = random.nextInt();
+                if(y > -20) {
+                    normalMapEntities.add(new Entity(rock,new Vector3f(x,y,z), rotX,rotY,rotZ,1));
+
                 }
             }
             if(i % 5 == 0) {
@@ -139,7 +201,6 @@ public class EngineTester2 {
         /*********************************************CREATE LIGHTS*************************************************************************/
         lights.add(new Light(new Vector3f(0, 10000, -7000), new Vector3f(0.8f, 0.8f, 0.8f)));
         lights.add(new Light(new Vector3f(380, 0, -380), new Vector3f(3, 3, 3), new Vector3f(1,0.01f,0.002f)));
-
 
 
         /*********************************************CREATE GUIS***************************************************************************/
@@ -165,7 +226,7 @@ public class EngineTester2 {
         /***********************************************************************************************************************************/
         /*********************************************FUNCTIONALITY PROTOTYPING*************************************************************/
         /***********************************************************************************************************************************/
-
+        //Uncomment to enable a mouse picker
         //MousePicker picker = new MousePicker(player, renderer.getProjectionMatrix());
 
 
@@ -176,8 +237,13 @@ public class EngineTester2 {
             checkInputs();
             player.move(terrain);
             renderer.processTerrain(terrain);
+            entities.forEach(renderer:: processEntity);
+            normalMapEntities.forEach(renderer::processNormalMappedEntity);
             renderer.render(lights, player,new Vector4f(0,1,0,10000000)); //backup incase some drivers dont support gldisable properly (clip at unreasonable height)
             entities.forEach(renderer:: processEntity);
+            normalMapEntities.forEach(renderer::processNormalMappedEntity);
+
+
             // just call this to make the water
             //must have all entities in the list and not created seperately (unless not needed for reflection)\
             //the sun must be the first light in list of lights

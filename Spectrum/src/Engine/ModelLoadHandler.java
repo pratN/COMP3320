@@ -55,6 +55,17 @@ public class ModelLoadHandler {
         return new RawModel(vaoID, indices.length);
     }
 
+    public static RawModel loadToVAO(float[] positions, float[] texCoords,float [] normals, float[] tangents, int[] indices) {
+        int vaoID = createVAO();
+        bindIndicesBuffer(indices);
+        storeDataInAttributeList(0, 3, positions);
+        storeDataInAttributeList(1, 2, texCoords);
+        storeDataInAttributeList(2, 3, normals);
+        storeDataInAttributeList(3, 3, tangents);
+        unbindVAO();
+        return new RawModel(vaoID, indices.length);
+    }
+
     public RawModel loadToVAO(float[] positions, int dimensions){
         int vaoID  = createVAO();
         this.storeDataInAttributeList(0,dimensions,positions);

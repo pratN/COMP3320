@@ -36,8 +36,10 @@ public class MasterRenderHandler {
     private TerrainRenderer terrainRenderer;
     private TerrainShader terrainShader = new TerrainShader();
     private Map<TexturedModel, List<Entity>> entities = new HashMap<>();
+    private Map<TexturedModel, List<Entity>> normalMappedEntities = new HashMap<>();
     private List<Terrain> terrains = new ArrayList<>();
     private SkyboxRenderer skyboxRenderer;
+    private NormalMappingRenderer normalMappingRenderer;
 
     public MasterRenderHandler(ModelLoadHandler loader){
         enableCulling();
@@ -45,12 +47,14 @@ public class MasterRenderHandler {
         renderer = new EntityRenderHandler(shader,WIDTH, HEIGHT, projectionMatrix);
         terrainRenderer = new TerrainRenderer(terrainShader, projectionMatrix);
         skyboxRenderer = new SkyboxRenderer(loader,projectionMatrix);
+        normalMappingRenderer = new NormalMappingRenderer(projectionMatrix);
     }
 
     public static void enableCulling(){
         glEnable(GL_CULL_FACE);
         glCullFace(GL_BACK);
     }
+
 
     public Matrix4f getProjectionMatrix(){return projectionMatrix;}
 
@@ -67,6 +71,7 @@ public class MasterRenderHandler {
         shader.loadViewMatrix(camera);
         renderer.render(entities);
         shader.stop();
+        normalMappingRenderer.render(normalMappedEntities,new Vector4f(-1000,-1000,-1000,-1000), lights,camera);
         terrainShader.start();
         terrainShader.loadClipWaterPlane(waterClipPlane);
         terrainShader.loadSkyColour(RED,GREEN,BLUE);
@@ -77,6 +82,7 @@ public class MasterRenderHandler {
         skyboxRenderer.render(camera,RED,GREEN,BLUE);
         terrains.clear();
         entities.clear();
+        normalMappedEntities.clear();
     }
 
     public void processTerrain(Terrain terrain){
@@ -95,11 +101,24 @@ public class MasterRenderHandler {
         }
     }
 
+    public void processNormalMappedEntity(Entity entity){
+        TexturedModel entityModel = entity.getModel();
+        List<Entity> batch = normalMappedEntities.get(entityModel);
+        if(batch!=null){
+            batch.add(entity);
+        }else{
+            List<Entity> newBatch = new ArrayList<>();
+            newBatch.add(entity);
+            normalMappedEntities.put(entityModel,newBatch);
+        }
+    }
+
     //public void clip(Vector4f waterClipPlane){shader.loadClipWaterPlane(waterClipPlane);}
 
     public void cleanUp(){
         shader.cleanUp();
         terrainShader.cleanUp();
+        normalMappingRenderer.cleanUp();
     }
 
     public void prepare() {
@@ -122,5 +141,15 @@ public class MasterRenderHandler {
         projectionMatrix.m33 = 0;
     }
 
+    public static float getRED() {
+        return RED;
+    }
 
+    public static float getGREEN() {
+        return GREEN;
+    }
+
+    public static float getBLUE() {
+        return BLUE;
+    }
 }
