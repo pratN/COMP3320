@@ -32,7 +32,7 @@ public class ModelLoadHandler {
     private static List<Integer> vaos = new ArrayList<>();
     private static List<Integer> vbos = new ArrayList<>();
     private List<Integer> textures = new ArrayList<>();
-    private static float LOD = -0.4f;
+    private static float LOD = 0;
 
     /**
      *
@@ -53,6 +53,14 @@ public class ModelLoadHandler {
         storeDataInAttributeList(2, 3, normals);
         unbindVAO();
         return new RawModel(vaoID, indices.length);
+    }
+
+    public static int loadToVAO(float[] positions, float[] texCoords) {
+        int vaoID = createVAO();
+        storeDataInAttributeList(0, 2, positions);
+        storeDataInAttributeList(1, 2, texCoords);
+        unbindVAO();
+        return vaoID;
     }
 
     public static RawModel loadToVAO(float[] positions, float[] texCoords,float [] normals, float[] tangents, int[] indices) {

@@ -9,6 +9,9 @@ import Terrain.Terrain;
 import Textures.ModelTexture;
 import Textures.TerrainTexPack;
 import Textures.TerrainTexture;
+import fontMeshCreator.FontType;
+import fontMeshCreator.GUIText;
+import fontRendering.TextHandler;
 import objConverter.ModelData;
 import objConverter.OBJFileLoader;
 import org.lwjgl.*;
@@ -23,6 +26,7 @@ import org.lwjglx.util.vector.Vector4f;
 import util.KeyboardHandler;
 import util.MouseHandler;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -68,6 +72,7 @@ public class EngineTester2 {
         /*********************************************LOAD RENDERER AND LOADER**************************************************************/
         ModelLoadHandler loader = new ModelLoadHandler();
         MasterRenderHandler renderer = new MasterRenderHandler(loader);
+        TextHandler.innit(loader);
 
 
         /*********************************************PARSE OBJECTS*************************************************************************/
@@ -198,7 +203,9 @@ public class EngineTester2 {
         //Uncomment to enable a mouse picker
         //MousePicker picker = new MousePicker(player, renderer.getProjectionMatrix());
 
-
+        FontType font = new FontType(loader.loadTexture("text"), new File("assets/textures/text.fnt"));
+        GUIText text = new GUIText("Andrew likes chewing on sweaty man balls", 3, font, new Vector2f(0.5f,0.5f), 0.5f, false);
+        text.setColour(1,0,0);
 
         /***********************************************************************************************************************************/
 
@@ -219,6 +226,7 @@ public class EngineTester2 {
             water.setWater(renderer,player,terrain,entities,normalMapEntities,lights);
             // Uncomment to  display GUI
            // guiRenderer.render(guis);
+            TextHandler.render();
             WindowHandler.updateWindow();
         }
         //then call this to clean up water
@@ -226,6 +234,7 @@ public class EngineTester2 {
         guiRenderer.cleanUp();
         renderer.cleanUp();
         loader.cleanUp();
+        TextHandler.cleanUp();
     }
 
     public static void checkInputs() {
