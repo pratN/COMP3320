@@ -40,7 +40,7 @@ public class Water {
 
     }
 
-    public void setWater(MasterRenderHandler renderer, Camera player, Terrain terrain, List<Entity> entities, List<Light> lights  ) {
+    public void setWater(MasterRenderHandler renderer, Camera player, Terrain terrain, List<Entity> entities, List<Entity> normalMappedEntities, List<Light> lights  ) {
 
         GL11.glEnable(GL30.GL_CLIP_DISTANCE0); //to enable clipping for water reflection/refraction
 
@@ -55,6 +55,7 @@ public class Water {
             renderer.processTerrain(terrain);
             renderer.render(lights, player, new Vector4f(0, 1, 0, -water.get(0).getHeight())); //the vector is the clipping plane so for reflection only render everything above water height (at 0)
             entities.forEach(renderer::processEntity);
+            normalMappedEntities.forEach(renderer::processNormalMappedEntity);
             //re-adjust camera
             player.getPosition().y += cameraDistance;
             player.setPitch(-player.getPitch());//invert pitch
@@ -64,6 +65,7 @@ public class Water {
             renderer.processTerrain(terrain);
             renderer.render(lights, player, new Vector4f(0, -1, 0, -water.get(0).getHeight())); //set clip plane for refraction here
             entities.forEach(renderer::processEntity);
+            normalMappedEntities.forEach(renderer::processNormalMappedEntity);
 
 
             //***********set proper frame buffers for normal scene rendering**************
@@ -110,6 +112,8 @@ public class Water {
             renderer.processTerrain(terrain);
             renderer.render(lights, player, new Vector4f(0, 1, 0, -water.get(0).getHeight())); //the vector is the clipping plane so for reflection only render everything above water height (at 0)
             entities.forEach(renderer::processEntity);
+            normalMappedEntities.forEach(renderer::processNormalMappedEntity);
+
             //re-adjust camera
             player.getPosition().y += cameraDistance;
             player.setPitch(-player.getPitch());//invert pitch
@@ -120,6 +124,7 @@ public class Water {
             renderer.processTerrain(terrain);
             renderer.render(lights, player, new Vector4f(0, -1, 0, water.get(0).getHeight())); //set clip plane for refraction here
             entities.forEach(renderer::processEntity);
+            normalMappedEntities.forEach(renderer::processNormalMappedEntity);
 
             //***********set proper frame buffers for normal scene rendering**************
             GL11.glDisable(GL30.GL_CLIP_DISTANCE0); //stop any clipping used for water

@@ -94,8 +94,7 @@ public class EngineTester2 {
         dragonTexture.setReflectivity(0.75f);
         treeTextureAtlas.setNumberOfRows(2);
 
-        ModelTexture crateAtlasTexture = new ModelTexture((loader.loadTexture("crateAtlas")));
-        crateAtlasTexture.setNumberOfRows(2);
+        ModelTexture crateAtlasTexture = new ModelTexture((loader.loadTexture("crate")));
         crateAtlasTexture.setNormalMap(loader.loadTexture("crateNormal"));
         crateAtlasTexture.setShineDamper(10);
         crateAtlasTexture.setReflectivity(0.3f);
@@ -103,12 +102,12 @@ public class EngineTester2 {
         ModelTexture barrelTexture = new ModelTexture((loader.loadTexture("barrel")));
         barrelTexture.setNormalMap(loader.loadTexture("barrelNormal"));
         barrelTexture.setShineDamper(10);
-        barrelTexture.setReflectivity(0.2f);
+        barrelTexture.setReflectivity(0.5f);
 
         ModelTexture rockTexture = new ModelTexture((loader.loadTexture("boulder")));
         rockTexture.setNormalMap(loader.loadTexture("boulderNormal"));
         rockTexture.setShineDamper(10);
-        rockTexture.setReflectivity(0.1f);
+        rockTexture.setReflectivity(0.2f);
 
 
         /*********************************************TEXTURE RAW MODELS*********************************************************************/
@@ -151,39 +150,6 @@ public class EngineTester2 {
                     entities.add(new Entity(fernTexturedModel, random.nextInt(4), new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.5f));
                 }
             }
-            if(i%50 == 0) {
-                float z = random.nextFloat() * -800;
-                float x = random.nextFloat() * 800;
-                float y = terrain.getHeightOfTerrain(x, z)+3;
-                float rotY = random.nextInt();
-
-                if(y > -20) {
-                    normalMapEntities.add(new Entity(crate,random.nextInt(4),new Vector3f(x,y,z), 0,rotY,0,0.025f));
-
-                }
-            }
-            if(i%100 == 0) {
-                float z = random.nextFloat() * -800;
-                float x = random.nextFloat() * 800;
-                float y = terrain.getHeightOfTerrain(x, z)+3;
-
-                if(y > -20) {
-                    normalMapEntities.add(new Entity(barrel,new Vector3f(x,y,z), 0,0,0,1));
-
-                }
-            }
-            if(i%10 == 0) {
-                float z = random.nextFloat() * -800;
-                float x = random.nextFloat() * 800;
-                float y = terrain.getHeightOfTerrain(x, z)+3;
-                float rotX = random.nextInt();
-                float rotY = random.nextInt();
-                float rotZ = random.nextInt();
-                if(y > -20) {
-                    normalMapEntities.add(new Entity(rock,new Vector3f(x,y,z), rotX,rotY,rotZ,1));
-
-                }
-            }
             if(i % 5 == 0) {
                 float z = random.nextFloat() * -800;
                 float x = random.nextFloat() * 800;
@@ -197,6 +163,9 @@ public class EngineTester2 {
         entities.add(new Entity(dragon,new Vector3f(600, -10, -600), 0, 0, 0, 6f));
         entities.add(new Entity(lamp,new Vector3f(380, -20, -380),0,0,0,1 ));
 
+        normalMapEntities.add(new Entity(crate,new Vector3f(419,-15,-401), 0,0,0,0.025f));
+        normalMapEntities.add(new Entity(rock,new Vector3f(395,-15,-418), 0,0,0,0.75f));
+        normalMapEntities.add(new Entity(barrel,new Vector3f(409,-15,-413), 0,0,0,0.5f));
 
         /*********************************************CREATE LIGHTS*************************************************************************/
         lights.add(new Light(new Vector3f(0, 10000, -7000), new Vector3f(0.8f, 0.8f, 0.8f)));
@@ -247,7 +216,7 @@ public class EngineTester2 {
             // just call this to make the water
             //must have all entities in the list and not created seperately (unless not needed for reflection)\
             //the sun must be the first light in list of lights
-            water.setWater(renderer,player,terrain,entities,lights);
+            water.setWater(renderer,player,terrain,entities,normalMapEntities,lights);
             // Uncomment to  display GUI
            // guiRenderer.render(guis);
             WindowHandler.updateWindow();
