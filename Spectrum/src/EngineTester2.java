@@ -19,10 +19,15 @@ import org.lwjgl.*;
 
 import Engine.*;
 import org.lwjgl.glfw.GLFWKeyCallback;
+import org.lwjglx.Sys;
 import org.lwjglx.input.Mouse;
 import org.lwjglx.util.vector.Vector2f;
 import org.lwjglx.util.vector.Vector3f;
 import org.lwjglx.util.vector.Vector4f;
+import particles.Particle;
+import particles.ParticleHandler;
+import particles.ParticleSystem;
+import particles.ParticleTexture;
 import util.KeyboardHandler;
 import util.MouseHandler;
 
@@ -73,7 +78,7 @@ public class EngineTester2 {
         ModelLoadHandler loader = new ModelLoadHandler();
         MasterRenderHandler renderer = new MasterRenderHandler(loader);
         TextHandler.innit(loader);
-
+        ParticleHandler.init(loader, renderer.getProjectionMatrix());
 
         /*********************************************PARSE OBJECTS*************************************************************************/
         ModelData dragonData = OBJFileLoader.loadOBJ("dragon");
@@ -99,10 +104,10 @@ public class EngineTester2 {
         dragonTexture.setReflectivity(0.75f);
         treeTextureAtlas.setNumberOfRows(2);
 
-        ModelTexture crateAtlasTexture = new ModelTexture((loader.loadTexture("crate")));
-        crateAtlasTexture.setNormalMap(loader.loadTexture("crateNormal"));
-        crateAtlasTexture.setShineDamper(10);
-        crateAtlasTexture.setReflectivity(0.3f);
+        ModelTexture crateTexture = new ModelTexture((loader.loadTexture("crate")));
+        crateTexture.setNormalMap(loader.loadTexture("crateNormal"));
+        crateTexture.setShineDamper(10);
+        crateTexture.setReflectivity(0.3f);
 
         ModelTexture barrelTexture = new ModelTexture((loader.loadTexture("barrel")));
         barrelTexture.setNormalMap(loader.loadTexture("barrelNormal"));
@@ -115,6 +120,8 @@ public class EngineTester2 {
         rockTexture.setReflectivity(0.2f);
 
 
+
+
         /*********************************************TEXTURE RAW MODELS*********************************************************************/
         TexturedModel tree2TexturedModel = new TexturedModel(treeModel2,treeTextureAtlas);
         TexturedModel fernTexturedModel = new TexturedModel(OBJLoader.loadObjModel("fern", loader), fernAtlas );
@@ -123,7 +130,7 @@ public class EngineTester2 {
         TexturedModel dragon = new TexturedModel(dragonModel,dragonTexture);
         lamp.getTexture().setUseFakeLighting(true);
 
-        TexturedModel crate = new TexturedModel(crateModel,crateAtlasTexture);
+        TexturedModel crate = new TexturedModel(crateModel,crateTexture);
         TexturedModel barrel = new TexturedModel(barrelModel,barrelTexture);
         TexturedModel rock = new TexturedModel(rockModel,rockTexture);
 
@@ -175,12 +182,13 @@ public class EngineTester2 {
         /*********************************************CREATE LIGHTS*************************************************************************/
         lights.add(new Light(new Vector3f(0, 10000, -7000), new Vector3f(0.8f, 0.8f, 0.8f)));
         lights.add(new Light(new Vector3f(380, 0, -380), new Vector3f(3, 3, 3), new Vector3f(1,0.01f,0.002f)));
+        lights.add(new Light(new Vector3f(570,32.5f,-600), new Vector3f(1, 0.725f, 0.137f), new Vector3f(1,0.01f,0.002f)));
 
 
         /*********************************************CREATE GUIS***************************************************************************/
         GUIRenderer guiRenderer = new GUIRenderer(loader);
         List<GUITexture> guis = new ArrayList<>();
-        GUITexture gui = new GUITexture(loader.loadTexture("fern"), new Vector2f(0f,0f), new Vector2f(1f,1f) );
+        GUITexture gui = new GUITexture(loader.loadTexture("gui"), new Vector2f(0f,0f), new Vector2f(1f,1f) );
         guis.add(gui);
 
 
@@ -200,33 +208,62 @@ public class EngineTester2 {
         /***********************************************************************************************************************************/
         /*********************************************FUNCTIONALITY PROTOTYPING*************************************************************/
         /***********************************************************************************************************************************/
-        //Uncomment to enable a mouse picker
-        //MousePicker picker = new MousePicker(player, renderer.getProjectionMatrix());
+        MousePicker picker = new MousePicker(player, renderer.getProjectionMatrix(), terrain);
 
         FontType font = new FontType(loader.loadTexture("centaur"), new File("assets/textures/centaur.fnt"));
-        GUIText text = new GUIText("Andrew likes chewing on sweaty man balls", 3, font, new Vector2f(0.5f,0.5f), 0.5f, false);
+        GUIText text = new GUIText("Sample text", 3, font, new Vector2f(0.5f,0.5f), 0.5f, false);
         text.setColour(0,0,0);
+
+        ParticleTexture firetexture = new ParticleTexture(loader.loadTexture("fire"),8);
+        ParticleSystem particleSystem = new ParticleSystem(30,25,-0.01f,3,25,firetexture);
+        particleSystem.randomizeRotation();
+        particleSystem.setDirection(new Vector3f(-1,0.1f,0.5f), 0.1f);
+        particleSystem.setLifeError(0.1f);
+        particleSystem.setSpeedError(0.4f);
+        particleSystem.setScaleError(0.8f);
+
+        ParticleTexture smoketexture = new ParticleTexture(loader.loadTexture("smoke"),8);
+        ParticleSystem smokeParticles = new ParticleSystem(5,15,-0.01f,3,25,smoketexture);
+        particleSystem.randomizeRotation();
+        particleSystem.setDirection(new Vector3f(-1,0.1f,0.5f), 0.1f);
+        particleSystem.setLifeError(0.1f);
+        particleSystem.setSpeedError(0.4f);
+        particleSystem.setScaleError(0.8f);
 
         /***********************************************************************************************************************************/
 
         while(!KeyboardHandler.isKeyDown(GLFW_KEY_ESCAPE) && !WindowHandler.close()) {
             checkInputs();
             player.move(terrain);
+
+            picker.update();
+            //System.out.println(picker.getCurrentRay());
+            ParticleHandler.update(player);
+
+            /**Uncomment to display particles**/
+//            particleSystem.generateParticles(new Vector3f(570,32.5f,-600));
+//            smokeParticles.generateParticles(new Vector3f(570,32.5f,-600));
             renderer.processTerrain(terrain);
             entities.forEach(renderer:: processEntity);
+
             normalMapEntities.forEach(renderer::processNormalMappedEntity);
             renderer.render(lights, player,new Vector4f(0,1,0,10000000)); //backup incase some drivers dont support gldisable properly (clip at unreasonable height)
             entities.forEach(renderer:: processEntity);
             normalMapEntities.forEach(renderer::processNormalMappedEntity);
 
 
-            // just call this to make the water
+            //just call this to make the water
             //must have all entities in the list and not created seperately (unless not needed for reflection)\
             //the sun must be the first light in list of lights
             water.setWater(renderer,player,terrain,entities,normalMapEntities,lights);
-            // Uncomment to  display GUI
-           // guiRenderer.render(guis);
-            TextHandler.render();
+
+            ParticleHandler.renderParticles(player);
+
+            /**Uncomment to  display GUI**/
+            //guiRenderer.render(guis);
+
+            /**Uncomment for text rendering**/
+            //TextHandler.render();
             WindowHandler.updateWindow();
         }
         //then call this to clean up water
@@ -235,6 +272,7 @@ public class EngineTester2 {
         renderer.cleanUp();
         loader.cleanUp();
         TextHandler.cleanUp();
+        ParticleHandler.cleanUp();
     }
 
     public static void checkInputs() {
