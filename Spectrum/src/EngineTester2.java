@@ -203,9 +203,9 @@ public class EngineTester2 {
         //Uncomment to enable a mouse picker
         //MousePicker picker = new MousePicker(player, renderer.getProjectionMatrix());
 
-        FontType font = new FontType(loader.loadTexture("text"), new File("assets/textures/text.fnt"));
+        FontType font = new FontType(loader.loadTexture("centaur"), new File("assets/textures/centaur.fnt"));
         GUIText text = new GUIText("Andrew likes chewing on sweaty man balls", 3, font, new Vector2f(0.5f,0.5f), 0.5f, false);
-        text.setColour(1,0,0);
+        text.setColour(0,0,0);
 
         /***********************************************************************************************************************************/
 
