@@ -12,6 +12,7 @@ public class Entity {
     private float rotX,rotY,rotZ;
     private float scale;
     private int textureIndex =0;
+    private int colorMode = 0;
 
     public Entity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
         this.model = model;
@@ -21,6 +22,16 @@ public class Entity {
         this.rotZ = rotZ;
         this.scale = scale;
     }
+
+    public Entity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, int colorMode) {
+        this.model = model;
+        this.position = position;
+        this.rotX = rotX;
+        this.rotY = rotY;
+        this.rotZ = rotZ;
+        this.scale = scale;
+        this.colorMode = colorMode;
+    }
     public Entity(TexturedModel model, int texIndex, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
         this.model = model;
         this.textureIndex=texIndex;
@@ -29,6 +40,21 @@ public class Entity {
         this.rotY = rotY;
         this.rotZ = rotZ;
         this.scale = scale;
+    }
+
+    public Entity(TexturedModel model, int texIndex, Vector3f position, float rotX, float rotY, float rotZ, float scale, int colorMode) {
+        this.model = model;
+        this.textureIndex=texIndex;
+        this.position = position;
+        this.rotX = rotX;
+        this.rotY = rotY;
+        this.rotZ = rotZ;
+        this.scale = scale;
+        this.colorMode = colorMode;
+    }
+
+    public int getColorMode() {
+        return colorMode;
     }
 
     public float getTextureXOffset(){

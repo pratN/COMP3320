@@ -29,6 +29,7 @@ public class StaticShader extends ShaderProgram{
     private int location_offset;
     private int location_attenuation[];
     private int location_waterPlane;
+    private int location_colourMode;
 
     public StaticShader(){
         super(VERTEX_FILE,FRAG_FILE);
@@ -46,6 +47,7 @@ public class StaticShader extends ShaderProgram{
         location_numberOfRows = super.getUniformLocation("numberOfRows");
         location_offset = super.getUniformLocation("offset");
         location_waterPlane = super.getUniformLocation("waterPlane");
+        location_colourMode = super.getUniformLocation("colourMode");
 
         location_lightPosition = new int[MAX_LIGHTS];
         location_lightColour = new int[MAX_LIGHTS];
@@ -110,6 +112,10 @@ public class StaticShader extends ShaderProgram{
     public void loadViewMatrix(Camera camera){
         Matrix4f viewMatrix = Maths.createViewMatrix(camera);
         super.loadMatrix(location_viewMatrix, viewMatrix);
+    }
+
+    public void loadColorState(int state){
+        super.loadInt(location_colourMode, state);
     }
 
     public void loadProjectionMatrix(Matrix4f projection){

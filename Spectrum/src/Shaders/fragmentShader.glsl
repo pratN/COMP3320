@@ -14,6 +14,7 @@ uniform float shineDamper;
 uniform float reflectivity;
 uniform vec3 skyColour;
 uniform vec3 attenuation[4];
+uniform int colourMode;
 
 const float levels = 3.0;
 
@@ -49,6 +50,24 @@ void main(void) {
         discard;
     }
 
-    out_Colour = vec4(totalDiffuse,1.0) * textureColour + vec4 (totalSpecular,1.0);
-    out_Colour = mix(vec4(skyColour,1.0),out_Colour,visibility);
+    vec4 final_colour = vec4(totalDiffuse,1.0) * textureColour + vec4 (totalSpecular,1.0);
+    final_colour = mix(vec4(skyColour,1.0),final_colour,visibility);
+    if(colourMode==1){
+        if(final_colour.g>0.5 || final_colour.b>0.5){
+            discard;
+        }
+    }
+    if(colourMode==2){
+        if(final_colour.r>0.5 || final_colour.b>0.5){
+            discard;
+        }
+    }
+    if(colourMode==3){
+        if(final_colour.r>0.5 || final_colour.g>0.5){
+            discard;
+        }
+    }
+    out_Colour = final_colour;
+
+    //out_Colour = mix(vec4(skyColour,1.0),final_colour,visibility);
 }

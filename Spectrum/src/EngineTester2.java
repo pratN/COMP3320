@@ -105,6 +105,7 @@ public class EngineTester2 {
         treeTextureAtlas.setNumberOfRows(2);
 
         ModelTexture crateTexture = new ModelTexture((loader.loadTexture("crate")));
+        ModelTexture whiteCrateTexture = new ModelTexture((loader.loadTexture("partiallyGreen")));
         crateTexture.setNormalMap(loader.loadTexture("crateNormal"));
         crateTexture.setShineDamper(10);
         crateTexture.setReflectivity(0.3f);
@@ -131,9 +132,10 @@ public class EngineTester2 {
         lamp.getTexture().setUseFakeLighting(true);
 
         TexturedModel crate = new TexturedModel(crateModel,crateTexture);
+        TexturedModel whiteCrate = new TexturedModel(crateModel,whiteCrateTexture);
         TexturedModel barrel = new TexturedModel(barrelModel,barrelTexture);
         TexturedModel rock = new TexturedModel(rockModel,rockTexture);
-
+        whiteCrate.getTexture().setUseFakeLighting(true);
 
         /*********************************************TEXTURE TERRAIN***********************************************************************/
         TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("grass_HIGH_RES"));
@@ -175,20 +177,28 @@ public class EngineTester2 {
         entities.add(new Entity(dragon,new Vector3f(600, -10, -600), 0, 0, 0, 6f));
         entities.add(new Entity(lamp,new Vector3f(380, -20, -380),0,0,0,1 ));
 
+        /*****COLOURED BLOCKS**********/
+        //Last param is colour state. 1=red, 2=green, 3=blue
+        entities.add(new Entity(whiteCrate, new Vector3f(410,-8,-378),0,0,0,0.025f,2));
+        entities.add(new Entity(whiteCrate, new Vector3f(428,-13,-359),0,0,0,0.025f,1));
+        entities.add(new Entity(whiteCrate, new Vector3f(411,-13,-363),0,0,0,0.025f,3));
+        /******************************/
+
+
         normalMapEntities.add(new Entity(crate,new Vector3f(419,-15,-401), 0,0,0,0.025f));
         normalMapEntities.add(new Entity(rock,new Vector3f(395,-15,-418), 0,0,0,0.75f));
         normalMapEntities.add(new Entity(barrel,new Vector3f(409,-15,-413), 0,0,0,0.5f));
 
         /*********************************************CREATE LIGHTS*************************************************************************/
         lights.add(new Light(new Vector3f(0, 10000, -7000), new Vector3f(0.8f, 0.8f, 0.8f)));
-        lights.add(new Light(new Vector3f(380, 0, -380), new Vector3f(3, 3, 3), new Vector3f(1,0.01f,0.002f)));
+        lights.add(new Light(new Vector3f(380, 0, -380), new Vector3f(0, 3, 0), new Vector3f(1,0.01f,0.002f)));
         lights.add(new Light(new Vector3f(570,32.5f,-600), new Vector3f(1, 0.725f, 0.137f), new Vector3f(1,0.01f,0.002f)));
 
 
         /*********************************************CREATE GUIS***************************************************************************/
         GUIRenderer guiRenderer = new GUIRenderer(loader);
         List<GUITexture> guis = new ArrayList<>();
-        GUITexture gui = new GUITexture(loader.loadTexture("gui"), new Vector2f(0f,0f), new Vector2f(1f,1f) );
+        GUITexture gui = new GUITexture(loader.loadTexture("gui"), new Vector2f(0f,-0.75f), new Vector2f(1f,0.25f) );
         guis.add(gui);
 
 
@@ -241,8 +251,8 @@ public class EngineTester2 {
             ParticleHandler.update(player);
 
             /**Uncomment to display particles**/
-//            particleSystem.generateParticles(new Vector3f(570,32.5f,-600));
-//            smokeParticles.generateParticles(new Vector3f(570,32.5f,-600));
+//          particleSystem.generateParticles(new Vector3f(570,32.5f,-600));
+//          smokeParticles.generateParticles(new Vector3f(570,32.5f,-600));
             renderer.processTerrain(terrain);
             entities.forEach(renderer:: processEntity);
 
@@ -250,7 +260,6 @@ public class EngineTester2 {
             renderer.render(lights, player,new Vector4f(0,1,0,10000000)); //backup incase some drivers dont support gldisable properly (clip at unreasonable height)
             entities.forEach(renderer:: processEntity);
             normalMapEntities.forEach(renderer::processNormalMappedEntity);
-
 
             //just call this to make the water
             //must have all entities in the list and not created seperately (unless not needed for reflection)\

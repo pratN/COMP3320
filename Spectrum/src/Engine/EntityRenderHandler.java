@@ -80,6 +80,7 @@ public class EntityRenderHandler {
     public void prepareInstance(Entity entity){
         Matrix4f transformationMatrix = Maths.createTransformationMatrix(entity.getPosition(), entity.getRotX(), entity.getRotY(), entity.getRotZ(), entity.getScale());
         shader.loadTransformationMatrix(transformationMatrix);
+        shader.loadColorState(entity.getColorMode());
         shader.loadOffset(entity.getTextureXOffset(),entity.getTextureYOffset());
     }
 
