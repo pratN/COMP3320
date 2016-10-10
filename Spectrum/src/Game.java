@@ -5,7 +5,7 @@ public class Game{
 
     private boolean closeState;
 
-    public void innit(){
+    public void init(){
         //Create window
 
         //Create renderHandler
@@ -21,7 +21,7 @@ public class Game{
     public void close(){}
 
     public void run(){
-        innit();
+        init();
         while(!closeState) {
             loop();
         }

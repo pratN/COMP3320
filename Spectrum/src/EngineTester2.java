@@ -1,4 +1,3 @@
-import Entities.Camera;
 import Entities.Entity;
 import Entities.Light;
 import Entities.Player;
@@ -19,12 +18,9 @@ import org.lwjgl.*;
 
 import Engine.*;
 import org.lwjgl.glfw.GLFWKeyCallback;
-import org.lwjglx.Sys;
-import org.lwjglx.input.Mouse;
 import org.lwjglx.util.vector.Vector2f;
 import org.lwjglx.util.vector.Vector3f;
 import org.lwjglx.util.vector.Vector4f;
-import particles.Particle;
 import particles.ParticleHandler;
 import particles.ParticleSystem;
 import particles.ParticleTexture;
@@ -77,7 +73,7 @@ public class EngineTester2 {
         /*********************************************LOAD RENDERER AND LOADER**************************************************************/
         ModelLoadHandler loader = new ModelLoadHandler();
         MasterRenderHandler renderer = new MasterRenderHandler(loader);
-        TextHandler.innit(loader);
+        TextHandler.init(loader);
         ParticleHandler.init(loader, renderer.getProjectionMatrix());
 
         /*********************************************PARSE OBJECTS*************************************************************************/
@@ -136,6 +132,7 @@ public class EngineTester2 {
         TexturedModel barrel = new TexturedModel(barrelModel,barrelTexture);
         TexturedModel rock = new TexturedModel(rockModel,rockTexture);
         whiteCrate.getTexture().setUseFakeLighting(true);
+        whiteCrate.getTexture().setHasTransparency(true);
 
         /*********************************************TEXTURE TERRAIN***********************************************************************/
         TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("grass_HIGH_RES"));
@@ -149,6 +146,9 @@ public class EngineTester2 {
 
         /*********************************************LOAD TERRAIN*************************************************************************/
         Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "hm3");
+
+        //flat terrain for testing
+        //Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "flatHM");
 
 
         /*********************************************CREATE ENTITIES***********************************************************************/
@@ -174,15 +174,18 @@ public class EngineTester2 {
             }
 
         }
+
+        /*****************CRATE MODELS FOR TESTING************************/
+        /*
+        entities.add(new Entity(whiteCrate, new Vector3f(416,4,-456), 0, random.nextFloat() * 360, 0, 0.025f,1));
+        entities.add(new Entity(whiteCrate, new Vector3f(448, 4, -435), 0, random.nextFloat() * 360, 0, 0.025f,2));
+        entities.add(new Entity(whiteCrate, new Vector3f(455,4,-415), 0, random.nextFloat() * 360, 0, 0.025f,3));
+        */
+
+
         entities.add(new Entity(dragon,new Vector3f(600, -10, -600), 0, 0, 0, 6f));
         entities.add(new Entity(lamp,new Vector3f(380, -20, -380),0,0,0,1 ));
 
-        /*****COLOURED BLOCKS**********/
-        //Last param is colour state. 1=red, 2=green, 3=blue
-        entities.add(new Entity(whiteCrate, new Vector3f(410,-8,-378),0,0,0,0.025f,2));
-        entities.add(new Entity(whiteCrate, new Vector3f(428,-13,-359),0,0,0,0.025f,1));
-        entities.add(new Entity(whiteCrate, new Vector3f(411,-13,-363),0,0,0,0.025f,3));
-        /******************************/
 
 
         normalMapEntities.add(new Entity(crate,new Vector3f(419,-15,-401), 0,0,0,0.025f));
@@ -191,8 +194,9 @@ public class EngineTester2 {
 
         /*********************************************CREATE LIGHTS*************************************************************************/
         lights.add(new Light(new Vector3f(0, 10000, -7000), new Vector3f(0.8f, 0.8f, 0.8f)));
-        lights.add(new Light(new Vector3f(380, 0, -380), new Vector3f(0, 3, 0), new Vector3f(1,0.01f,0.002f)));
+        lights.add(new Light(new Vector3f(380, 0, -380), new Vector3f(3, 3, 3), new Vector3f(1,0.01f,0.002f)));
         lights.add(new Light(new Vector3f(570,32.5f,-600), new Vector3f(1, 0.725f, 0.137f), new Vector3f(1,0.01f,0.002f)));
+        //lights.add(new Light(new Vector3f(448, 12, -435), new Vector3f(0,1,0), new Vector3f(1,0.01f,0.002f)));
 
 
         /*********************************************CREATE GUIS***************************************************************************/
@@ -245,6 +249,8 @@ public class EngineTester2 {
         while(!KeyboardHandler.isKeyDown(GLFW_KEY_ESCAPE) && !WindowHandler.close()) {
             checkInputs();
             player.move(terrain);
+            lights.get(2).move();
+            lights.get(2).changeColour();
 
             picker.update();
             //System.out.println(picker.getCurrentRay());

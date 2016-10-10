@@ -1,6 +1,9 @@
 package Entities;
 
+import Engine.WindowHandler;
 import org.lwjglx.util.vector.Vector3f;
+import util.KeyboardHandler;
+import static org.lwjgl.glfw.GLFW.*;
 
 /**
  * Created by Auscav_Steve on 9/10/2016.
@@ -20,6 +23,35 @@ public class Light {
         this.attenuation=attenuation;
 
     }
+    /*********************for testing purposes********************************/
+    public void changeColour(){
+        if(KeyboardHandler.isKeyDown(GLFW_KEY_KP_1)){
+            this.colour.z -= 0.5f* WindowHandler.getFrameTimeSeconds();
+        }else if(KeyboardHandler.isKeyDown(GLFW_KEY_KP_3)){
+            this.colour.z+= 0.5f* WindowHandler.getFrameTimeSeconds();
+        }else if(KeyboardHandler.isKeyDown(GLFW_KEY_KP_4)){
+            this.colour.x-= 0.5f* WindowHandler.getFrameTimeSeconds();
+        }else if(KeyboardHandler.isKeyDown(GLFW_KEY_KP_6)){
+            this.colour.x+= 0.5f* WindowHandler.getFrameTimeSeconds();
+        }else if(KeyboardHandler.isKeyDown(GLFW_KEY_KP_7)){
+            this.colour.y-= 0.5f* WindowHandler.getFrameTimeSeconds();
+        }else if(KeyboardHandler.isKeyDown(GLFW_KEY_KP_9)){
+            this.colour.y+= 0.5f* WindowHandler.getFrameTimeSeconds();
+        }
+
+    }
+    public void move(){
+        if(KeyboardHandler.isKeyDown(GLFW_KEY_UP)){
+            this.position.x++;
+        }else if(KeyboardHandler.isKeyDown(GLFW_KEY_DOWN)){
+            this.position.x--;
+        }else if(KeyboardHandler.isKeyDown(GLFW_KEY_LEFT)){
+            this.position.z--;
+        }else if(KeyboardHandler.isKeyDown(GLFW_KEY_RIGHT)){
+            this.position.z++;
+        }
+    }
+    /**************************************************************************/
 
     public Vector3f getAttenuation() {
         return attenuation;

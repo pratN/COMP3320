@@ -52,18 +52,20 @@ void main(void) {
 
     vec4 final_colour = vec4(totalDiffuse,1.0) * textureColour + vec4 (totalSpecular,1.0);
     final_colour = mix(vec4(skyColour,1.0),final_colour,visibility);
+    bvec4 colourTest = greaterThanEqual(final_colour, vec4(0.5,0.5,0.5,0));
+    //change to be separate checks for other colours
     if(colourMode==1){
-        if(final_colour.g>0.5 || final_colour.b>0.5){
+        if(colourTest.r == false || (colourTest.g == true || colourTest.b==true)){
             discard;
         }
     }
     if(colourMode==2){
-        if(final_colour.r>0.5 || final_colour.b>0.5){
+        if(colourTest.g == false || (colourTest.r == true || colourTest.b==true)){
             discard;
         }
     }
     if(colourMode==3){
-        if(final_colour.r>0.5 || final_colour.g>0.5){
+        if(colourTest.b == false || (colourTest.g == true || colourTest.r==true)){
             discard;
         }
     }

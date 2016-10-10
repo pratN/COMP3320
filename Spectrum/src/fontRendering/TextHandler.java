@@ -18,7 +18,7 @@ public class TextHandler {
     private static Map<FontType, List<GUIText>> texts = new HashMap<>();
     private static FontRenderer renderer;
 
-    public static void innit(ModelLoadHandler load){
+    public static void init(ModelLoadHandler load){
         renderer = new FontRenderer();
         loader = load;
     }
