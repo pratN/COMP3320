@@ -30,15 +30,15 @@ void main(void) {
         vec3 unitLightVector = normalize(toLightVector[i]);
         float nDot1 = dot(unitNormal,unitLightVector);
         float brightness = max(nDot1,0.0);
-//        float level = floor(brightness * levels);
-//        brightness = level / levels;
+//      float level = floor(brightness * levels);
+//      brightness = level / levels;
         vec3 lightDirection = -unitLightVector;
         vec3 reflectedLightDirection = reflect(lightDirection,unitNormal);
         float specularFactor = dot(reflectedLightDirection,unitVectorToCamera);
         specularFactor = max(specularFactor,0.0);
         float dampedFactor = pow(specularFactor,shineDamper);
-//        level = floor(dampedFactor * levels);
-//        dampedFactor = level / levels;
+//      level = floor(dampedFactor * levels);
+//      dampedFactor = level / levels;
         totalDiffuse = totalDiffuse + (brightness * lightColour[i])/attFactor;
         totalSpecular = totalSpecular + (dampedFactor * reflectivity * lightColour[i])/attFactor;
 
@@ -54,21 +54,43 @@ void main(void) {
     final_colour = mix(vec4(skyColour,1.0),final_colour,visibility);
     bvec4 colourTest = greaterThanEqual(final_colour, vec4(0.5,0.5,0.5,0));
     //change to be separate checks for other colours
+    //RED
     if(colourMode==1){
         if(colourTest.r == false || (colourTest.g == true || colourTest.b==true)){
             discard;
         }
     }
+    //GREEN
     if(colourMode==2){
         if(colourTest.g == false || (colourTest.r == true || colourTest.b==true)){
             discard;
         }
     }
+    //BLUE
     if(colourMode==3){
         if(colourTest.b == false || (colourTest.g == true || colourTest.r==true)){
             discard;
         }
     }
+    //YELLOW
+    if(colourMode==4){
+        if(colourTest.r == true || (colourTest.g == false || colourTest.r==false)){
+            discard;
+        }
+    }
+    //PURPLE
+    if(colourMode==5){
+         if(colourTest.g == true || (colourTest.r == false || colourTest.b==false)){
+             discard;
+         }
+    }
+    //CYAN
+    if(colourMode==6){
+         if(colourTest.b == true || (colourTest.g == false || colourTest.r==false)){
+             discard;
+         }
+     }
+
     out_Colour = final_colour;
 
     //out_Colour = mix(vec4(skyColour,1.0),final_colour,visibility);

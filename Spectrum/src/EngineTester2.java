@@ -148,7 +148,7 @@ public class EngineTester2 {
         Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "hm3");
 
         //flat terrain for testing
-        //Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "flatHM");
+//        Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "flatHM");
 
 
         /*********************************************CREATE ENTITIES***********************************************************************/
@@ -176,12 +176,9 @@ public class EngineTester2 {
         }
 
         /*****************CRATE MODELS FOR TESTING************************/
-        /*
-        entities.add(new Entity(whiteCrate, new Vector3f(416,4,-456), 0, random.nextFloat() * 360, 0, 0.025f,1));
-        entities.add(new Entity(whiteCrate, new Vector3f(448, 4, -435), 0, random.nextFloat() * 360, 0, 0.025f,2));
-        entities.add(new Entity(whiteCrate, new Vector3f(455,4,-415), 0, random.nextFloat() * 360, 0, 0.025f,3));
-        */
-
+//        entities.add(new Entity(whiteCrate, new Vector3f(416,4,-456), 0, random.nextFloat() * 360, 0, 0.025f,1));
+//        entities.add(new Entity(whiteCrate, new Vector3f(448, 4, -435), 0, random.nextFloat() * 360, 0, 0.025f,4));
+//        entities.add(new Entity(whiteCrate, new Vector3f(455,4,-415), 0, random.nextFloat() * 360, 0, 0.025f,3));
 
         entities.add(new Entity(dragon,new Vector3f(600, -10, -600), 0, 0, 0, 6f));
         entities.add(new Entity(lamp,new Vector3f(380, -20, -380),0,0,0,1 ));
@@ -191,12 +188,11 @@ public class EngineTester2 {
         normalMapEntities.add(new Entity(crate,new Vector3f(419,-15,-401), 0,0,0,0.025f));
         normalMapEntities.add(new Entity(rock,new Vector3f(395,-15,-418), 0,0,0,0.75f));
         normalMapEntities.add(new Entity(barrel,new Vector3f(409,-15,-413), 0,0,0,0.5f));
-
         /*********************************************CREATE LIGHTS*************************************************************************/
         lights.add(new Light(new Vector3f(0, 10000, -7000), new Vector3f(0.8f, 0.8f, 0.8f)));
         lights.add(new Light(new Vector3f(380, 0, -380), new Vector3f(3, 3, 3), new Vector3f(1,0.01f,0.002f)));
         lights.add(new Light(new Vector3f(570,32.5f,-600), new Vector3f(1, 0.725f, 0.137f), new Vector3f(1,0.01f,0.002f)));
-        //lights.add(new Light(new Vector3f(448, 12, -435), new Vector3f(0,1,0), new Vector3f(1,0.01f,0.002f)));
+        lights.add(new Light(new Vector3f(448, 12, -435), new Vector3f(0,1,0), new Vector3f(1,0.01f,0.002f)));
 
 
         /*********************************************CREATE GUIS***************************************************************************/
@@ -249,16 +245,16 @@ public class EngineTester2 {
         while(!KeyboardHandler.isKeyDown(GLFW_KEY_ESCAPE) && !WindowHandler.close()) {
             checkInputs();
             player.move(terrain);
-            lights.get(2).move();
-            lights.get(2).changeColour();
+            lights.get(3).move();
+            lights.get(3).changeColour();
 
             picker.update();
             //System.out.println(picker.getCurrentRay());
             ParticleHandler.update(player);
 
             /**Uncomment to display particles**/
-//          particleSystem.generateParticles(new Vector3f(570,32.5f,-600));
-//          smokeParticles.generateParticles(new Vector3f(570,32.5f,-600));
+          particleSystem.generateParticles(new Vector3f(570,32.5f,-600));
+          smokeParticles.generateParticles(new Vector3f(570,32.5f,-600));
             renderer.processTerrain(terrain);
             entities.forEach(renderer:: processEntity);
 
@@ -296,7 +292,7 @@ public class EngineTester2 {
             lights.get(0).setColour(new Vector3f(1, 0.1f,0.1f ));
         } else if(KeyboardHandler.isKeyDown((GLFW_KEY_0))) {
             state = 0;
-            lights.get(0).setColour(new Vector3f(1, 1, 1));
+            lights.get(0).setColour(new Vector3f(0, 0, 0));
         } else if(KeyboardHandler.isKeyDown((GLFW_KEY_2))) {
             state =  2;
            lights.get(0).setColour(new Vector3f(0.1f, 1, 0.1f));

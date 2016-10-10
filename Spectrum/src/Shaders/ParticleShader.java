@@ -14,6 +14,7 @@ public class ParticleShader extends ShaderProgram {
 	private int location_texOffset1;
 	private int location_texOffset2;
 	private int location_texCoordInfo;
+	private int location_colourMode;
 
 	public ParticleShader() {
 		super(VERTEX_FILE, FRAGMENT_FILE);
@@ -26,6 +27,7 @@ public class ParticleShader extends ShaderProgram {
 		location_texOffset1 = super.getUniformLocation("texOffset1");
 		location_texOffset2 = super.getUniformLocation("texOffset2");
 		location_texCoordInfo = super.getUniformLocation("texCoordInfo");
+		location_colourMode = super.getUniformLocation("colourMode");
 	}
 
 	@Override
@@ -45,6 +47,10 @@ public class ParticleShader extends ShaderProgram {
 		super.load2DVector(location_texOffset1, offset1);
 		super.load2DVector(location_texOffset2, offset2);
 		super.load2DVector(location_texCoordInfo, new Vector2f(numRows,blend));
+	}
+
+	public void loadColourMode(int colourMode){
+		super.loadInt(location_colourMode, colourMode);
 	}
 
 }

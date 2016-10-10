@@ -20,6 +20,7 @@ public class Particle {
     private Vector2f texOffset1 = new Vector2f();
     private Vector2f texOffset2 = new Vector2f();
     private float blend;
+    private int colourMode =0;
 
     private float distance;
 
@@ -34,6 +35,18 @@ public class Particle {
         this.scale = scale;
         this.texture = texture;
         ParticleHandler.addParticle(this);
+    }
+
+    public Particle(Vector3f position, Vector3f velocity, float gravityEffect, float lifeLength, float rotation, float scale, ParticleTexture texture, int colourMode) {
+        this.position = position;
+        this.velocity = velocity;
+        this.gravityEffect = gravityEffect;
+        this.lifeLength = lifeLength;
+        this.rotation = rotation;
+        this.scale = scale;
+        this.texture = texture;
+        ParticleHandler.addParticle(this);
+        this.colourMode = colourMode;
     }
 
     public float getDistance() {
@@ -97,5 +110,9 @@ public class Particle {
 
     public float getBlend() {
         return blend;
+    }
+
+    public int getColourMode() {
+        return colourMode;
     }
 }

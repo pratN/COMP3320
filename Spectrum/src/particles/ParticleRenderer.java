@@ -38,6 +38,7 @@ public class ParticleRenderer {
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, texture.getTextureID());
 			for(Particle particle : particles.get(texture)) {
+				shader.loadColourMode(particle.getColourMode());
 				updateModelViewMatrix(particle.getPosition(), particle.getRotation(), particle.getScale(), viewMatrix);
 				shader.loadTextureCoordInfo(particle.getTexOffset1(), particle.getTexOffset2(), texture.getNumOfRows(), particle.getBlend());
 				glDrawArrays(GL_TRIANGLE_STRIP, 0, quad.getVertexCount());
