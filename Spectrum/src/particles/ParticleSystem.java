@@ -1,6 +1,6 @@
 package particles;
 
-import Engine.WindowHandler;
+import engine.WindowHandler;
 import org.lwjglx.util.vector.Matrix4f;
 import org.lwjglx.util.vector.Vector3f;
 import org.lwjglx.util.vector.Vector4f;

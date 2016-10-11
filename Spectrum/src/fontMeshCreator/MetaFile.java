@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import Engine.WindowHandler;
+import engine.WindowHandler;
 
 /**
  * Provides functionality for getting the values from a font file.

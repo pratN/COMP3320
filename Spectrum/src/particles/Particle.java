@@ -1,9 +1,9 @@
 package particles;
 
 
-import Engine.WindowHandler;
-import Entities.Camera;
-import Entities.Player;
+import engine.WindowHandler;
+import entities.Camera;
+import entities.Player;
 import org.lwjglx.util.vector.Vector2f;
 import org.lwjglx.util.vector.Vector3f;
 

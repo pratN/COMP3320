@@ -1,8 +1,8 @@
-package Shaders;
+package shaders;
 
-import Engine.WindowHandler;
+import engine.WindowHandler;
 import org.lwjglx.util.vector.Matrix4f;
-import Entities.Camera;
+import entities.Camera;
 
 import org.lwjglx.util.vector.Vector3f;
 import util.Maths;

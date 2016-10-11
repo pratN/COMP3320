@@ -1,7 +1,7 @@
-package Engine;
+package engine;
 
-import Models.RawModel;
-import Textures.TextureData;
+import models.RawModel;
+import textures.TextureData;
 import de.matthiasmann.twl.utils.PNGDecoder;
 import de.matthiasmann.twl.utils.PNGDecoder.Format;
 import org.lwjgl.BufferUtils;

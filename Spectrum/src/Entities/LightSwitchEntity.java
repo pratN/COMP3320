@@ -1,4 +1,4 @@
-package Entities;
+package entities;
 
 /**
  * Light switch object for interacting with a LightEntity.

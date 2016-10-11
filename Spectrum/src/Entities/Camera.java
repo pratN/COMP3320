@@ -1,10 +1,6 @@
-package Entities;
+package entities;
 
 import org.lwjglx.util.vector.Vector3f;
-import util.KeyboardHandler;
-import util.MouseHandler;
-
-import static org.lwjgl.glfw.GLFW.*;
 
 public class Camera {
 

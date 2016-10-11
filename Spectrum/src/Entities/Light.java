@@ -1,6 +1,6 @@
-package Entities;
+package entities;
 
-import Engine.WindowHandler;
+import engine.WindowHandler;
 import org.lwjglx.util.vector.Vector3f;
 import util.KeyboardHandler;
 import static org.lwjgl.glfw.GLFW.*;

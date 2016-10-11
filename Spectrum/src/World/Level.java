@@ -1,4 +1,4 @@
-package World;
+package world;
 
 /**
  * Level object, holds all scene data for a single  level

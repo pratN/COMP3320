@@ -1,8 +1,8 @@
-package Terrain;
+package terrain;
 
-import Engine.ModelLoadHandler;
-import Models.RawModel;
-import Textures.*;
+import engine.ModelLoadHandler;
+import models.RawModel;
+import textures.*;
 import org.lwjglx.util.vector.Vector2f;
 import org.lwjglx.util.vector.Vector3f;
 import util.Maths;

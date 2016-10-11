@@ -1,7 +1,7 @@
 package water;
 
 
-		import Shaders.ShaderProgram;
+		import shaders.ShaderProgram;
 		import util.Maths;
 
 
@@ -10,8 +10,8 @@ package water;
 
 
 
-		import Entities.Camera;
-		import Entities.Light;
+		import entities.Camera;
+		import entities.Light;
 		import org.lwjglx.util.vector.Matrix4f;
 
 

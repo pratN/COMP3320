@@ -1,6 +1,6 @@
 package fontRendering;
 
-import Engine.ModelLoadHandler;
+import engine.ModelLoadHandler;
 import fontMeshCreator.FontType;
 import fontMeshCreator.GUIText;
 import fontMeshCreator.TextMeshData;

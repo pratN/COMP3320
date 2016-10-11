@@ -1,6 +1,6 @@
-package Models;
+package models;
 
-import Textures.ModelTexture;
+import textures.ModelTexture;
 
 /**
  * Created by Beau on 7/09/2016.

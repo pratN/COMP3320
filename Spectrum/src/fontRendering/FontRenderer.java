@@ -1,6 +1,6 @@
 package fontRendering;
 
-import Shaders.FontShader;
+import shaders.FontShader;
 import fontMeshCreator.FontType;
 import fontMeshCreator.GUIText;
 import static org.lwjgl.opengl.GL11.*;

@@ -1,4 +1,4 @@
-package Textures;
+package textures;
 
 /**
  * Created by Beau on 7/09/2016.

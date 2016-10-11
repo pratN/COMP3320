@@ -7,11 +7,11 @@ import org.lwjgl.opengl.GL30;
 import org.lwjglx.util.vector.Vector4f;
 
 import java.util.List;
-import Entities.Entity;
-import Entities.Light;
-import Entities.Camera;
-import Terrain.Terrain;
-import Engine.*;
+import entities.Entity;
+import entities.Light;
+import entities.Camera;
+import terrain.Terrain;
+import engine.*;
 import static org.lwjgl.opengl.GL11.*;
 
 /**

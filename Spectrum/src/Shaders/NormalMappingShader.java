@@ -1,4 +1,4 @@
-package Shaders;
+package shaders;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import org.lwjglx.util.vector.Vector2f;
 import org.lwjglx.util.vector.Vector3f;
 import org.lwjglx.util.vector.Vector4f;
 
-import Entities.Light;
+import entities.Light;
 
 public class NormalMappingShader extends ShaderProgram{
 	

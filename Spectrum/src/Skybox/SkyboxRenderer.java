@@ -1,9 +1,9 @@
-package Skybox;
+package skybox;
 
-import Engine.ModelLoadHandler;
-import Entities.Camera;
-import Models.RawModel;
-import Shaders.SkyboxShader;
+import engine.ModelLoadHandler;
+import entities.Camera;
+import models.RawModel;
+import shaders.SkyboxShader;
 import org.lwjglx.util.vector.Matrix4f;
 import util.KeyboardHandler;
 

@@ -1,10 +1,10 @@
-package Entities;
+package entities;
 
-import Engine.WindowHandler;
+import engine.WindowHandler;
 import org.lwjglx.util.vector.Vector3f;
 import util.KeyboardHandler;
 import util.MouseHandler;
-import Terrain.Terrain;
+import terrain.Terrain;
 
 import static org.lwjgl.glfw.GLFW.*;
 

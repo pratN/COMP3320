@@ -1,4 +1,4 @@
-package Shaders;
+package shaders;
 
 import org.lwjgl.BufferUtils;
 import org.lwjglx.util.vector.Matrix4f;

@@ -1,17 +1,15 @@
 package water;
 
-import Engine.ModelLoadHandler;
-import Engine.WindowHandler;
-import Entities.Camera;
-import Entities.Light;
-import Models.RawModel;
-import Shaders.SkyboxShader;
+import engine.ModelLoadHandler;
+import engine.WindowHandler;
+import entities.Camera;
+import entities.Light;
+import models.RawModel;
 import org.lwjgl.opengl.GL13;
 import org.lwjglx.util.vector.Matrix4f;
-import org.lwjglx.util.vector.Vector2f;
 import org.lwjglx.util.vector.Vector3f;
 import java.util.*;
-import Shaders.ShaderProgram;
+
 import util.Maths;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;

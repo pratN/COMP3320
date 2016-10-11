@@ -1,12 +1,9 @@
-package Engine;
+package engine;
 
-import Entities.Entity;
-import Models.RawModel;
-import Models.TexturedModel;
-import Shaders.TerrainShader;
-import Terrain.Terrain;
-import Textures.ModelTexture;
-import Textures.TerrainTexPack;
+import models.RawModel;
+import shaders.TerrainShader;
+import terrain.Terrain;
+import textures.TerrainTexPack;
 import org.lwjglx.util.vector.*;
 import util.Maths;
 

@@ -1,7 +1,7 @@
 package particles;
 
-import Engine.ModelLoadHandler;
-import Entities.Camera;
+import engine.ModelLoadHandler;
+import entities.Camera;
 import org.lwjglx.util.vector.Matrix4f;
 
 import java.util.*;

@@ -1,12 +1,12 @@
 package util;
 
-import Engine.WindowHandler;
-import Entities.Camera;
+import engine.WindowHandler;
+import entities.Camera;
 import org.lwjglx.util.vector.Matrix4f;
 import org.lwjglx.util.vector.Vector2f;
 import org.lwjglx.util.vector.Vector3f;
 import org.lwjglx.util.vector.Vector4f;
-import Terrain.Terrain;
+import terrain.Terrain;
 /**
  * Created by Beau on 8/10/2016.
  */

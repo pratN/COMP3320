@@ -1,8 +1,8 @@
-package Engine;
+package engine;
 
-import Interface.GUITexture;
-import Models.RawModel;
-import Shaders.GuiShader;
+import ui.GUITexture;
+import models.RawModel;
+import shaders.GuiShader;
 import org.lwjglx.util.vector.Matrix4f;
 import util.Maths;
 

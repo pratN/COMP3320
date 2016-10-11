@@ -11,8 +11,8 @@ import java.util.List;
 import org.lwjglx.util.vector.Vector2f;
 import org.lwjglx.util.vector.Vector3f;
 
-import Models.RawModel;
-import Engine.ModelLoadHandler;
+import models.RawModel;
+import engine.ModelLoadHandler;
 
 public class NormalMappedObjLoader {
 

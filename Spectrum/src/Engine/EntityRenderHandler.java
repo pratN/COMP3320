@@ -1,11 +1,10 @@
-package Engine;
+package engine;
 
-import Entities.Entity;
-import Models.RawModel;
-import Models.TexturedModel;
-import Shaders.StaticShader;
-import Textures.ModelTexture;
-import org.lwjgl.opengl.GL;
+import entities.Entity;
+import models.RawModel;
+import models.TexturedModel;
+import shaders.StaticShader;
+import textures.ModelTexture;
 import org.lwjglx.util.vector.Matrix4f;
 import util.Maths;
 

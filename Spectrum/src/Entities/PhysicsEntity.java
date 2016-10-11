@@ -1,4 +1,4 @@
-package Entities;
+package entities;
 
 /**
  * Dynamic object that has physics interactions

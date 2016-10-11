@@ -1,9 +1,9 @@
-package Engine;
+package engine;
 
 import java.util.List;
 import java.util.Map;
 
-import Shaders.NormalMappingShader;
+import shaders.NormalMappingShader;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL13.*;
 import static org.lwjgl.opengl.GL20.*;
@@ -11,12 +11,12 @@ import static org.lwjgl.opengl.GL30.*;
 import org.lwjglx.util.vector.Matrix4f;
 import org.lwjglx.util.vector.Vector4f;
 
-import Entities.Camera;
-import Entities.Entity;
-import Entities.Light;
-import Models.RawModel;
-import Models.TexturedModel;
-import Textures.ModelTexture;
+import entities.Camera;
+import entities.Entity;
+import entities.Light;
+import models.RawModel;
+import models.TexturedModel;
+import textures.ModelTexture;
 import util.Maths;
 
 public class NormalMappingRenderer {
