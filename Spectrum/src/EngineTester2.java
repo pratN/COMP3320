@@ -145,7 +145,8 @@ public class EngineTester2 {
 
 
         /*********************************************LOAD TERRAIN*************************************************************************/
-        Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "hm3");
+        //Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "hm3");
+        Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap);
 
         //flat terrain for testing
 //        Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "flatHM");
@@ -210,7 +211,7 @@ public class EngineTester2 {
         //make a list of water tiles
         //ideally only 1 tile or atleast have all same height as reflection only works off one height for now
         List<WaterTile> waters = new ArrayList<>();
-        waters.add(new WaterTile(400,-400,-20,300,20)); //the tiles where to add the water (size specified in tiles class)
+        waters.add(new WaterTile(400,-400,-10,400,20)); //the tiles where to add the water (size specified in tiles class)
         //waters.add(new WaterTile(20,0,20,300,20));
         //(x,z,y,size,#tiles used for texturing)
         Water water = new Water(waters,loader,renderer);
