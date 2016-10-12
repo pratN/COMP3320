@@ -195,7 +195,7 @@ public class EngineTester2 {
 
 
         /*********************************************CREATE LIGHTS*************************************************************************/
-        Light sun = new Light(new Vector3f(1000000, 1500000, -7000000), new Vector3f(0.8f, 0.8f, 0.8f));
+        Light sun = new Light(new Vector3f(1000000, 1500000, -7000000), new Vector3f(1,1,0.9f));
         lights.add(sun);
         lights.add(new Light(new Vector3f(380, 0, -380), new Vector3f(3, 3, 3), new Vector3f(1, 0.01f, 0.002f)));
         lights.add(new Light(new Vector3f(570, 32.5f, -600), new Vector3f(1, 0.725f, 0.137f), new Vector3f(1, 0.01f, 0.002f)));
@@ -207,7 +207,7 @@ public class EngineTester2 {
         List<GUITexture> guis = new ArrayList<>();
         GUITexture shadowMap = new GUITexture(renderer.getShadowMapTexture(), new Vector2f(0.5f,0.5f), new Vector2f(0.5f,0.5f));
         //GUITexture gui = new GUITexture(loader.loadTexture("gui"), new Vector2f(0f, -0.75f), new Vector2f(1f, 0.25f));
-        guis.add(shadowMap);
+        //guis.add(shadowMap);
 
 
         /*********************************************CREATE PLAYER*************************************************************************/
@@ -257,7 +257,7 @@ public class EngineTester2 {
 
             ParticleHandler.update(player);
 
-            renderer.renderShadowMap(entities,sun);
+            renderer.renderShadowMap(entities,normalMapEntities,sun);
 
             /**Uncomment to display particles**/
             particleSystem.generateParticles(new Vector3f(570, 32.5f, -600));
