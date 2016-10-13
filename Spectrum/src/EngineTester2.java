@@ -83,13 +83,15 @@ public class EngineTester2 {
 
         /*********************************************PARSE OBJECTS*************************************************************************/
         ModelData dragonData = OBJFileLoader.loadOBJ("dragon");
-        ModelData tree2Data = OBJFileLoader.loadOBJ("lowPolyTree");
+        ModelData tree2Data = OBJFileLoader.loadOBJ("newTree");
+        ModelData tree3Data = OBJFileLoader.loadOBJ("tree3");
         ModelData lampData = OBJFileLoader.loadOBJ("lamp");
 
 
         /*********************************************LOAD RAW DATA AS MODELS***************************************************************/
         RawModel dragonModel = loader.loadToVAO(dragonData.getVertices(), dragonData.getTextureCoords(), dragonData.getNormals(), dragonData.getIndices());
         RawModel treeModel2 = loader.loadToVAO(tree2Data.getVertices(), tree2Data.getTextureCoords(), tree2Data.getNormals(), tree2Data.getIndices());
+        RawModel treeModel3 = loader.loadToVAO(tree3Data.getVertices(), tree3Data.getTextureCoords(), tree3Data.getNormals(), tree3Data.getIndices());
         RawModel lampModel = loader.loadToVAO(lampData.getVertices(), lampData.getTextureCoords(), lampData.getNormals(), lampData.getIndices());
         RawModel crateModel = NormalMappedObjLoader.loadOBJ("crate", loader);
         RawModel barrelModel = NormalMappedObjLoader.loadOBJ("barrel", loader);
@@ -97,16 +99,19 @@ public class EngineTester2 {
 
 
         /*********************************************CREATE MODEL TEXTURES*****************************************************************/
+        ModelTexture shrubTex = new ModelTexture(loader.loadTexture("shrub7"));
+        shrubTex.setHasTransparency(true);
         ModelTexture fernAtlas = new ModelTexture(loader.loadTexture("fern"));
         fernAtlas.setNumberOfRows(2);
-        ModelTexture treeTextureAtlas = new ModelTexture(loader.loadTexture("lowPolyTree"));
+        ModelTexture treeTexture = new ModelTexture(loader.loadTexture("tree9"));
+        ModelTexture tree3Texture = new ModelTexture(loader.loadTexture("tree3"));
         ModelTexture dragonTexture = new ModelTexture(loader.loadTexture("red"));
         dragonTexture.setShineDamper(5);
         dragonTexture.setReflectivity(0.75f);
-        treeTextureAtlas.setNumberOfRows(2);
-
+        treeTexture.setHasTransparency(true);
+        tree3Texture.setHasTransparency(true);
         ModelTexture crateTexture = new ModelTexture((loader.loadTexture("crate")));
-//        ModelTexture whiteCrateTexture = new ModelTexture((loader.loadTexture("partiallyGreen")));
+//      ModelTexture whiteCrateTexture = new ModelTexture((loader.loadTexture("partiallyGreen")));
         crateTexture.setNormalMap(loader.loadTexture("crateNormal"));
         crateTexture.setShineDamper(10);
         crateTexture.setReflectivity(0.3f);
@@ -123,7 +128,9 @@ public class EngineTester2 {
 
 
         /*********************************************TEXTURE RAW MODELS*********************************************************************/
-        TexturedModel tree2TexturedModel = new TexturedModel(treeModel2, treeTextureAtlas);
+        TexturedModel tree2TexturedModel = new TexturedModel(treeModel2, treeTexture);
+        TexturedModel tree3TexturedModel = new TexturedModel(treeModel3, tree3Texture);
+        TexturedModel shrubTexturedModel = new TexturedModel(OBJLoader.loadObjModel("shrub", loader), shrubTex);
         TexturedModel fernTexturedModel = new TexturedModel(OBJLoader.loadObjModel("fern", loader), fernAtlas);
         TexturedModel lamp = new TexturedModel(lampModel, new ModelTexture(loader.loadTexture("lamp")));
         fernTexturedModel.getTexture().setHasTransparency(true);
@@ -164,15 +171,30 @@ public class EngineTester2 {
                 float x = random.nextFloat() * 800;
                 float y = terrain.getHeightOfTerrain(x, z);
                 if(y > WATER_LEVEL) {
-                    entities.add(new Entity(fernTexturedModel, random.nextInt(4), new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.5f));
+                    entities.add(new Entity(fernTexturedModel, new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.4f));
+                }
+            }
+            if(i % 2 == 0) {
+                float z = random.nextFloat() * -800;
+                float x = random.nextFloat() * 800;
+                float y = terrain.getHeightOfTerrain(x, z);
+                if(y > WATER_LEVEL) {
+                    entities.add(new Entity(shrubTexturedModel, new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.1f));
                 }
             }
             if(i % 5 == 0) {
                 float z = random.nextFloat() * -800;
                 float x = random.nextFloat() * 800;
                 float y = terrain.getHeightOfTerrain(x, z);
-                if(y > WATER_LEVEL) {
-                    entities.add(new Entity(tree2TexturedModel, random.nextInt(4), new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.4f));
+                float treeHeight = (0.5f*random.nextFloat())/100;
+                if(i%2==0){
+                    if(y > WATER_LEVEL) {
+                        entities.add(new Entity(tree2TexturedModel, random.nextInt(4), new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.075f));
+                    }
+                }else{
+                    if(y > WATER_LEVEL) {
+                        entities.add(new Entity(tree3TexturedModel, random.nextInt(4), new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.025f));
+                    }
                 }
             }
             if(i % 10 == 0) {
@@ -195,8 +217,8 @@ public class EngineTester2 {
         entities.add(new Entity(lamp, new Vector3f(380, -20, -380), 0, 0, 0, 1));
 
 
-                /*********************************************CREATE LIGHTS*************************************************************************/
-        Light sun = new Light(new Vector3f(1000000, 1500000, -7000000), new Vector3f(1,1,0.9f));
+        /*********************************************CREATE LIGHTS*************************************************************************/
+        Light sun = new Light(new Vector3f(1000000, 1500000, -7000000), new Vector3f(1, 1, 0.9f));
         lights.add(sun);
         lights.add(new Light(new Vector3f(380, 0, -380), new Vector3f(3, 3, 3), new Vector3f(1, 0.01f, 0.002f)));
         lights.add(new Light(new Vector3f(570, 32.5f, -600), new Vector3f(1, 0.725f, 0.137f), new Vector3f(1, 0.01f, 0.002f)));
@@ -206,7 +228,7 @@ public class EngineTester2 {
         /*********************************************CREATE GUIS***************************************************************************/
         GUIRenderer guiRenderer = new GUIRenderer(loader);
         List<GUITexture> guis = new ArrayList<>();
-        GUITexture shadowMap = new GUITexture(renderer.getShadowMapTexture(), new Vector2f(0.5f,0.5f), new Vector2f(0.5f,0.5f));
+        GUITexture shadowMap = new GUITexture(renderer.getShadowMapTexture(), new Vector2f(0.5f, 0.5f), new Vector2f(0.5f, 0.5f));
         //GUITexture gui = new GUITexture(loader.loadTexture("gui"), new Vector2f(0f, -0.75f), new Vector2f(1f, 0.25f));
         //guis.add(shadowMap);
 
@@ -262,7 +284,7 @@ public class EngineTester2 {
 
             ParticleHandler.update(player);
 
-            renderer.renderShadowMap(entities,normalMapEntities,sun);
+            renderer.renderShadowMap(entities, normalMapEntities, sun);
 
             /**Uncomment to display particles**/
             particleSystem.generateParticles(new Vector3f(570, 32.5f, -600));
@@ -272,7 +294,7 @@ public class EngineTester2 {
             entities.forEach(renderer:: processEntity);
 
             normalMapEntities.forEach(renderer:: processNormalMappedEntity);
-            fbo.bindFrameBuffer();
+            //fbo.bindFrameBuffer();
 
             renderer.render(lights, player, new Vector4f(0, 1, 0, 10000000)); //backup incase some drivers dont support gldisable properly (clip at unreasonable height)
             entities.forEach(renderer:: processEntity);
@@ -284,8 +306,8 @@ public class EngineTester2 {
             water.setWater(renderer, player, terrain, entities, normalMapEntities, lights);
 
             ParticleHandler.renderParticles(player);
-            fbo.unbindFrameBuffer();
-            PostProcessing.doPostProcessing(fbo.getColourTexture());
+            // fbo.unbindFrameBuffer();
+            //PostProcessing.doPostProcessing(fbo.getColourTexture());
             /**Uncomment to  display GUI**/
             //guiRenderer.render(guis);
 

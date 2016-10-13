@@ -22,18 +22,25 @@ import util.Maths;
 public class NormalMappingRenderer {
 
 	private NormalMappingShader shader;
+	private static float RED;
+	private static float GREEN;
+	private static float BLUE;
 
-	public NormalMappingRenderer(Matrix4f projectionMatrix) {
+	public NormalMappingRenderer(Matrix4f projectionMatrix, float r, float g, float b) {
 		this.shader = new NormalMappingShader();
 		shader.start();
 		shader.loadProjectionMatrix(projectionMatrix);
 		shader.connectTextureUnits();
 		shader.stop();
+		RED = r;
+		GREEN = g;
+		BLUE = b;
 	}
 
 	public void render(Map<TexturedModel, List<Entity>> entities, Vector4f clipPlane, List<Light> lights, Camera camera) {
 		shader.start();
 		prepare(clipPlane, lights, camera);
+		shader.loadSkyColour(RED,GREEN, BLUE);
 		for (TexturedModel model : entities.keySet()) {
 			prepareTexturedModel(model);
 			List<Entity> batch = entities.get(model);
