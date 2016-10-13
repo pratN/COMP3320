@@ -9,13 +9,11 @@ import terrain.Terrain;
 import org.lwjglx.util.vector.Matrix4f;
 import org.lwjglx.util.vector.Vector4f;
 
-import java.awt.*;
 import java.util.*;
 import java.util.List;
 
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11.glClearColor;
+import static org.lwjgl.opengl.GL13.*;
 
 
 /**
@@ -24,8 +22,8 @@ import static org.lwjgl.opengl.GL11.glClearColor;
 public class MasterRenderHandler {
 
     private StaticShader shader = new StaticShader();
-    private int WIDTH = 1280;
-    private int HEIGHT = 720;
+    private int WIDTH = (int)WindowHandler.getWidth();
+    private int HEIGHT = (int)WindowHandler.getHeight();
     public static final float FOV = 70;
     public static float NEAR_PLANE = 0.1f;
     public static float FAR_PLANE = 1000;
@@ -82,7 +80,7 @@ public class MasterRenderHandler {
         terrainShader.loadSkyColour(RED,GREEN,BLUE);
         terrainShader.loadLights(lights);
         terrainShader.loadViewMatrix(camera);
-        terrainRenderer.render(terrains);
+        terrainRenderer.render(terrains, shadowMapRenderer.getToShadowMapSpaceMatrix());
         terrainShader.stop();
         skyboxRenderer.render(camera,RED,GREEN,BLUE);
         terrains.clear();
@@ -94,11 +92,14 @@ public class MasterRenderHandler {
         terrains.add(terrain);
     }
 
-    public void renderShadowMap(List<Entity> entityList, Light sun){
+    public void renderShadowMap(List<Entity> entityList, List<Entity> nmEntityList, Light sun){
         for(Entity entity: entityList){
             processEntity(entity);
         }
-        shadowMapRenderer.render(entities,sun);
+        for(Entity entity: nmEntityList){
+            processNormalMappedEntity(entity);
+        }
+        shadowMapRenderer.render(entities, normalMappedEntities, sun);
         entities.clear();
     }
     public int getShadowMapTexture(){
@@ -141,6 +142,8 @@ public class MasterRenderHandler {
         glEnable(GL_DEPTH_TEST);
         glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
         glClearColor(RED, GREEN, BLUE, 1);
+        glActiveTexture(GL_TEXTURE5);
+        glBindTexture(GL_TEXTURE_2D, getShadowMapTexture());
     }
     private void createProjectionMatrix(){
         projectionMatrix = new Matrix4f();

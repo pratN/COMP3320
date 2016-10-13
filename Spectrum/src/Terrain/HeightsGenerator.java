@@ -6,8 +6,18 @@ import java.util.Random;
  * Created by Beau on 11/10/2016.
  */
 public class HeightsGenerator {
-    private static final float AMPLITUDE = 75f;
-    private static final int OCTAVES = 3;
+    //Rolling hills:
+    //amp: 50, oct: 4, rough: 0.1
+    //Hilly hills:
+    //amp 95, oct:3, rough: 0.1
+    //Islands:
+    //amp: 150, oct:5, rough: 0.1
+    //999 needles:
+    //amp: 75, oct: 3, rough: 1
+    //Lakes:
+    //amp:500, oct: 5, rough: 0.1
+    private static final float AMPLITUDE = 50f;
+    private static final int OCTAVES = 4;
     private static final float ROUGHNESS = 0.1f;
 
     private Random random = new Random();

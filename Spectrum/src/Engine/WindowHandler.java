@@ -3,6 +3,8 @@ package engine;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.GL;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL13;
 
 import java.text.Format;
 
@@ -17,6 +19,7 @@ public class WindowHandler {
     private static float delta;
     private static float WINDOW_WIDTH;
     private static float WINDOW_HEIGHT;
+    private static int MSAA_SAMPLE_AMOUNT = 8;
 
     /**
      * Set up and create the window display
@@ -34,7 +37,8 @@ public class WindowHandler {
         GLFWErrorCallback.createPrint(System.err).set();
         glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+        glfwWindowHint(GLFW_SAMPLES, MSAA_SAMPLE_AMOUNT);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         window = glfwCreateWindow(WIDTH, HEIGHT, title, 0, 0);
         WINDOW_WIDTH = WIDTH;
@@ -92,6 +96,10 @@ public class WindowHandler {
     private static float getCurrentTime(){
         return (float) (glfwGetTime() * 1000);
 
+    }
+
+    public static void setMsaaSampleAmount(int msaaSampleAmount) {
+        MSAA_SAMPLE_AMOUNT = msaaSampleAmount;
     }
 
     public static long getWindow(){

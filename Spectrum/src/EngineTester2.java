@@ -1,6 +1,8 @@
 import entities.Entity;
 import entities.Light;
 import entities.Player;
+import postProcessing.Fbo;
+import postProcessing.PostProcessing;
 import ui.GUITexture;
 import models.RawModel;
 import models.TexturedModel;
@@ -137,18 +139,17 @@ public class EngineTester2 {
 
         /*********************************************TEXTURE TERRAIN***********************************************************************/
         TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("grass"));
-        TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("grass2"));
-        TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("deadGrass"));
-        TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("crackedDirt"));
+        TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("gravel"));
+        TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("groundPlants"));
+        TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("riverbed"));
 
         TerrainTexPack texturePack = new TerrainTexPack(backgroundTexture, rTexture, gTexture, bTexture);
-        TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("bm"));
+        TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("lakeBM"));
 
 
         /*********************************************LOAD TERRAIN*************************************************************************/
         Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "hm3");
-//        Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap);
-
+        //Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap);
         //flat terrain for testing
 //        Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "flatHM");
 
@@ -194,7 +195,7 @@ public class EngineTester2 {
         entities.add(new Entity(lamp, new Vector3f(380, -20, -380), 0, 0, 0, 1));
 
 
-        /*********************************************CREATE LIGHTS*************************************************************************/
+                /*********************************************CREATE LIGHTS*************************************************************************/
         Light sun = new Light(new Vector3f(1000000, 1500000, -7000000), new Vector3f(1,1,0.9f));
         lights.add(sun);
         lights.add(new Light(new Vector3f(380, 0, -380), new Vector3f(3, 3, 3), new Vector3f(1, 0.01f, 0.002f)));
@@ -249,6 +250,10 @@ public class EngineTester2 {
 
         /***********************************************************************************************************************************/
 
+        Fbo fbo = new Fbo(WIDTH, HEIGHT, Fbo.DEPTH_RENDER_BUFFER);
+        PostProcessing.init(loader);
+        /***********************************************************************************************************************************/
+
         while(!KeyboardHandler.isKeyDown(GLFW_KEY_ESCAPE) && !WindowHandler.close()) {
             checkInputs();
             player.move(terrain);
@@ -262,10 +267,13 @@ public class EngineTester2 {
             /**Uncomment to display particles**/
             particleSystem.generateParticles(new Vector3f(570, 32.5f, -600));
             smokeParticles.generateParticles(new Vector3f(570, 32.5f, -600));
+
             renderer.processTerrain(terrain);
             entities.forEach(renderer:: processEntity);
 
             normalMapEntities.forEach(renderer:: processNormalMappedEntity);
+            fbo.bindFrameBuffer();
+
             renderer.render(lights, player, new Vector4f(0, 1, 0, 10000000)); //backup incase some drivers dont support gldisable properly (clip at unreasonable height)
             entities.forEach(renderer:: processEntity);
             normalMapEntities.forEach(renderer:: processNormalMappedEntity);
@@ -276,15 +284,18 @@ public class EngineTester2 {
             water.setWater(renderer, player, terrain, entities, normalMapEntities, lights);
 
             ParticleHandler.renderParticles(player);
-
+            fbo.unbindFrameBuffer();
+            PostProcessing.doPostProcessing(fbo.getColourTexture());
             /**Uncomment to  display GUI**/
-            guiRenderer.render(guis);
+            //guiRenderer.render(guis);
 
             /**Uncomment for text rendering**/
             //TextHandler.render();
             WindowHandler.updateWindow();
         }
         //then call this to clean up water
+        PostProcessing.cleanUp();
+        fbo.cleanUp();
         water.cleanUp();
         guiRenderer.cleanUp();
         renderer.cleanUp();

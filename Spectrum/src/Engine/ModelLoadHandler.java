@@ -1,6 +1,7 @@
 package engine;
 
 import models.RawModel;
+import org.lwjglx.opengl.GLContext;
 import textures.TextureData;
 import de.matthiasmann.twl.utils.PNGDecoder;
 import de.matthiasmann.twl.utils.PNGDecoder.Format;
@@ -32,7 +33,8 @@ public class ModelLoadHandler {
     private static List<Integer> vaos = new ArrayList<>();
     private static List<Integer> vbos = new ArrayList<>();
     private List<Integer> textures = new ArrayList<>();
-    private static float LOD = 0;
+    private static float MIPMAP_BIAS = 0;
+    private static float AF_LEVEL = 4f;
 
     /**
      *
@@ -143,7 +145,13 @@ public class ModelLoadHandler {
             texture = TextureLoader.getTexture("PNG", new FileInputStream("assets/textures/" + fileName + ".png"));
             glGenerateMipmap(GL_TEXTURE_2D);
             glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_LINEAR);
-            glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_LOD_BIAS,LOD);
+            glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_LOD_BIAS, MIPMAP_BIAS);
+            if(GL.createCapabilities().GL_EXT_texture_filter_anisotropic){
+                float amount = Math.min(AF_LEVEL,glGetFloat(EXTTextureFilterAnisotropic.GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT));
+                glTexParameterf(GL_TEXTURE_2D,EXTTextureFilterAnisotropic.GL_TEXTURE_MAX_ANISOTROPY_EXT, amount);
+            }else{
+                System.out.println("Not supported");
+            }
         } catch(FileNotFoundException e) {
             e.printStackTrace();
 
@@ -205,8 +213,12 @@ public class ModelLoadHandler {
         return buffer;
     }
 
-    public static void setLOD(float LOD) {
-        ModelLoadHandler.LOD = LOD;
+    public static void setMipmapBias(float mipmapBias) {
+        ModelLoadHandler.MIPMAP_BIAS = mipmapBias;
+    }
+
+    public static void setAfLevel(float afLevel) {
+        AF_LEVEL = afLevel;
     }
 
     /**
