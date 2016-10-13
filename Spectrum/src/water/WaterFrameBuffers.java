@@ -2,6 +2,7 @@ package water;
 
 import java.nio.ByteBuffer;
 
+import engine.WindowHandler;
 import org.lwjglx.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
@@ -22,8 +23,8 @@ public class WaterFrameBuffers {
 	protected static final int REFLECTION_WIDTH = 320;
 	private static final int REFLECTION_HEIGHT = 180;
 	
-	protected static final int REFRACTION_WIDTH = 1280;
-	private static final int REFRACTION_HEIGHT = 720;
+	protected static final int REFRACTION_WIDTH = (int)WindowHandler.getWidth();
+	private static final int REFRACTION_HEIGHT = (int)WindowHandler.getHeight();
 
 	private int reflectionFrameBuffer;
 	private int reflectionTexture;
@@ -60,7 +61,7 @@ public class WaterFrameBuffers {
 	public void unbindCurrentFrameBuffer() {//call to switch to default frame buffer
 		GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, 0);
 		//GL11.glViewport(0, 0, Display.getWidth(), Display.getHeight());
-		GL11.glViewport(0, 0, 1280, 720);
+		GL11.glViewport(0, 0, (int)WindowHandler.getWidth(), (int)WindowHandler.getHeight());
 	}
 
 	public int getReflectionTexture() {//get the resulting texture

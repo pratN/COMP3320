@@ -2,7 +2,7 @@ package particles;
 
 import java.util.List;
 import java.util.Map;
-
+import shaders.ParticleShader;
 import shaders.ParticleShader;
 import org.lwjglx.util.vector.Matrix4f;
 import org.lwjglx.util.vector.Vector3f;

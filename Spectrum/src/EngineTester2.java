@@ -40,8 +40,8 @@ import static org.lwjgl.glfw.GLFW.*;
 
 public class EngineTester2 {
 
-    private static int WIDTH = 1280;
-    private static int HEIGHT = 720;
+    private static int WIDTH = 1920;
+    private static int HEIGHT = 1082;
     private static GLFWKeyCallback keyCallback;
     private static MouseHandler mouseCallback;
     private static int state = 0;

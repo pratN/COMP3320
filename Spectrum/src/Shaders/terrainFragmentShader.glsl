@@ -5,12 +5,14 @@ in vec3 surfaceNormal;
 in vec3 toLightVector[4];
 in vec3 toCameraVector;
 in float visibility;
+in vec4 shadowCoords;
 
 out vec4 out_Colour;
 
 uniform sampler2D backgroundTexture;
 uniform sampler2D rTexture;
 uniform sampler2D gTexture;
+uniform sampler2D shadowMap;
 uniform sampler2D bTexture;
 uniform sampler2D blendMap;
 uniform vec3 lightColour[4];
@@ -19,10 +21,29 @@ uniform float reflectivity;
 uniform vec3 skyColour;
 uniform vec3 attenuation[4];
 
+const int pcfCount = 12;
+const float totalTexels = (pcfCount * 2.0 + 1.0) * (pcfCount * 2.0 + 1.0);
 const float levels = 3.0;
 
 
 void main(void) {
+
+    float mapSize = 8192.0;
+    float texelSize = 1.0 / mapSize;
+    float total = 0.0;
+
+    for (int x=-pcfCount; x<=pcfCount; x++ ){
+        for(int y=-pcfCount;y<=pcfCount;y++){
+                float objectNearestLight = texture(shadowMap, shadowCoords.xy + vec2(x,y) * texelSize).r;
+                if(shadowCoords.z > objectNearestLight){
+                        total += 1.0;
+                    }
+        }
+    }
+
+    total /= totalTexels;
+    float lightFactor = 1.0 - (total * shadowCoords.w);
+
 
     vec4 blendMapColour = texture(blendMap, pass_textureCoordinates);
 
@@ -59,7 +80,7 @@ void main(void) {
         totalSpecular = totalSpecular + (dampedFactor * reflectivity * lightColour[i])/attFactor;
     }
 
-    totalDiffuse = max(totalDiffuse,0.2);
+    totalDiffuse = max(totalDiffuse * lightFactor,0.2);
 
     out_Colour = vec4(totalDiffuse,1.0) * totalColour + vec4 (totalSpecular,1.0);
     out_Colour = mix(vec4(skyColour,1.0),out_Colour,visibility);
