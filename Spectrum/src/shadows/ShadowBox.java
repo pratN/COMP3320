@@ -1,5 +1,6 @@
 package shadows;
 
+import engine.GraphicsConfig;
 import org.lwjglx.util.vector.Matrix4f;
 import org.lwjglx.util.vector.Vector3f;
 import org.lwjglx.util.vector.Vector4f;
@@ -23,10 +24,10 @@ import engine.MasterRenderHandler;
  */
 public class ShadowBox {
 
-	private static final float OFFSET = 50;
+	private static final float OFFSET = GraphicsConfig.SHADOW_OFFSET;
 	private static final Vector4f UP = new Vector4f(0, 1, 0, 0);
 	private static final Vector4f FORWARD = new Vector4f(0, 0, -1, 0);
-	private static final float SHADOW_DISTANCE = 150;
+	private static final float SHADOW_DISTANCE = GraphicsConfig.SHADOW_DISTANCE;
 
 	private float minX, maxX;
 	private float minY, maxY;

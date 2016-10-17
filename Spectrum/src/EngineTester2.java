@@ -64,12 +64,31 @@ public class EngineTester2 {
 
     //Initialisation
     private static void init() {
+        setConfigurations();
         String title = "Spectrum";
+
+        WIDTH = GraphicsConfig.WINDOW_WIDTH;
+        HEIGHT = GraphicsConfig.WINDOW_HEIGHT;
+
         WindowHandler.createWindow(WIDTH, HEIGHT, title);
         glfwSetKeyCallback(WindowHandler.getWindow(), keyCallback = new KeyboardHandler());
         glfwSetCursorPosCallback(WindowHandler.getWindow(), mouseCallback = new MouseHandler());
         glfwSetInputMode(WindowHandler.getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
+
+    }
+
+    private static void setConfigurations(){
+        GraphicsConfig.MSAA = 8;
+        GraphicsConfig.MIPMAP_BIAS = 0;
+        GraphicsConfig.SHADOW_DISTANCE = 150;
+        GraphicsConfig.SHADOW_MAP_SIZE = 8192;
+        GraphicsConfig.SHADOW_OFFSET = 50;
+        GraphicsConfig.WINDOW_HEIGHT = 1080;
+        GraphicsConfig.WINDOW_WIDTH = 1920;
+        GraphicsConfig.AF_LEVEL = 4;
+        GraphicsConfig.DRAW_DISTANCE = 1000;
+        GraphicsConfig.FOV = 90;
     }
 
     //Main Loop
