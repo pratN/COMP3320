@@ -75,7 +75,6 @@ public class EngineTester2 {
         glfwSetCursorPosCallback(WindowHandler.getWindow(), mouseCallback = new MouseHandler());
         glfwSetInputMode(WindowHandler.getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-
     }
 
     private static void setConfigurations(){
