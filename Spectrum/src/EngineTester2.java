@@ -87,7 +87,7 @@ public class EngineTester2 {
         GraphicsConfig.WINDOW_WIDTH = 1920;
         GraphicsConfig.AF_LEVEL = 4;
         GraphicsConfig.DRAW_DISTANCE = 1000;
-        GraphicsConfig.FOV = 90;
+        GraphicsConfig.FOV = 70;
     }
 
     //Main Loop
