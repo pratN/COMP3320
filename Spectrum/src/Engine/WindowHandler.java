@@ -19,7 +19,7 @@ public class WindowHandler {
     private static float delta;
     private static float WINDOW_WIDTH;
     private static float WINDOW_HEIGHT;
-    private static int MSAA_SAMPLE_AMOUNT = 8;
+    private static int MSAA_SAMPLE_AMOUNT = GraphicsConfig.MSAA;
 
     /**
      * Set up and create the window display
@@ -39,6 +39,7 @@ public class WindowHandler {
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
         glfwWindowHint(GLFW_SAMPLES, MSAA_SAMPLE_AMOUNT);
+        System.out.println(MSAA_SAMPLE_AMOUNT);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         window = glfwCreateWindow(WIDTH, HEIGHT, title, 0, 0);
         WINDOW_WIDTH = WIDTH;

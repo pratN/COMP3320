@@ -35,6 +35,7 @@ public class TerrainShader extends ShaderProgram {
     private int location_waterPlane;
     private int location_toShadowMapSpace;
     private int location_shadowMap;
+    private int location_shadowDistance;
 
 
     public TerrainShader() {
@@ -55,6 +56,7 @@ public class TerrainShader extends ShaderProgram {
         location_bTexture = super.getUniformLocation("bTexture");
         location_blendMap = super.getUniformLocation("blendMap");
         location_waterPlane = super.getUniformLocation("waterPlane");
+        location_shadowDistance = super.getUniformLocation("shadowDistance");
         location_lightPosition = new int[MAX_LIGHTS];
         location_lightColour = new int[MAX_LIGHTS];
         location_attenuation = new int[MAX_LIGHTS];
@@ -125,6 +127,9 @@ public class TerrainShader extends ShaderProgram {
         super.loadMatrix(location_viewMatrix, viewMatrix);
     }
 
+    public void loadShadowDistance(float dist){
+        super.loadFloat(location_shadowDistance, dist);
+    }
     public void loadProjectionMatrix(Matrix4f projection) {
         super.loadMatrix(location_projectionMatrix, projection);
     }

@@ -22,11 +22,9 @@ import static org.lwjgl.opengl.GL13.*;
 public class MasterRenderHandler {
 
     private StaticShader shader = new StaticShader();
-    private int WIDTH = (int) WindowHandler.getWidth();
-    private int HEIGHT = (int) WindowHandler.getHeight();
-    public static final float FOV = 70;
+    public static final float FOV = GraphicsConfig.FOV;
     public static float NEAR_PLANE = 0.1f;
-    public static float FAR_PLANE = 1000;
+    public static float FAR_PLANE = GraphicsConfig.DRAW_DISTANCE;
 
     private static final float RED = 0.38f;
     private static final float GREEN = 0.514f;
@@ -46,7 +44,7 @@ public class MasterRenderHandler {
     public MasterRenderHandler(ModelLoadHandler loader, Camera camera) {
         enableCulling();
         createProjectionMatrix();
-        renderer = new EntityRenderHandler(shader, WIDTH, HEIGHT, projectionMatrix);
+        renderer = new EntityRenderHandler(shader, projectionMatrix);
         terrainRenderer = new TerrainRenderer(terrainShader, projectionMatrix);
         skyboxRenderer = new SkyboxRenderer(loader, projectionMatrix);
         normalMappingRenderer = new NormalMappingRenderer(projectionMatrix, RED, GREEN, BLUE);

@@ -18,16 +18,11 @@ import static org.lwjgl.opengl.GL13.*;
 
 
 public class EntityRenderHandler {
-    private int WIDTH;
-    private int HEIGHT;
 
     private StaticShader shader;
 
-    public EntityRenderHandler(StaticShader shader, int WIDTH, int  HEIGHT, Matrix4f projectionMatrix){
+    public EntityRenderHandler(StaticShader shader, Matrix4f projectionMatrix){
         this.shader = shader;
-
-        this.WIDTH=WIDTH;
-        this.HEIGHT=HEIGHT;
         shader.start();
         shader.loadProjectionMatrix(projectionMatrix);
         shader.stop();

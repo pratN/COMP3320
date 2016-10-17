@@ -26,6 +26,7 @@ public class TerrainRenderer {
         this.shader=shader;
         shader.start();
         shader.loadProjectionMatrix(projectionMatrix);
+        shader.loadShadowDistance(GraphicsConfig.SHADOW_DISTANCE);
         shader.connectTextureUnits();
         shader.stop();
     }

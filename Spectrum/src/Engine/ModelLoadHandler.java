@@ -33,8 +33,8 @@ public class ModelLoadHandler {
     private static List<Integer> vaos = new ArrayList<>();
     private static List<Integer> vbos = new ArrayList<>();
     private List<Integer> textures = new ArrayList<>();
-    private static float MIPMAP_BIAS = 0;
-    private static float AF_LEVEL = 4f;
+    private static float MIPMAP_BIAS = GraphicsConfig.MIPMAP_BIAS;
+    private static float AF_LEVEL = GraphicsConfig.AF_LEVEL;
 
     /**
      *

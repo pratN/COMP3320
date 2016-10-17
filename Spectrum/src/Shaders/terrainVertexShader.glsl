@@ -16,12 +16,12 @@ uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
 uniform vec3 lightPosition[4];
 uniform mat4 toShadowMapSpace;
-
+uniform float shadowDistance;
 uniform vec4 waterPlane;
 
 const float density = 0.0035;
 const float gradient = 5.0;
-const float shadowDistance = 150.0;
+//const float shadowDistance = 150.0;
 const float transitionDistance = 10.0;
 
 void main(void) {
