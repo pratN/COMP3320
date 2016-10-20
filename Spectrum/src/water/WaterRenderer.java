@@ -15,7 +15,11 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
-
+/**
+ * Created by Brendon on 28/09/2016.
+ *
+ * Loads shader and renderer for water
+ */
 public class WaterRenderer {
 
 	private static final float RIPPLE_AMOUNT = 0.06f;
@@ -27,7 +31,6 @@ public class WaterRenderer {
 	private int normMap;
 	private float rippleMove = 0;
 
-	int i = 0;
 
 
 	ModelLoadHandler loader;

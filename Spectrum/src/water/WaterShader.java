@@ -1,19 +1,10 @@
 package water;
 
-
-		import shaders.ShaderProgram;
-		import util.Maths;
-
-
-
-
-
-
-
-		import entities.Camera;
-		import entities.Light;
-		import org.lwjglx.util.vector.Matrix4f;
-
+import shaders.ShaderProgram;
+import util.Maths;
+import entities.Camera;
+import entities.Light;
+import org.lwjglx.util.vector.Matrix4f;
 
 
 public class WaterShader extends ShaderProgram {
@@ -103,7 +94,6 @@ public class WaterShader extends ShaderProgram {
 
 		super.loadVector(location_camPos,camera.getPosition());
 	}
-
 
 
 	public void loadModelMatrix(Matrix4f modelMatrix){

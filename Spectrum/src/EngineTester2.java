@@ -259,7 +259,6 @@ public class EngineTester2 {
         //ideally only 1 tile or atleast have all same height as reflection only works off one height for now
         List<WaterTile> waters = new ArrayList<>();
         waters.add(new WaterTile(400, -400, WATER_LEVEL, 400, 20)); //the tiles where to add the water (size specified in tiles class)
-        //waters.add(new WaterTile(20,0,20,300,20));
         //(x,z,y,size,#tiles used for texturing)
         Water water = new Water(waters, loader, renderer);
 
@@ -300,6 +299,8 @@ public class EngineTester2 {
             lights.get(3).move();
             lights.get(3).changeColour();
 
+
+
             ParticleHandler.update(player);
 
             renderer.renderShadowMap(entities, normalMapEntities, sun);
@@ -309,14 +310,16 @@ public class EngineTester2 {
             smokeParticles.generateParticles(new Vector3f(570, 32.5f, -600));
 
             renderer.processTerrain(terrain);
+
             entities.forEach(renderer:: processEntity);
 
             normalMapEntities.forEach(renderer:: processNormalMappedEntity);
             //fbo.bindFrameBuffer();
 
+
             renderer.render(lights, player, new Vector4f(0, 1, 0, 10000000)); //backup incase some drivers dont support gldisable properly (clip at unreasonable height)
-            entities.forEach(renderer:: processEntity);
-            normalMapEntities.forEach(renderer:: processNormalMappedEntity);
+            //entities.forEach(renderer:: processEntity);
+           // normalMapEntities.forEach(renderer:: processNormalMappedEntity);
 
             //just call this to make the water
             //must have all entities in the list and not created seperately (unless not needed for reflection)\

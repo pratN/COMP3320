@@ -43,7 +43,7 @@ void main(void) {
 
     vec2 distortedTexCoords = texture(dudvMap, vec2(textureCoords.x + rippleMove, textureCoords.y)).rg*0.1;
     distortedTexCoords = textureCoords + vec2(distortedTexCoords.x, distortedTexCoords.y+rippleMove);
-    vec2 waterDistortion = (texture(dudvMap, distortedTexCoords).rg * 2.0 - 1.0) * rippleStrength;
+    vec2 waterDistortion = (texture(dudvMap, distortedTexCoords).rg * 2.0 - 1.0) * rippleStrength*clamp(waterDepth/10.0, 0.0, 1.0);;
 
     refractTexCoords += waterDistortion;
     refractTexCoords = clamp(refractTexCoords,0.001,0.999);//stops any glitching by going below 0
@@ -53,32 +53,31 @@ void main(void) {
     reflectTexCoords.x = clamp(reflectTexCoords.x, 0.001, 0.999);
     reflectTexCoords.y = clamp(reflectTexCoords.y, -0.999, -0.001);
 
-
-
 	vec4 reflectColour = texture(reflectTexture,reflectTexCoords);
 	vec4 refractColour = texture(refractTexture,refractTexCoords);
-
-	vec3 viewVector = normalize(toCameraVector);
-	float refractiveFactor = dot(viewVector,vec3(0.0,underWater,0.0));//the fresnel effetc gets the dot prod of vector pointing from water to camera and the normal of water
 
     vec4 normMapColour = texture(normMap, distortedTexCoords); //sample norm map use same coords for distort
     vec3 normal = vec3(normMapColour.r*2.0-1.0, normMapColour.b, normMapColour.g*2.0-1.0);
     //using the rgb to get the xyz norms but have to convert x and z norms to allow for negatives
     normal = normalize(normal);
 
+	vec3 viewVector = normalize(toCameraVector);
+	float refractiveFactor = dot(viewVector,vec3(0.0,underWater,0.0));//the fresnel effetc gets the dot prod of vector pointing from water to camera and the normal of water
+
+
     //specular lighting for water, reflecting light off water and taking dot prod of light vec and view vec
     //closer they are the more light will go to the camera
     vec3 reflectedLight = reflect(normalize(fromLightVector), normal);
     float specular = max(dot(reflectedLight, viewVector), 0.0);
     specular = pow(specular, shine);
-    vec3 specularHighlights = lightColour * specular * lightReflect;
+    vec3 specularHighlights = lightColour * specular * lightReflect*clamp(waterDepth/5.0, 0.0, 1.0);;
 
-    if(underWater==-1)
+    if(underWater==-1){
      out_Colour = mix(refractColour,refractColour,refractiveFactor)+vec4(specularHighlights,0.0); //textures mixed based on fresnel effect
-
+     out_Colour = mix(out_Colour, vec4(0.0, 1, 1, 1.0),0.05);
+}
     else
 	    out_Colour = mix(reflectColour,refractColour,refractiveFactor)+vec4(specularHighlights,0.0); //textures mixed based on fresnel effect
 	//out_Colour = mix(out_Colour, vec4(0.0, 0.1, 0.1, 1.0),0.05); //add a really light tint of blue to the water
-    out_Colour.a = clamp(waterDepth/5.0, 0.0, 1.0);
-
+    out_Colour.a = clamp(waterDepth/10.0, 0.0, 1.0); //to adjust depth around edges using alpha
 }

@@ -1,9 +1,12 @@
 package water;
 
+/**
+ * Created by Brendon on 28/09/2016.
+ *
+ * Simple class for water quad position and size
+ */
 public class WaterTile {
-	
-	//public static final float TILE_SIZE = 30;
-	
+
 	private float height;
 	private float x,z;
     public static float size;
@@ -18,8 +21,6 @@ public class WaterTile {
         this.tileSize = tileSize;
 
 	}
-
-
 
     public float getSize() {
         return size;
@@ -38,7 +39,5 @@ public class WaterTile {
 	public float getZ() {
 		return z;
 	}
-
-
 
 }

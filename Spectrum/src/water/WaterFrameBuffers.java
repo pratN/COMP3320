@@ -3,28 +3,24 @@ package water;
 import java.nio.ByteBuffer;
 
 import engine.WindowHandler;
-import org.lwjglx.opengl.Display;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL14;
-import org.lwjgl.opengl.GL15;
-import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL21;
 import org.lwjgl.opengl.GL30;
-import org.lwjgl.opengl.GL31;
 import org.lwjgl.opengl.GL32;
-import org.lwjgl.opengl.GL33;
-import org.lwjgl.opengl.GL40;
-import org.lwjgl.opengl.GL42;
+
+/**
+ * Created by Brendon on 28/09/2016.
+ *
+ * This handles setup to allow rendering to 2 different frame buffers for water reflection and refraction
+ */
 
 public class WaterFrameBuffers {
 
-	protected static final int REFLECTION_WIDTH = 320;
-	private static final int REFLECTION_HEIGHT = 180;
+	protected static final int REFLECTION_WIDTH = (int)WindowHandler.getWidth()/2;
+	private static final int REFLECTION_HEIGHT = (int)WindowHandler.getHeight()/2;
 	
-	protected static final int REFRACTION_WIDTH = (int)WindowHandler.getWidth();
-	private static final int REFRACTION_HEIGHT = (int)WindowHandler.getHeight();
+	protected static final int REFRACTION_WIDTH = (int)WindowHandler.getWidth()/2;
+	private static final int REFRACTION_HEIGHT = (int)WindowHandler.getHeight()/2;
 
 	private int reflectionFrameBuffer;
 	private int reflectionTexture;
