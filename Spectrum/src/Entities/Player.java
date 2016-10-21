@@ -19,7 +19,7 @@ public class Player extends Camera {
     protected float MOUSE_SENSITIVITY = 0.1f;
     private float CROUCH_MODIFIER = 1;
     private float SPRINT_MODIFIER = 1;
-    private float playerHeight = 2;
+    private float playerHeight = 4;
     private MouseHandler mouseHandler;
     private float dx = 0;
     private float dz = 0;

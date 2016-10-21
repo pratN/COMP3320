@@ -23,6 +23,7 @@ public class PostProcessing {
 		contrastChanger.render(colourTexture);
 		end();
 	}
+
 	
 	public static void cleanUp(){
 		contrastChanger.cleanUp();

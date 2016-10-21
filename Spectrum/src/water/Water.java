@@ -10,6 +10,8 @@ import entities.Entity;
 import entities.Light;
 import entities.Camera;
 import particles.ParticleHandler;
+import postProcessing.Fbo;
+import postProcessing.PostProcessing;
 import terrain.Terrain;
 import engine.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -24,14 +26,16 @@ public class Water {
 
     private List<WaterTile> water;
     private WaterFrameBuffers fbos;
+    private Fbo PPFbo;
     private WaterShader waterShade;
     private WaterRenderer waterRend;
 
-    public Water(List<WaterTile> water, ModelLoadHandler loader, MasterRenderHandler renderer) {
+    public Water(List<WaterTile> water, ModelLoadHandler loader, MasterRenderHandler renderer, Fbo fbo) {
         this.water = water;
         fbos = new WaterFrameBuffers();
         waterShade = new WaterShader();
         waterRend = new WaterRenderer(loader, waterShade, renderer.getProjectionMatrix(), fbos);
+        PPFbo = fbo;
     }
 
     public void setWater(MasterRenderHandler renderer, Camera player, Terrain terrain, List<Entity> entities, List<Entity> normalMappedEntities, List<Light> lights  ) {
@@ -65,7 +69,11 @@ public class Water {
             fbos.unbindCurrentFrameBuffer();
             glEnable(GL_CULL_FACE);
             glCullFace(GL_FRONT);
+            PPFbo.bindFrameBuffer();
+
             waterRend.render(water, player, lights.get(0),true);
+            PPFbo.unbindFrameBuffer();
+
             renderer.enableCulling();
         }
         else
@@ -96,7 +104,14 @@ public class Water {
             //***********set proper frame buffers for normal scene rendering**************
             GL11.glDisable(GL30.GL_CLIP_DISTANCE0); //stop any clipping used for water
             fbos.unbindCurrentFrameBuffer();
+
+            PPFbo.bindFrameBuffer();
+
             waterRend.render(water, player, lights.get(0),false);
+            PPFbo.unbindFrameBuffer();
+            //PostProcessing.doPostProcessing(PPFbo.getColourTexture());
+
+
         }
     }
 

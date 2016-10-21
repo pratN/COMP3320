@@ -49,8 +49,8 @@ public class EngineTester2 {
     private static int state = 0;
     private static List<Light> lights = new ArrayList<>();
     private static List<Entity> entities = new ArrayList<>();
-    private static float WATER_LEVEL = -20;
-    private static Vector3f startingPos = new Vector3f(424, -4, -432);
+    private static float WATER_LEVEL = -5;
+    private static Vector3f startingPos = new Vector3f(471,-2,-343);
 
     public static void main(String[] args) {
         System.out.println("Hello LWJGL " + Version.getVersion() + "!");
@@ -98,6 +98,7 @@ public class EngineTester2 {
         MasterRenderHandler renderer = new MasterRenderHandler(loader, player);
         TextHandler.init(loader);
         ParticleHandler.init(loader, renderer.getProjectionMatrix());
+        Fbo fbo = new Fbo(WIDTH, HEIGHT, Fbo.DEPTH_RENDER_BUFFER);
 
         /*********************************************PARSE OBJECTS*************************************************************************/
         ModelData dragonData = OBJFileLoader.loadOBJ("dragon");
@@ -163,17 +164,18 @@ public class EngineTester2 {
         //  whiteCrate.getTexture().setHasTransparency(true);
 
         /*********************************************TEXTURE TERRAIN***********************************************************************/
-        TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("grass"));
-        TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("gravel"));
-        TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("groundPlants"));
-        TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("riverbed"));
+        TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("grassy2"));
+        TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("mud"));
+        TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("grassFlowers"));
+        TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("path"));
 
-        TerrainTexPack texturePack = new TerrainTexPack(backgroundTexture, rTexture, gTexture, bTexture);
-        TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("lakeBM"));
+        TerrainTexPack texturePack = new TerrainTexPack(backgroundTexture, rTexture,
+                gTexture, bTexture);
+        TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("blendMap"));
 
 
         /*********************************************LOAD TERRAIN*************************************************************************/
-        Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "hm3");
+        Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "heightmap");
         //Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap);
         //flat terrain for testing
 //        Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "flatHM");
@@ -240,7 +242,6 @@ public class EngineTester2 {
         lights.add(sun);
         lights.add(new Light(new Vector3f(380, 0, -380), new Vector3f(3, 3, 3), new Vector3f(1, 0.01f, 0.002f)));
         lights.add(new Light(new Vector3f(570, 32.5f, -600), new Vector3f(1, 0.725f, 0.137f), new Vector3f(1, 0.01f, 0.002f)));
-        lights.add(new Light(new Vector3f(448, 12, -435), new Vector3f(0, 1, 0), new Vector3f(1, 0.01f, 0.002f)));
 
 
         /*********************************************CREATE GUIS***************************************************************************/
@@ -260,7 +261,7 @@ public class EngineTester2 {
         List<WaterTile> waters = new ArrayList<>();
         waters.add(new WaterTile(400, -400, WATER_LEVEL, 400, 20)); //the tiles where to add the water (size specified in tiles class)
         //(x,z,y,size,#tiles used for texturing)
-        Water water = new Water(waters, loader, renderer);
+        Water water = new Water(waters, loader, renderer, fbo);
 
         /***********************************************************************************************************************************/
         /*********************************************FUNCTIONALITY PROTOTYPING*************************************************************/
@@ -289,17 +290,12 @@ public class EngineTester2 {
 
         /***********************************************************************************************************************************/
 
-        Fbo fbo = new Fbo(WIDTH, HEIGHT, Fbo.DEPTH_RENDER_BUFFER);
         PostProcessing.init(loader);
         /***********************************************************************************************************************************/
 
         while(!KeyboardHandler.isKeyDown(GLFW_KEY_ESCAPE) && !WindowHandler.close()) {
             checkInputs();
             player.move(terrain);
-            lights.get(3).move();
-            lights.get(3).changeColour();
-
-
 
             ParticleHandler.update(player);
 
@@ -309,26 +305,24 @@ public class EngineTester2 {
             particleSystem.generateParticles(new Vector3f(570, 32.5f, -600));
             smokeParticles.generateParticles(new Vector3f(570, 32.5f, -600));
 
+            fbo.bindFrameBuffer();
             renderer.processTerrain(terrain);
-
             entities.forEach(renderer:: processEntity);
-
             normalMapEntities.forEach(renderer:: processNormalMappedEntity);
-            //fbo.bindFrameBuffer();
 
 
             renderer.render(lights, player, new Vector4f(0, 1, 0, 10000000)); //backup incase some drivers dont support gldisable properly (clip at unreasonable height)
-            //entities.forEach(renderer:: processEntity);
-           // normalMapEntities.forEach(renderer:: processNormalMappedEntity);
 
             //just call this to make the water
             //must have all entities in the list and not created seperately (unless not needed for reflection)\
             //the sun must be the first light in list of lights
+            ParticleHandler.renderParticles(player);
+
+            fbo.unbindFrameBuffer();
             water.setWater(renderer, player, terrain, entities, normalMapEntities, lights);
 
-            ParticleHandler.renderParticles(player);
-            // fbo.unbindFrameBuffer();
-            //PostProcessing.doPostProcessing(fbo.getColourTexture());
+            PostProcessing.doPostProcessing(fbo.getColourTexture());
+
             /**Uncomment to  display GUI**/
             //guiRenderer.render(guis);
 
