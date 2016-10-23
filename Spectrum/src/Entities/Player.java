@@ -33,14 +33,15 @@ public class Player extends Camera {
     private float upwardsSpeed = 0;
     private boolean airborne = false;
     private static float WATER_LEVEL;
+    private static Vector3f spawn;
 
     public Player(MouseHandler mouseHandler) {
         this.mouseHandler = mouseHandler;
     }
     public Player(MouseHandler mouseHandler, Vector3f pos, float WATER_LEVEL) {
+        this.spawn = pos;
         this.mouseHandler = mouseHandler;
-        //super.position = pos;
-        //super.setPosition(pos.x,pos.y,pos.z);
+        super.setPosition(spawn.x,spawn.y,spawn.z);
         this.WATER_LEVEL = WATER_LEVEL;
     }
 
@@ -52,7 +53,7 @@ public class Player extends Camera {
             increasePosition(dx, 0, dz);
         }
         if(KeyboardHandler.isKeyDown(GLFW_KEY_R)){
-
+            super.setPosition(spawn.x,spawn.y,spawn.z);
         }
             upwardsSpeed += GRAVITY * WindowHandler.getFrameTimeSeconds();
             dy = upwardsSpeed * WindowHandler.getFrameTimeSeconds();
