@@ -14,5 +14,6 @@ public class GraphicsConfig {
     public static float FOV = 90;
     public static float AF_LEVEL = 4;
     public static float DRAW_DISTANCE = 1000;
+    public static int PCF_LEVEL = 12;
 
 }

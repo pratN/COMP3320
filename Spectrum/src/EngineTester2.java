@@ -164,14 +164,14 @@ public class EngineTester2 {
         //  whiteCrate.getTexture().setHasTransparency(true);
 
         /*********************************************TEXTURE TERRAIN***********************************************************************/
-        TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("transparent"));
-        TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("transparent"));
-        TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("transparent"));
-        TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("transparent"));
+        TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("grassy2"));
+        TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("grassFlowers"));
+        TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("brown"));
+        TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("mud"));
 
         TerrainTexPack texturePack = new TerrainTexPack(backgroundTexture, rTexture,
                 gTexture, bTexture);
-        TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("transparent"));
+        TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("mazeBM"));
 
 
         /*********************************************LOAD TERRAIN*************************************************************************/
