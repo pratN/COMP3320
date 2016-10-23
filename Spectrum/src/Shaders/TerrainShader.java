@@ -36,7 +36,9 @@ public class TerrainShader extends ShaderProgram {
     private int location_toShadowMapSpace;
     private int location_shadowMap;
     private int location_shadowDistance;
-    private int location_invis;
+    private int location_totalTexels;
+    private int location_pcfCount;
+    private int location_mapSize;
 
 
     public TerrainShader() {
@@ -63,7 +65,9 @@ public class TerrainShader extends ShaderProgram {
         location_attenuation = new int[MAX_LIGHTS];
         location_toShadowMapSpace = super.getUniformLocation("toShadowMapSpace");
         location_shadowMap = super.getUniformLocation("shadowMap");
-        location_invis = super.getUniformLocation("invis");
+        location_mapSize = super.getUniformLocation("mapSize");
+        location_totalTexels = super.getUniformLocation("totalTexels");
+        location_pcfCount = super.getUniformLocation("pcfCount");
         for(int i=0;i<MAX_LIGHTS;i++){
             location_lightPosition[i] = super.getUniformLocation("lightPosition["+i+"]");
             location_lightColour[i] = super.getUniformLocation("lightColour["+i+"]");
@@ -80,10 +84,14 @@ public class TerrainShader extends ShaderProgram {
         super.loadInt(location_shadowMap,5);
     }
 
-    public void loadInvis(int invis){
-        super.loadInt(location_invis, invis);
-    }
 
+    public void loadMapSize(float size){
+        super.loadFloat(location_mapSize, size);
+    }
+    public void loadPCFCount(int count){
+        super.loadInt(location_pcfCount, count);
+        super.loadFloat(location_totalTexels, (float)((count * 2.0 + 1.0) * (count * 2.0 + 1.0)));
+    }
     public void loadToShadowMapMatrix(Matrix4f matrix){
         super.loadMatrix(location_toShadowMapSpace, matrix);
     }

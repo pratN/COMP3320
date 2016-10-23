@@ -50,7 +50,8 @@ public class TerrainRenderer {
         glEnableVertexAttribArray(2);
         bindTextures(terrain);
         shader.loadShineVariables(1,0);
-        shader.loadInvis(terrain.getInvis());
+        shader.loadMapSize(GraphicsConfig.SHADOW_MAP_SIZE);
+        shader.loadPCFCount(GraphicsConfig.PCF_LEVEL);
     }
 
     private void bindTextures(Terrain terrain){

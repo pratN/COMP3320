@@ -94,7 +94,7 @@ public class EngineTester2 {
     private static void loop() {
         /*********************************************LOAD RENDERER AND LOADER**************************************************************/
         ModelLoadHandler loader = new ModelLoadHandler();
-        Player player = new Player(mouseCallback, startingPos);
+        Player player = new Player(mouseCallback, startingPos, WATER_LEVEL);
         MasterRenderHandler renderer = new MasterRenderHandler(loader, player);
         TextHandler.init(loader);
         ParticleHandler.init(loader, renderer.getProjectionMatrix());

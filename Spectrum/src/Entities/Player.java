@@ -32,30 +32,38 @@ public class Player extends Camera {
     private static final float JUMP_POWER = 25;
     private float upwardsSpeed = 0;
     private boolean airborne = false;
+    private static float WATER_LEVEL;
 
     public Player(MouseHandler mouseHandler) {
         this.mouseHandler = mouseHandler;
     }
-    public Player(MouseHandler mouseHandler, Vector3f pos) {
+    public Player(MouseHandler mouseHandler, Vector3f pos, float WATER_LEVEL) {
         this.mouseHandler = mouseHandler;
-        super.position = pos;
-        super.setPosition(pos.x,pos.y,pos.z);
+        //super.position = pos;
+        //super.setPosition(pos.x,pos.y,pos.z);
+        this.WATER_LEVEL = WATER_LEVEL;
     }
 
     public void move(Terrain terrain) {
-        checkInputs();
-        super.increasePitch(pitch);
-        super.increaseYaw(yaw);
-        increasePosition(dx,0,dz);
-        upwardsSpeed += GRAVITY * WindowHandler.getFrameTimeSeconds();
-        dy = upwardsSpeed * WindowHandler.getFrameTimeSeconds();
-        increasePosition(0, dy, 0);
-        float terrainHeight = terrain.getHeightOfTerrain(super.getPosition().x, super.getPosition().z) + (playerHeight*CROUCH_MODIFIER);
-        if(getPosition().y < terrainHeight){
-            upwardsSpeed = 0;
-            airborne = false;
-            position.y = terrainHeight;
+        if(position.y>WATER_LEVEL) {
+            checkInputs();
+            super.increasePitch(pitch);
+            super.increaseYaw(yaw);
+            increasePosition(dx, 0, dz);
         }
+        if(KeyboardHandler.isKeyDown(GLFW_KEY_R)){
+
+        }
+            upwardsSpeed += GRAVITY * WindowHandler.getFrameTimeSeconds();
+            dy = upwardsSpeed * WindowHandler.getFrameTimeSeconds();
+            increasePosition(0, dy, 0);
+            float terrainHeight = terrain.getHeightOfTerrain(super.getPosition().x, super.getPosition().z) + (playerHeight * CROUCH_MODIFIER);
+            if(getPosition().y < terrainHeight) {
+                upwardsSpeed = 0;
+                airborne = false;
+                position.y = terrainHeight;
+            }
+
     }
 
     private void jump() {
