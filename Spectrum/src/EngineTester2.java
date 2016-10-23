@@ -176,6 +176,7 @@ public class EngineTester2 {
 
         /*********************************************LOAD TERRAIN*************************************************************************/
         Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "heightMapMaze");
+        Terrain terrain2 = new Terrain(0, -1, loader, texturePack, blendMap, "visibleTerrainHM");
         terrain.setInvis(0);
         //Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap);
         //flat terrain for testing
@@ -307,7 +308,7 @@ public class EngineTester2 {
             smokeParticles.generateParticles(new Vector3f(570, 32.5f, -600));
 
             fbo.bindFrameBuffer();
-            renderer.processTerrain(terrain);
+            renderer.processTerrain(terrain2);
             entities.forEach(renderer:: processEntity);
             normalMapEntities.forEach(renderer:: processNormalMappedEntity);
 
@@ -320,7 +321,7 @@ public class EngineTester2 {
             ParticleHandler.renderParticles(player);
 
             fbo.unbindFrameBuffer();
-            water.setWater(renderer, player, terrain, entities, normalMapEntities, lights);
+            water.setWater(renderer, player, terrain2, entities, normalMapEntities, lights);
 
             PostProcessing.doPostProcessing(fbo.getColourTexture());
 
