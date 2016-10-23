@@ -65,6 +65,20 @@ public class MasterRenderHandler {
         glDisable(GL_CULL_FACE);
     }
 
+    public void renderScene(List<Entity> entities, List<Entity> normalEntities, Terrain terrain, List<Light> lights,
+                            Camera camera, Vector4f clipPlane) {
+       // for (Terrain terrain : terrains) {
+            processTerrain(terrain);
+       // }
+        for (Entity entity : entities) {
+            processEntity(entity);
+        }
+        for(Entity entity : normalEntities){
+            processNormalMappedEntity(entity);
+        }
+        render(lights, camera, clipPlane);
+    }
+
     public void render(List<Light> lights, Camera camera, Vector4f waterClipPlane) {
         prepare();
         shader.start();

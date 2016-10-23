@@ -17,7 +17,7 @@ import java.io.IOException;
 public class Terrain {
 
     private static final float SIZE = 800;
-    private static final float MAX_HEIGHT = 40;
+    private static final float MAX_HEIGHT = 80;
     private static final float MAX_PIXEL_COLOUR = 256 * 256 * 256;
 
     private float x;
@@ -26,7 +26,7 @@ public class Terrain {
     private TerrainTexPack texturePack;
     private TerrainTexture blendMap;
     private float[][] heights;
-    private boolean generated;
+    private int invis;
 
 
     public Terrain(int gridX, int gridZ, ModelLoadHandler loader, TerrainTexPack texturePack, TerrainTexture blendMap, String heightMap) {
@@ -42,6 +42,14 @@ public class Terrain {
         this.x = gridX * SIZE;
         this.z = gridZ * SIZE;
         this.model = generateTerrain(loader);
+    }
+
+    public void setInvis(int invis){
+        this.invis = invis;
+    }
+
+    public int getInvis() {
+        return invis;
     }
 
     private RawModel generateTerrain(ModelLoadHandler loader, String heightMap) {

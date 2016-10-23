@@ -49,7 +49,7 @@ public class EngineTester2 {
     private static int state = 0;
     private static List<Light> lights = new ArrayList<>();
     private static List<Entity> entities = new ArrayList<>();
-    private static float WATER_LEVEL = -5;
+    private static float WATER_LEVEL = -30;
     private static Vector3f startingPos = new Vector3f(471,-2,-343);
 
     public static void main(String[] args) {
@@ -164,18 +164,19 @@ public class EngineTester2 {
         //  whiteCrate.getTexture().setHasTransparency(true);
 
         /*********************************************TEXTURE TERRAIN***********************************************************************/
-        TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("grassy2"));
-        TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("mud"));
-        TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("grassFlowers"));
-        TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("path"));
+        TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("transparent"));
+        TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("transparent"));
+        TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("transparent"));
+        TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("transparent"));
 
         TerrainTexPack texturePack = new TerrainTexPack(backgroundTexture, rTexture,
                 gTexture, bTexture);
-        TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("blendMap"));
+        TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("transparent"));
 
 
         /*********************************************LOAD TERRAIN*************************************************************************/
-        Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "heightmap");
+        Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "heightMapMaze");
+        terrain.setInvis(0);
         //Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap);
         //flat terrain for testing
 //        Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "flatHM");
@@ -238,7 +239,7 @@ public class EngineTester2 {
 
 
         /*********************************************CREATE LIGHTS*************************************************************************/
-        Light sun = new Light(new Vector3f(1000000, 1500000, -7000000), new Vector3f(1, 1, 0.9f));
+        Light sun = new Light(new Vector3f(7500000, 15000000, 5000000), new Vector3f(1, 1, 0.9f));
         lights.add(sun);
         lights.add(new Light(new Vector3f(380, 0, -380), new Vector3f(3, 3, 3), new Vector3f(1, 0.01f, 0.002f)));
         lights.add(new Light(new Vector3f(570, 32.5f, -600), new Vector3f(1, 0.725f, 0.137f), new Vector3f(1, 0.01f, 0.002f)));

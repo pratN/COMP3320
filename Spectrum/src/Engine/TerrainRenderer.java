@@ -50,6 +50,7 @@ public class TerrainRenderer {
         glEnableVertexAttribArray(2);
         bindTextures(terrain);
         shader.loadShineVariables(1,0);
+        shader.loadInvis(terrain.getInvis());
     }
 
     private void bindTextures(Terrain terrain){
