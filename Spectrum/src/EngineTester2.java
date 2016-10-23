@@ -16,7 +16,11 @@ import fontRendering.TextHandler;
 import objConverter.ModelData;
 import objConverter.OBJFileLoader;
 import org.lwjgl.*;
-//import World.World;
+//import world.world;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 import engine.*;
 import org.lwjgl.glfw.GLFWKeyCallback;
@@ -30,6 +34,7 @@ import util.KeyboardHandler;
 import util.MouseHandler;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -59,13 +64,15 @@ public class EngineTester2 {
         try {
             init();
             loop();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         } finally {
             WindowHandler.closeWindow();
         }
     }
 
     //Initialisation
-    private static void init() {
+    private static void init() throws FileNotFoundException {
         setConfigurations();
         String title = "Spectrum";
 
@@ -79,17 +86,8 @@ public class EngineTester2 {
 
     }
 
-    private static void setConfigurations(){
-        GraphicsConfig.MSAA = 8;
-        GraphicsConfig.MIPMAP_BIAS = 0;
-        GraphicsConfig.SHADOW_DISTANCE = 150;
-        GraphicsConfig.SHADOW_MAP_SIZE = 8192;
-        GraphicsConfig.SHADOW_OFFSET = 50;
-        GraphicsConfig.WINDOW_HEIGHT = 1080;
-        GraphicsConfig.WINDOW_WIDTH = 1920;
-        GraphicsConfig.AF_LEVEL = 4;
-        GraphicsConfig.DRAW_DISTANCE = 1000;
-        GraphicsConfig.FOV = 70;
+    private static void setConfigurations() throws FileNotFoundException {
+        readGraphicsSettings();
     }
 
     //Main Loop
@@ -184,9 +182,9 @@ public class EngineTester2 {
         Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "heightMapMaze");
         Terrain terrain2 = new Terrain(0, -1, loader, texturePack, blendMap, "visibleTerrainHM");
         terrain.setInvis(0);
-        //Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap);
+        //terrain terrain = new terrain(0, -1, loader, texturePack, blendMap);
         //flat terrain for testing
-//        Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "flatHM");
+//        terrain terrain = new terrain(0, -1, loader, texturePack, blendMap, "flatHM");
 
 
         /*********************************************CREATE ENTITIES***********************************************************************/
@@ -383,5 +381,83 @@ public class EngineTester2 {
         }
 
 
+    }
+
+    public static void readGraphicsSettings() throws FileNotFoundException {
+        String setting = "";
+        String valueString = "";
+        String stringData = "";
+        int posi = 0;
+        File input = new File("assets/configFiles/graphicsConfigFile.txt");
+        Scanner scan = new Scanner(input);
+        while (scan.hasNext()) {
+            stringData = scan.nextLine();
+            posi = stringData.indexOf(",");
+            setting = stringData.substring(0, posi);
+            valueString = stringData.substring(posi + 1, stringData.length());
+            updateSettings(setting, valueString);
+        }
+    }
+
+    public static void updateSettings(String setting, String valueString){
+        switch (setting){
+            case "MSAA":{
+                GraphicsConfig.MSAA = Integer.parseInt(valueString);
+                break;
+            }
+            case "SHADOW_MAP_SIZE":{
+                GraphicsConfig.SHADOW_MAP_SIZE = Integer.parseInt(valueString);
+
+                break;
+            }
+            case "WINDOW_HEIGHT":{
+                GraphicsConfig.WINDOW_HEIGHT = Integer.parseInt(valueString);
+
+                break;
+            }
+            case "WINDOW_WIDTH":{
+                GraphicsConfig.WINDOW_WIDTH = Integer.parseInt(valueString);
+
+                break;
+            }
+            case "SHADOW_OFFSET":{
+                GraphicsConfig.SHADOW_OFFSET = Integer.parseInt(valueString);
+
+                break;
+            }
+            case "SHADOW_DISTANCE":{
+                GraphicsConfig.SHADOW_DISTANCE = Integer.parseInt(valueString);
+
+                break;
+            }
+            case "MIPMAP_BIAS":{
+                GraphicsConfig.MIPMAP_BIAS = Integer.parseInt(valueString);
+
+                break;
+            }
+            case "FOV":{
+                GraphicsConfig.FOV = Float.parseFloat(valueString);
+
+                break;
+            }
+            case "AF_LEVEL":{
+                GraphicsConfig.AF_LEVEL = Float.parseFloat(valueString);
+
+                break;
+            }
+            case "DRAW_DISTANCE":{
+                GraphicsConfig.DRAW_DISTANCE = Float.parseFloat(valueString);
+
+                break;
+            }
+            case "PCF_LEVEL":{
+                GraphicsConfig.PCF_LEVEL = Integer.parseInt(valueString);
+
+                break;
+            }
+            default:{
+                System.out.println("Setting is not specified");
+            }
+        }
     }
 }
