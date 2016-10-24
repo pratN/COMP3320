@@ -75,6 +75,12 @@ void main(void) {
     //CYAN
     if(colourMode==4){
         if(colourTest.r == true || (colourTest.g == false || colourTest.b==false)){
+        discard;
+                }
+        }
+    //YELLOW
+    if(colourMode==6){
+        if(colourTest.r == true || (colourTest.g == false || colourTest.r==false)){
             discard;
         }
     }
@@ -84,14 +90,10 @@ void main(void) {
              discard;
          }
     }
-    //YELLOW
-    if(colourMode==6){
-         if(colourTest.b == true || (colourTest.g == false || colourTest.r==false)){
-             discard;
-         }
-     }
+
 
     out_Colour = final_colour;
 
     //out_Colour = mix(vec4(skyColour,1.0),final_colour,visibility);
 }
+
