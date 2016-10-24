@@ -13,7 +13,7 @@ import static org.lwjgl.glfw.GLFW.*;
  * Created by Beau on 14/09/2016.
  */
 public class Player extends Camera {
-    private float RUN_SPEED = 50;
+    private float RUN_SPEED = 25;
     private float currentSpeed = 0;
     private float strafeSpeed = 0;
     protected float MOUSE_SENSITIVITY = 0.1f;
@@ -29,7 +29,7 @@ public class Player extends Camera {
     private float mouseDX =0;
     private float mouseDY =0;
     public static final float GRAVITY = -60;
-    private static final float JUMP_POWER = 25;
+    private static final float JUMP_POWER = 5;
     private float upwardsSpeed = 0;
     private boolean airborne = false;
     private static float WATER_LEVEL;
@@ -118,12 +118,12 @@ public class Player extends Camera {
         if(KeyboardHandler.isKeyDown(GLFW_KEY_SPACE)) {
             jump();
         }
-        if(KeyboardHandler.isKeyDown(GLFW_KEY_TAB)){
-            System.out.println("\nx: " + this.position.x);
-            System.out.println("y: " + this.position.y);
-            System.out.println("z: " + this.position.z);
+//        if(KeyboardHandler.isKeyDown(GLFW_KEY_TAB)){
+//            System.out.println("\nx: " + this.position.x);
+//            System.out.println("y: " + this.position.y);
+//            System.out.println("z: " + this.position.z);
 
-        }
+//        }
     }
 
     public void resetValues(){

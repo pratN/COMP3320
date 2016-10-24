@@ -7,8 +7,8 @@ import org.lwjglx.util.vector.Matrix4f;
  */
 public class GuiShader extends ShaderProgram {
 
-    private static final String VERTEX_FILE = "src/Shaders/guiVertexShader.glsl";
-    private static final String FRAGMENT_FILE = "src/Shaders/guiFragmentShader.glsl";
+    private static final String VERTEX_FILE = "src/shaders/guiVertexShader.glsl";
+    private static final String FRAGMENT_FILE = "src/shaders/guiFragmentShader.glsl";
 
     private int location_transformationMatrix;
 

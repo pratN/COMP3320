@@ -6,8 +6,8 @@ import org.lwjglx.util.vector.Vector2f;
 
 public class ParticleShader extends ShaderProgram {
 
-	private static final String VERTEX_FILE = "src/Shaders/particleVShader.glsl";
-	private static final String FRAGMENT_FILE = "src/Shaders/particleFShader.glsl";
+	private static final String VERTEX_FILE = "src/shaders/particleVShader.glsl";
+	private static final String FRAGMENT_FILE = "src/shaders/particleFShader.glsl";
 
 	private int location_modelViewMatrix;
 	private int location_projectionMatrix;

@@ -72,9 +72,9 @@ void main(void) {
             discard;
         }
     }
-    //YELLOW
+    //CYAN
     if(colourMode==4){
-        if(colourTest.r == true || (colourTest.g == false || colourTest.r==false)){
+        if(colourTest.r == true || (colourTest.g == false || colourTest.b==false)){
             discard;
         }
     }
@@ -84,7 +84,7 @@ void main(void) {
              discard;
          }
     }
-    //CYAN
+    //YELLOW
     if(colourMode==6){
          if(colourTest.b == true || (colourTest.g == false || colourTest.r==false)){
              discard;
