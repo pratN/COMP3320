@@ -47,17 +47,13 @@ import static org.lwjgl.glfw.GLFW.*;
 
 public class EngineTester2 {
 
-    private static int WIDTH = 1920;
-    private static int HEIGHT = 1082;
     private static GLFWKeyCallback keyCallback;
     private static MouseHandler mouseCallback;
     private static int state = 0;
     private static List<Light> lights = new ArrayList<>();
     private static List<Entity> entities = new ArrayList<>();
-    private static float WATER_LEVEL = 0;
-    private static Vector3f startingPos = new Vector3f(724,12,-441);
-
-
+    private static float WATER_LEVEL = 5;
+    private static Vector3f startingPos = new Vector3f(724, 12, -441);
 
     public static void main(String[] args) {
         System.out.println("Hello LWJGL " + Version.getVersion() + "!");
@@ -76,16 +72,14 @@ public class EngineTester2 {
         setConfigurations();
         String title = "Spectrum";
 
-        WIDTH = GraphicsConfig.WINDOW_WIDTH;
-        HEIGHT = GraphicsConfig.WINDOW_HEIGHT;
-
-        WindowHandler.createWindow(WIDTH, HEIGHT, title);
+        WindowHandler.createWindow(GraphicsConfig.WINDOW_WIDTH, GraphicsConfig.WINDOW_HEIGHT, title);
         glfwSetKeyCallback(WindowHandler.getWindow(), keyCallback = new KeyboardHandler());
         glfwSetCursorPosCallback(WindowHandler.getWindow(), mouseCallback = new MouseHandler());
         glfwSetInputMode(WindowHandler.getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     }
 
+    // loads any config files specified
     private static void setConfigurations() throws FileNotFoundException {
         readGraphicsSettings();
     }
@@ -99,7 +93,7 @@ public class EngineTester2 {
         MasterRenderHandler renderer = new MasterRenderHandler(loader, player);
         TextHandler.init(loader);
         ParticleHandler.init(loader, renderer.getProjectionMatrix());
-        Fbo fbo = new Fbo(WIDTH, HEIGHT, Fbo.DEPTH_RENDER_BUFFER);
+        Fbo fbo = new Fbo(GraphicsConfig.WINDOW_WIDTH, GraphicsConfig.WINDOW_HEIGHT, Fbo.DEPTH_RENDER_BUFFER);
 
         /*********************************************PARSE OBJECTS*************************************************************************/
         ModelData dragonData = OBJFileLoader.loadOBJ("dragon");
@@ -235,102 +229,101 @@ public class EngineTester2 {
 //
 //        }
 
-        /*****************CRATE MODELS FOR TESTING************************/
+        /*****************CRATE MODELS FOR LEVEL************************/
 //        float yPos = 14.5f;
         float yPos = 15;
         entities.add(new Entity(dragon, new Vector3f(404, 10, -84), 0, -45, 0, 6f));
         //Before Island
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(670,        yPos,-372.5f),0,90,0,0.75f,     1   ));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(625,        yPos,-372.5f),0,90,0,0.75f,      2  ));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(441.24847f, yPos, -507.71436f),0,0,0,0.75f,  1  ));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(451.31772f, yPos, -505.67557f),0,90,0,0.75f, 3  ));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(569.8842f, yPos, -376.54736f),0,0,0,0.75f,   2  ));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(412.20633f, yPos, -464.66635f),0,0,0,0.75f,  1  ));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(412.20633f, yPos, -428.83694f),0,0,0,0.75f,  4  ));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(406.2989f, yPos, -425.19186f),0,90,0,0.75f,  3  ));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(388.45737f, yPos, -382.14285f),0,0,0,0.75f,  3  ));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(397.4346f, yPos, -376.76596f),0,90,0,0.75f,  2  ));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(388.45737f, yPos, -335.78348f),0,0,0,0.75f,  1  ));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(542.65094f, yPos, -459.9122f),0,-90,0,0.75f, 3  ));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(493.08118f, yPos, -459.92096f),0,-90,0,0.75f,2  ));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(488.73325f, yPos, -464.53683f),0,0,0,0.75f,  1  ));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(569.8842f, yPos, -421.4191f),0,0,0,0.75f,    1  ));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(544.491f,   yPos, -466.3053f),0,0,0,0.75f,   2  ));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(576.5431f, yPos, -508.48062f),0,0,0,0.75f,   3  ));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(576.5431f, yPos, -539.871f),0,0,0,0.75f,     2  ));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(599.1711f, yPos, -503.00122f),0,90,0,0.75f,  1  ));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(614.8921f, yPos, -539.52484f),0,90,0,0.75f,  1  ));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(496.69675f, yPos, -505.33478f),0,90,0,0.75f, 4  ));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(496.69675f, yPos, -505.33478f),0,90,0,0.75f, 6  ));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(670, yPos, -372.5f), 0, 90, 0, 0.75f, 1));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(625, yPos, -372.5f), 0, 90, 0, 0.75f, 2));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(441.24847f, yPos, -507.71436f), 0, 0, 0, 0.75f, 1));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(451.31772f, yPos, -505.67557f), 0, 90, 0, 0.75f, 3));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(569.8842f, yPos, -376.54736f), 0, 0, 0, 0.75f, 2));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(412.20633f, yPos, -464.66635f), 0, 0, 0, 0.75f, 1));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(412.20633f, yPos, -428.83694f), 0, 0, 0, 0.75f, 4));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(406.2989f, yPos, -425.19186f), 0, 90, 0, 0.75f, 3));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(388.45737f, yPos, -382.14285f), 0, 0, 0, 0.75f, 3));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(397.4346f, yPos, -376.76596f), 0, 90, 0, 0.75f, 2));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(388.45737f, yPos, -335.78348f), 0, 0, 0, 0.75f, 1));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(542.65094f, yPos, -459.9122f), 0, -90, 0, 0.75f, 3));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(493.08118f, yPos, -459.92096f), 0, -90, 0, 0.75f, 2));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(488.73325f, yPos, -464.53683f), 0, 0, 0, 0.75f, 1));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(569.8842f, yPos, -421.4191f), 0, 0, 0, 0.75f, 1));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(544.491f, yPos, -466.3053f), 0, 0, 0, 0.75f, 2));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(576.5431f, yPos, -508.48062f), 0, 0, 0, 0.75f, 3));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(576.5431f, yPos, -539.871f), 0, 0, 0, 0.75f, 2));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(599.1711f, yPos, -503.00122f), 0, 90, 0, 0.75f, 1));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(614.8921f, yPos, -539.52484f), 0, 90, 0, 0.75f, 1));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(496.69675f, yPos, -505.33478f), 0, 90, 0, 0.75f, 4));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(496.69675f, yPos, -505.33478f), 0, 90, 0, 0.75f, 6));
 
         //After Island
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(461.89313f, yPos, -291.4318f),0,90,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(502.1963f, yPos, -291.4318f),0,90,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(491.9959f, yPos, -250.03143f),0,0,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(491.99338f, yPos, -214.13712f),0,0,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(486.98438f, yPos, -211.32594f),0,90,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(433.74054f, yPos, -213.67116f),0,0,0,0.73f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(428.69974f, yPos, -210.46466f),0,90,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(384.2609f, yPos, -210.46466f),0,90,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(338.81982f, yPos, -210.46466f),0,90,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(324.14334f, yPos, -184.91844f),0,0,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(284.72943f, yPos, -213.33049f),0,0,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(284.72943f, yPos, -258.0789f),0,0,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(292.93362f, yPos, -284.79855f),0,90,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(252.70674f, yPos, -303.5186f),0,0,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(252.7187f, yPos, -344.6667f),0,0,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(307.36166f, yPos, -333.30197f),0,90,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(351.96466f, yPos, -333.30197f),0,90,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(330.08716f, yPos, -307.90884f),0,0,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(305.34604f, yPos, -372.38052f),0,90,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(307.66544f, yPos, -376.55795f),0,0,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(307.66544f, yPos, -421.15625f),0,0,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(307.66544f, yPos, -465.93457f),0,0,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(307.66544f, yPos, -497.48065f),0,0,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(346.25888f, yPos, -469.5884f),0,90,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(308.34827f, yPos, -449.6984f),0,90,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(268.7676f, yPos, -454.68552f),0,0,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(263.43643f, yPos, -482.56235f),0,90,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(358.35077f, yPos, -524.6396f),0,90,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(362.68536f, yPos, -509.45697f),0,0,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(362.68536f, yPos, -555.22565f),0,0,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(357.17316f, yPos, -582.78644f),0,90,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(311.59515f, yPos, -582.78644f),0,90,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(317.45377f, yPos, -583.6068f),0,0,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(281.86057f, yPos, -585.9258f),0,0,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(281.86057f, yPos, -621.5087f),0,0,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(276.52582f, yPos, -628.34735f),0,90,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(255.81393f, yPos, -555.8703f),0,0,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(255.81393f, yPos, -533.1449f),0,0,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(250.28558f, yPos, -531.1361f),0,90,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(227.89377f, yPos, -531.1361f),0,90,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(378.7226f, yPos, -181.24074f),0,90,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(405.93542f, yPos, -181.24074f),0,90,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(398.24646f, yPos, -154.52837f),0,0,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(398.24646f, yPos, -118.76799f),0,0,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(546.57465f, yPos, -239.6934f),0,90,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(582.4849f, yPos, -239.6934f),0,90,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(573.2938f, yPos, -260.22775f),0,0,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(466.57306f, yPos, -310.49854f),0,0,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(466.57306f, yPos, -346.24707f),0,0,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(508.98676f, yPos, -372.46277f),0,90,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(567.7948f, yPos, -553.6704f),0,90,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(524.53925f, yPos, -558.1871f),0,0,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(524.53925f, yPos, -576.24146f),0,0,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(482.60577f, yPos, -547.1781f),0,90,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(475.76157f, yPos, -566.7018f),0,0,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(469.4178f, yPos, -595.7776f),0,90,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(461.89313f, yPos, -291.4318f), 0, 90, 0, 0.75f, 1));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(502.1963f, yPos, -291.4318f), 0, 90, 0, 0.75f, 3));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(491.9959f, yPos, -250.03143f), 0, 0, 0, 0.75f, 4));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(491.99338f, yPos, -214.13712f), 0, 0, 0, 0.75f, 1));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(486.98438f, yPos, -211.32594f), 0, 90, 0, 0.75f, 6));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(433.74054f, yPos, -213.67116f), 0, 0, 0, 0.73f, 3));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(428.69974f, yPos, -210.46466f), 0, 90, 0, 0.75f, 2));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(384.2609f, yPos, -210.46466f), 0, 90, 0, 0.75f, 1));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(338.81982f, yPos, -210.46466f), 0, 90, 0, 0.75f, 5));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(324.14334f, yPos, -184.91844f), 0, 0, 0, 0.75f, 1));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(284.72943f, yPos, -213.33049f), 0, 0, 0, 0.75f, 3));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(284.72943f, yPos, -258.0789f), 0, 0, 0, 0.75f, 2));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(292.93362f, yPos, -284.79855f), 0, 90, 0, 0.75f, 6));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(252.70674f, yPos, -303.5186f), 0, 0, 0, 0.75f, 3));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(252.7187f, yPos, -344.6667f), 0, 0, 0, 0.75f, 1));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(307.36166f, yPos, -333.30197f), 0, 90, 0, 0.75f, 3));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(351.96466f, yPos, -333.30197f), 0, 90, 0, 0.75f, 1));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(330.08716f, yPos, -307.90884f), 0, 0, 0, 0.75f, 6));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(305.34604f, yPos, -372.38052f), 0, 90, 0, 0.75f, 2));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(307.66544f, yPos, -376.55795f), 0, 0, 0, 0.75f, 5));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(307.66544f, yPos, -421.15625f), 0, 0, 0, 0.75f, 1));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(307.66544f, yPos, -465.93457f), 0, 0, 0, 0.75f, 4));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(307.66544f, yPos, -497.48065f), 0, 0, 0, 0.75f, 2));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(346.25888f, yPos, -469.5884f), 0, 90, 0, 0.75f, 1));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(308.34827f, yPos, -449.6984f), 0, 90, 0, 0.75f, 2));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(268.7676f, yPos, -454.68552f), 0, 0, 0, 0.75f, 3));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(263.43643f, yPos, -482.56235f), 0, 90, 0, 0.75f, 5));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(358.35077f, yPos, -524.6396f), 0, 90, 0, 0.75f, 6));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(362.68536f, yPos, -509.45697f), 0, 0, 0, 0.75f, 3));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(362.68536f, yPos, -555.22565f), 0, 0, 0, 0.75f, 1));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(357.17316f, yPos, -582.78644f), 0, 90, 0, 0.75f, 2));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(311.59515f, yPos, -582.78644f), 0, 90, 0, 0.75f, 1));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(317.45377f, yPos, -583.6068f), 0, 0, 0, 0.75f, 5));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(281.86057f, yPos, -585.9258f), 0, 0, 0, 0.75f, 2));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(281.86057f, yPos, -621.5087f), 0, 0, 0, 0.75f, 1));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(276.52582f, yPos, -628.34735f), 0, 90, 0, 0.75f, 6));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(255.81393f, yPos, -555.8703f), 0, 0, 0, 0.75f, 1));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(255.81393f, yPos, -533.1449f), 0, 0, 0, 0.75f, 3));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(250.28558f, yPos, -531.1361f), 0, 90, 0, 0.75f, 2));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(227.89377f, yPos, -531.1361f), 0, 90, 0, 0.75f, 1));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(378.7226f, yPos, -181.24074f), 0, 90, 0, 0.75f, 5));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(405.93542f, yPos, -181.24074f), 0, 90, 0, 0.75f, 2));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(398.24646f, yPos, -154.52837f), 0, 0, 0, 0.75f, 4));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(398.24646f, yPos, -118.76799f), 0, 0, 0, 0.75f, 3));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(546.57465f, yPos, -239.6934f), 0, 90, 0, 0.75f, 1));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(582.4849f, yPos, -239.6934f), 0, 90, 0, 0.75f, 2));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(573.2938f, yPos, -260.22775f), 0, 0, 0, 0.75f, 6));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(466.57306f, yPos, -310.49854f), 0, 0, 0, 0.75f, 1));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(466.57306f, yPos, -346.24707f), 0, 0, 0, 0.75f, 4));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(508.98676f, yPos, -372.46277f), 0, 90, 0, 0.75f, 2));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(567.7948f, yPos, -553.6704f), 0, 90, 0, 0.75f, 1));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(524.53925f, yPos, -558.1871f), 0, 0, 0, 0.75f, 2));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(524.53925f, yPos, -576.24146f), 0, 0, 0, 0.75f, 3));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(482.60577f, yPos, -547.1781f), 0, 90, 0, 0.75f, 2));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(475.76157f, yPos, -566.7018f), 0, 0, 0, 0.75f, 1));
+        entities.add(new Entity(bridgeTexturedModel, new Vector3f(469.4178f, yPos, -595.7776f), 0, 90, 0, 0.75f, 3));
 
-
-
-
-
+        /******uncomment the line below to manipulate the last object in the entities list******/
+        //player.setPosition(entities.get(entities.size()-1).getPosition().x,entities.get(entities.size()-1).getPosition().y,entities.get(entities.size()-1).getPosition().z);
 
         /*********************************************CREATE LIGHTS*************************************************************************/
-        Light sun = new Light(new Vector3f(7500000, 15000000, 5000000), new Vector3f(0.7f,0.7f,0.7f));
+        Light sun = new Light(new Vector3f(7500000, 15000000, 5000000), new Vector3f(0.7f, 0.7f, 0.7f));
         lights.add(sun);
         lights.add(new Light(new Vector3f(380, 0, -380), new Vector3f(3, 3, 3), new Vector3f(1, 0.01f, 0.002f)));
-        lights.add(new Light(player.getPosition(), new Vector3f(0,0,3), new Vector3f(1,0.005f,0.001f)));
+        lights.add(new Light(player.getPosition(), new Vector3f(0, 0, 3), new Vector3f(1, 0.005f, 0.001f)));
+        //lights.add(new Light(new Vector3f(570, 32.5f, -600), new Vector3f(1, 0.725f, 0.137f), new Vector3f(1, 0.01f, 0.002f)));
 
 
         /*********************************************CREATE GUIS***************************************************************************/
@@ -368,7 +361,7 @@ public class EngineTester2 {
         PostProcessing.init(loader);
         /***********************************************************************************************************************************/
 
-        while(!KeyboardHandler.isKeyDown(GLFW_KEY_ESCAPE) && !WindowHandler.close()) {
+        while (!KeyboardHandler.isKeyDown(GLFW_KEY_ESCAPE) && !WindowHandler.close()) {
             checkInputs();
             player.move(terrain);
             lights.get(2).setPosition(player.getPosition());
@@ -383,8 +376,8 @@ public class EngineTester2 {
 
             fbo.bindFrameBuffer();
             renderer.processTerrain(terrain2);
-            entities.forEach(renderer:: processEntity);
-            normalMapEntities.forEach(renderer:: processNormalMappedEntity);
+            entities.forEach(renderer::processEntity);
+            normalMapEntities.forEach(renderer::processNormalMappedEntity);
 
 
             renderer.render(lights, player, new Vector4f(0, 1, 0, 10000000)); //backup incase some drivers dont support gldisable properly (clip at unreasonable height)
@@ -403,8 +396,8 @@ public class EngineTester2 {
             //guiRenderer.render(guis);
 
             /**Uncomment for text rendering**/
-        if(player.getPosition().y<WATER_LEVEL)
-            TextHandler.render();
+            if (player.getPosition().y < WATER_LEVEL)
+                TextHandler.render();
             WindowHandler.updateWindow();
         }
         //then call this to clean up water
@@ -418,33 +411,35 @@ public class EngineTester2 {
         ParticleHandler.cleanUp();
     }
 
+    // uses the direction keys to move the last created entity and prints its location in the vector space
+    // this was used to place the elements in the world
     public static void checkInputs() {
-        if(KeyboardHandler.isKeyDown(GLFW_KEY_UP)){
-            entities.get(entities.size()-1).increasePosition(0,0,10*WindowHandler.getFrameTimeSeconds());
-            System.out.println(entities.get(entities.size()-1).getPosition().x+"f, yPos, " +entities.get(entities.size()-1).getPosition().z+"f, ");
+        if (KeyboardHandler.isKeyDown(GLFW_KEY_UP)) {
+            entities.get(entities.size() - 1).increasePosition(0, 0, 10 * WindowHandler.getFrameTimeSeconds());
+            System.out.println(entities.get(entities.size() - 1).getPosition().x + "f, yPos, " + entities.get(entities.size() - 1).getPosition().z + "f, ");
         }
-        if(KeyboardHandler.isKeyDown(GLFW_KEY_DOWN)){
-            entities.get(entities.size()-1).increasePosition(0,0,-10*WindowHandler.getFrameTimeSeconds());
-            System.out.println(entities.get(entities.size()-1).getPosition().x+"f, yPos, " +entities.get(entities.size()-1).getPosition().z+"f, ");
+        if (KeyboardHandler.isKeyDown(GLFW_KEY_DOWN)) {
+            entities.get(entities.size() - 1).increasePosition(0, 0, -10 * WindowHandler.getFrameTimeSeconds());
+            System.out.println(entities.get(entities.size() - 1).getPosition().x + "f, yPos, " + entities.get(entities.size() - 1).getPosition().z + "f, ");
         }
-        if(KeyboardHandler.isKeyDown(GLFW_KEY_LEFT)){
-            entities.get(entities.size()-1).increasePosition(-10*WindowHandler.getFrameTimeSeconds(),0,0);
-            System.out.println(entities.get(entities.size()-1).getPosition().x+"f, yPos, " +entities.get(entities.size()-1).getPosition().z+"f, ");
+        if (KeyboardHandler.isKeyDown(GLFW_KEY_LEFT)) {
+            entities.get(entities.size() - 1).increasePosition(-10 * WindowHandler.getFrameTimeSeconds(), 0, 0);
+            System.out.println(entities.get(entities.size() - 1).getPosition().x + "f, yPos, " + entities.get(entities.size() - 1).getPosition().z + "f, ");
         }
-        if(KeyboardHandler.isKeyDown(GLFW_KEY_RIGHT)){
-            entities.get(entities.size()-1).increasePosition(10*WindowHandler.getFrameTimeSeconds(),0,0);
-            System.out.println(entities.get(entities.size()-1).getPosition().x+"f, yPos, " +entities.get(entities.size()-1).getPosition().z+"f, ");
+        if (KeyboardHandler.isKeyDown(GLFW_KEY_RIGHT)) {
+            entities.get(entities.size() - 1).increasePosition(10 * WindowHandler.getFrameTimeSeconds(), 0, 0);
+            System.out.println(entities.get(entities.size() - 1).getPosition().x + "f, yPos, " + entities.get(entities.size() - 1).getPosition().z + "f, ");
         }
-        if(KeyboardHandler.isKeyDown(GLFW_KEY_1)) {
+        if (KeyboardHandler.isKeyDown(GLFW_KEY_1)) {
             state = 1;
             lights.get(0).setColour(new Vector3f(1f, 0.1f, 0.1f));
-        } else if(KeyboardHandler.isKeyDown((GLFW_KEY_0))) {
+        } else if (KeyboardHandler.isKeyDown((GLFW_KEY_0))) {
             state = 0;
-            lights.get(0).setColour(new Vector3f(0.7f,0.7f,0.7f));
-        } else if(KeyboardHandler.isKeyDown((GLFW_KEY_2))) {
+            lights.get(0).setColour(new Vector3f(0.7f, 0.7f, 0.7f));
+        } else if (KeyboardHandler.isKeyDown((GLFW_KEY_2))) {
             state = 2;
             lights.get(0).setColour(new Vector3f(0.1f, 1, 0.1f));
-        } else if(KeyboardHandler.isKeyDown((GLFW_KEY_3))) {
+        } else if (KeyboardHandler.isKeyDown((GLFW_KEY_3))) {
             state = 3;
             lights.get(0).setColour(new Vector3f(0.1f, 0.1f, 1));
         }
@@ -452,6 +447,7 @@ public class EngineTester2 {
 
     }
 
+    // used to read graphics settings from a graphics config file
     public static void readGraphicsSettings() throws FileNotFoundException {
         String setting = "";
         String valueString = "";
@@ -468,63 +464,64 @@ public class EngineTester2 {
         }
     }
 
-    public static void updateSettings(String setting, String valueString){
-        switch (setting){
-            case "MSAA":{
+    // Used to upload graphics settings from the graphics file to the GraphicsConfig class
+    public static void updateSettings(String setting, String valueString) {
+        switch (setting) {
+            case "MSAA": {
                 GraphicsConfig.MSAA = Integer.parseInt(valueString);
                 break;
             }
-            case "SHADOW_MAP_SIZE":{
+            case "SHADOW_MAP_SIZE": {
                 GraphicsConfig.SHADOW_MAP_SIZE = Integer.parseInt(valueString);
 
                 break;
             }
-            case "WINDOW_HEIGHT":{
+            case "WINDOW_HEIGHT": {
                 GraphicsConfig.WINDOW_HEIGHT = Integer.parseInt(valueString);
 
                 break;
             }
-            case "WINDOW_WIDTH":{
+            case "WINDOW_WIDTH": {
                 GraphicsConfig.WINDOW_WIDTH = Integer.parseInt(valueString);
 
                 break;
             }
-            case "SHADOW_OFFSET":{
+            case "SHADOW_OFFSET": {
                 GraphicsConfig.SHADOW_OFFSET = Integer.parseInt(valueString);
 
                 break;
             }
-            case "SHADOW_DISTANCE":{
+            case "SHADOW_DISTANCE": {
                 GraphicsConfig.SHADOW_DISTANCE = Integer.parseInt(valueString);
 
                 break;
             }
-            case "MIPMAP_BIAS":{
+            case "MIPMAP_BIAS": {
                 GraphicsConfig.MIPMAP_BIAS = Integer.parseInt(valueString);
 
                 break;
             }
-            case "FOV":{
+            case "FOV": {
                 GraphicsConfig.FOV = Float.parseFloat(valueString);
 
                 break;
             }
-            case "AF_LEVEL":{
+            case "AF_LEVEL": {
                 GraphicsConfig.AF_LEVEL = Float.parseFloat(valueString);
 
                 break;
             }
-            case "DRAW_DISTANCE":{
+            case "DRAW_DISTANCE": {
                 GraphicsConfig.DRAW_DISTANCE = Float.parseFloat(valueString);
 
                 break;
             }
-            case "PCF_LEVEL":{
+            case "PCF_LEVEL": {
                 GraphicsConfig.PCF_LEVEL = Integer.parseInt(valueString);
 
                 break;
             }
-            default:{
+            default: {
                 System.out.println("Setting is not specified");
             }
         }
