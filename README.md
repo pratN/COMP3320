@@ -3,14 +3,8 @@
 If any issues arise with the project, do the following.
 This guide assumes use of intelliJ Idea as an IDE.
 ---
-### Resetting local repository
-
-Because of feedback from the labs we won't be using libGDX anymore.
-To reset your repository:
-Delete the locally stored files in your folder
-do the following commands
+To access gir repository perform the following command in your terminal:
 ``` 
-git reset --hard HEAD
 git pull https://github.com/pratN/COMP3320/
 ```
 ---
