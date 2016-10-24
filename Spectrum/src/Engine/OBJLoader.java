@@ -13,6 +13,12 @@ import java.util.List;
 
 
 public class OBJLoader {
+    /**
+     * Parses an OBJ to usable data
+     * @param fileName
+     * @param loader
+     * @return
+     */
     public static RawModel loadObjModel(String fileName, ModelLoadHandler loader){
         FileReader fr = null;
         try {

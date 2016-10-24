@@ -37,6 +37,13 @@ public class NormalMappingRenderer {
 		BLUE = b;
 	}
 
+	/**
+	 * Draws models to screen
+	 * @param entities
+	 * @param clipPlane
+	 * @param lights
+     * @param camera
+     */
 	public void render(Map<TexturedModel, List<Entity>> entities, Vector4f clipPlane, List<Light> lights, Camera camera) {
 		shader.start();
 		prepare(clipPlane, lights, camera);
@@ -57,6 +64,10 @@ public class NormalMappingRenderer {
 		shader.cleanUp();
 	}
 
+	/**
+	 * Prepares textured model for rendering
+	 * @param model
+     */
 	private void prepareTexturedModel(TexturedModel model) {
 		RawModel rawModel = model.getModel();
 		glBindVertexArray(rawModel.getVaoID());
@@ -85,6 +96,10 @@ public class NormalMappingRenderer {
 		glBindVertexArray(0);
 	}
 
+	/**
+	 * Sets the transformation and loads appropriate data into the shader
+	 * @param entity
+     */
 	private void prepareInstance(Entity entity) {
 		Matrix4f transformationMatrix = Maths.createTransformationMatrix(entity.getPosition(), entity.getRotX(),
 				entity.getRotY(), entity.getRotZ(), entity.getScale());

@@ -57,6 +57,14 @@ public class ModelLoadHandler {
         return new RawModel(vaoID, indices.length);
     }
 
+    /**
+     * @param positions
+     * The XYZ positions of each vertex
+     * @param texCoords
+     * The UV positions of the texture
+     * @return
+     * Returns a raw 3D mesh
+     */
     public static int loadToVAO(float[] positions, float[] texCoords) {
         int vaoID = createVAO();
         storeDataInAttributeList(0, 2, positions);
@@ -94,6 +102,11 @@ public class ModelLoadHandler {
         return vaoID;
     }
 
+    /**
+     * Loads a set of textures to a cube map for the skybox
+     * @param textureFiles
+     * @return
+     */
     public int loadCubeMap(String[] textureFiles){
         int texID = glGenTextures();
         glActiveTexture(GL_TEXTURE0);
@@ -111,6 +124,12 @@ public class ModelLoadHandler {
 
         return texID;
     }
+
+    /**
+     * Decodes a png image to usable data
+     * @param fileName
+     * @return
+     */
     private TextureData decodeTextureFile(String fileName) {
         int width = 0;
         int height = 0;
@@ -213,13 +232,6 @@ public class ModelLoadHandler {
         return buffer;
     }
 
-    public static void setMipmapBias(float mipmapBias) {
-        ModelLoadHandler.MIPMAP_BIAS = mipmapBias;
-    }
-
-    public static void setAfLevel(float afLevel) {
-        AF_LEVEL = afLevel;
-    }
 
     /**
      * For memory management

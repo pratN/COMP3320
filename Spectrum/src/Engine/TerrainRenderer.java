@@ -31,6 +31,11 @@ public class TerrainRenderer {
         shader.stop();
     }
 
+    /**
+     * Draws terrain to screen
+     * @param terrains
+     * @param toShadowSpace
+     */
     public void render(List<Terrain> terrains, Matrix4f toShadowSpace){
         shader.loadToShadowMapMatrix(toShadowSpace);
         for(Terrain terrain:terrains){
@@ -54,6 +59,10 @@ public class TerrainRenderer {
         shader.loadPCFCount(GraphicsConfig.PCF_LEVEL);
     }
 
+    /**
+     * Binds the textures for the terrain to be used by the shader
+     * @param terrain
+     */
     private void bindTextures(Terrain terrain){
         TerrainTexPack texturePack = terrain.getTexturePack();
         glActiveTexture(GL_TEXTURE0);
@@ -76,6 +85,10 @@ public class TerrainRenderer {
         glBindVertexArray(0);
     }
 
+    /**
+     * Loads a matrix for the terrain to be used by the shader
+     * @param terrain
+     */
     public void loadModelMatrix(Terrain terrain){
         Matrix4f transformationMatrix = Maths.createTransformationMatrix(new Vector3f(terrain.getX(),0,terrain.getZ()),0,0,0,1);
         shader.loadTransformationMatrix(transformationMatrix);

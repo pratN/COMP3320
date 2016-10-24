@@ -4,7 +4,7 @@ import models.TexturedModel;
 import org.lwjglx.util.vector.Vector3f;
 
 /**
- * Base abstract class for all objects in the game
+ * Base class for all objects in the game
  */
 public class Entity {
     private TexturedModel model;
@@ -14,6 +14,15 @@ public class Entity {
     private int textureIndex =0;
     private int colorMode = 0;
 
+    /**
+     * constructor for an entity without a colour state arrtibute
+     * @param model
+     * @param position
+     * @param rotX
+     * @param rotY
+     * @param rotZ
+     * @param scale
+     */
     public Entity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
         this.model = model;
         this.position = position;
@@ -22,7 +31,15 @@ public class Entity {
         this.rotZ = rotZ;
         this.scale = scale;
     }
-
+    /**
+     * constructor for an entity with a colour state arrtibute
+     * @param model
+     * @param position
+     * @param rotX
+     * @param rotY
+     * @param rotZ
+     * @param scale
+     */
     public Entity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, int colorMode) {
         this.model = model;
         this.position = position;
@@ -32,6 +49,15 @@ public class Entity {
         this.scale = scale;
         this.colorMode = colorMode;
     }
+    /**
+     * constructor for an entity without a colour state arrtibute, entity uses a texture atlas for texture variation
+     * @param model
+     * @param position
+     * @param rotX
+     * @param rotY
+     * @param rotZ
+     * @param scale
+     */
     public Entity(TexturedModel model, int texIndex, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
         this.model = model;
         this.textureIndex=texIndex;
@@ -42,6 +68,15 @@ public class Entity {
         this.scale = scale;
     }
 
+    /**
+     * constructor for an entity with a colour state arrtibute, entity uses a texture atlas for texture variation
+     * @param model
+     * @param position
+     * @param rotX
+     * @param rotY
+     * @param rotZ
+     * @param scale
+     */
     public Entity(TexturedModel model, int texIndex, Vector3f position, float rotX, float rotY, float rotZ, float scale, int colorMode) {
         this.model = model;
         this.textureIndex=texIndex;
@@ -57,6 +92,10 @@ public class Entity {
         return colorMode;
     }
 
+    /**
+     * Get the X/Y offset for texture atlases
+     * @return
+     */
     public float getTextureXOffset(){
         int column = textureIndex%model.getTexture().getNumberOfRows();
         return (float)column/(float)model.getTexture().getNumberOfRows();

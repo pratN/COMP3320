@@ -99,9 +99,6 @@ public class WindowHandler {
 
     }
 
-    public static void setMsaaSampleAmount(int msaaSampleAmount) {
-        MSAA_SAMPLE_AMOUNT = msaaSampleAmount;
-    }
 
     public static long getWindow(){
         return window;

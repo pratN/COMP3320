@@ -19,7 +19,7 @@ public class Player extends Camera {
     protected float MOUSE_SENSITIVITY = 0.1f;
     private float CROUCH_MODIFIER = 1;
     private float SPRINT_MODIFIER = 1;
-    private float playerHeight = 4;
+    private float playerHeight = 6;
     private MouseHandler mouseHandler;
     private float dx = 0;
     private float dz = 0;
@@ -74,8 +74,13 @@ public class Player extends Camera {
         }
     }
 
+    /**
+     * Checks for keyboard inputs and moves player appropriately
+     */
     private void checkInputs() {
+        //Reset movement values back to 0
         resetValues();
+        //Enable sprinting
         if(KeyboardHandler.isKeyDown(GLFW_KEY_LEFT_SHIFT)){
             SPRINT_MODIFIER = 2f;
         }
@@ -83,6 +88,7 @@ public class Player extends Camera {
         {
             SPRINT_MODIFIER =1;
         }
+        //Enable crouching
         if(KeyboardHandler.isKeyDown(GLFW_KEY_LEFT_CONTROL)){
             CROUCH_MODIFIER = 0.5f;
         }
@@ -90,6 +96,7 @@ public class Player extends Camera {
         {
             CROUCH_MODIFIER =1;
         }
+        //Player movement
         if(KeyboardHandler.isKeyDown(GLFW_KEY_W)) {
             currentSpeed = RUN_SPEED * SPRINT_MODIFIER;
             dx += (float) Math.sin(Math.toRadians(yaw)) * (currentSpeed * WindowHandler.getFrameTimeSeconds());
@@ -118,12 +125,12 @@ public class Player extends Camera {
         if(KeyboardHandler.isKeyDown(GLFW_KEY_SPACE)) {
             jump();
         }
-//        if(KeyboardHandler.isKeyDown(GLFW_KEY_TAB)){
-//            System.out.println("\nx: " + this.position.x);
-//            System.out.println("y: " + this.position.y);
-//            System.out.println("z: " + this.position.z);
+        if(KeyboardHandler.isKeyDown(GLFW_KEY_TAB)){
+            System.out.println("\nx: " + this.position.x);
+            System.out.println("y: " + this.position.y);
+            System.out.println("z: " + this.position.z);
 
-//        }
+        }
     }
 
     public void resetValues(){
