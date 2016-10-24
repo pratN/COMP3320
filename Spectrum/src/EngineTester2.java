@@ -264,13 +264,68 @@ public class EngineTester2 {
         entities.add(new Entity(bridgeTexturedModel,new Vector3f(496.69675f, yPos, -505.33478f),0,90,0,0.75f, 6  ));
 
         //After Island
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(461.89313f, yPos, -293.59564f),0,90,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(461.89313f, yPos, -291.4318f),0,90,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(502.1963f, yPos, -291.4318f),0,90,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(491.9959f, yPos, -250.03143f),0,0,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(491.99338f, yPos, -214.13712f),0,0,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(486.98438f, yPos, -211.32594f),0,90,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(433.74054f, yPos, -213.67116f),0,0,0,0.73f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(428.69974f, yPos, -210.46466f),0,90,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(384.2609f, yPos, -210.46466f),0,90,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(338.81982f, yPos, -210.46466f),0,90,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(324.14334f, yPos, -184.91844f),0,0,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(284.72943f, yPos, -213.33049f),0,0,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(284.72943f, yPos, -258.0789f),0,0,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(292.93362f, yPos, -284.79855f),0,90,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(252.70674f, yPos, -303.5186f),0,0,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(252.7187f, yPos, -344.6667f),0,0,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(307.36166f, yPos, -333.30197f),0,90,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(351.96466f, yPos, -333.30197f),0,90,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(330.08716f, yPos, -307.90884f),0,0,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(305.34604f, yPos, -372.38052f),0,90,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(307.66544f, yPos, -376.55795f),0,0,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(307.66544f, yPos, -421.15625f),0,0,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(307.66544f, yPos, -465.93457f),0,0,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(307.66544f, yPos, -497.48065f),0,0,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(346.25888f, yPos, -469.5884f),0,90,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(308.34827f, yPos, -449.6984f),0,90,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(268.7676f, yPos, -454.68552f),0,0,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(263.43643f, yPos, -482.56235f),0,90,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(358.35077f, yPos, -524.6396f),0,90,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(362.68536f, yPos, -509.45697f),0,0,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(362.68536f, yPos, -555.22565f),0,0,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(357.17316f, yPos, -582.78644f),0,90,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(311.59515f, yPos, -582.78644f),0,90,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(317.45377f, yPos, -583.6068f),0,0,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(281.86057f, yPos, -585.9258f),0,0,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(281.86057f, yPos, -621.5087f),0,0,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(276.52582f, yPos, -628.34735f),0,90,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(255.81393f, yPos, -555.8703f),0,0,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(255.81393f, yPos, -533.1449f),0,0,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(250.28558f, yPos, -531.1361f),0,90,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(227.89377f, yPos, -531.1361f),0,90,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(378.7226f, yPos, -181.24074f),0,90,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(405.93542f, yPos, -181.24074f),0,90,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(398.24646f, yPos, -154.52837f),0,0,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(398.24646f, yPos, -118.76799f),0,0,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(546.57465f, yPos, -239.6934f),0,90,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(582.4849f, yPos, -239.6934f),0,90,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(573.2938f, yPos, -260.22775f),0,0,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(466.57306f, yPos, -310.49854f),0,0,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(466.57306f, yPos, -346.24707f),0,0,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(508.98676f, yPos, -372.46277f),0,90,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(567.7948f, yPos, -553.6704f),0,90,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(524.53925f, yPos, -558.1871f),0,0,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(524.53925f, yPos, -576.24146f),0,0,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(482.60577f, yPos, -547.1781f),0,90,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(475.76157f, yPos, -566.7018f),0,0,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(469.4178f, yPos, -595.7776f),0,90,0,0.75f));
 
 
 
 
 
-//        player.setPosition(entities.get(entities.size()-1).getPosition().x,entities.get(entities.size()-1).getPosition().y,entities.get(entities.size()-1).getPosition().z);
+        player.setPosition(entities.get(entities.size()-1).getPosition().x,entities.get(entities.size()-1).getPosition().y,entities.get(entities.size()-1).getPosition().z);
 
         /*********************************************CREATE LIGHTS*************************************************************************/
         Light sun = new Light(new Vector3f(7500000, 15000000, 5000000), new Vector3f(0.7f,0.7f,0.7f));
