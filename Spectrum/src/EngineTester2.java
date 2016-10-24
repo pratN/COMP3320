@@ -133,7 +133,7 @@ public class EngineTester2 {
         treeTexture.setHasTransparency(true);
         tree3Texture.setHasTransparency(true);
         ModelTexture crateTexture = new ModelTexture((loader.loadTexture("crate")));
-//      ModelTexture whiteCrateTexture = new ModelTexture((loader.loadTexture("partiallyGreen")));
+        ModelTexture whiteCrateTexture = new ModelTexture((loader.loadTexture("white")));
         crateTexture.setNormalMap(loader.loadTexture("crateNormal"));
         crateTexture.setShineDamper(10);
         crateTexture.setReflectivity(0.3f);
@@ -153,7 +153,9 @@ public class EngineTester2 {
         TexturedModel tree2TexturedModel = new TexturedModel(treeModel2, treeTexture);
         TexturedModel tree3TexturedModel = new TexturedModel(treeModel3, tree3Texture);
         TexturedModel shrubTexturedModel = new TexturedModel(OBJLoader.loadObjModel("shrub", loader), shrubTex);
-        TexturedModel bridgeTexturedModel = new TexturedModel(bridgeModel, dragonTexture);
+        TexturedModel bridgeTexturedModel = new TexturedModel(bridgeModel, whiteCrateTexture);
+        bridgeTexturedModel.getTexture().setHasTransparency(true);
+        bridgeTexturedModel.getTexture().setUseFakeLighting(true);
         TexturedModel fernTexturedModel = new TexturedModel(OBJLoader.loadObjModel("fern", loader), fernAtlas);
         TexturedModel lamp = new TexturedModel(lampModel, new ModelTexture(loader.loadTexture("lamp")));
         fernTexturedModel.getTexture().setHasTransparency(true);
@@ -234,29 +236,55 @@ public class EngineTester2 {
 //        }
 
         /*****************CRATE MODELS FOR TESTING************************/
-//        entities.add(new Entity(whiteCrate, new Vector3f(416,4,-456), 0, random.nextFloat() * 360, 0, 0.025f,1));
-//        entities.add(new Entity(whiteCrate, new Vector3f(448, 4, -435), 0, random.nextFloat() * 360, 0, 0.025f,4));
-//        entities.add(new Entity(whiteCrate, new Vector3f(455,4,-415), 0, random.nextFloat() * 360, 0, 0.025f,3));
+//        float yPos = 14.5f;
+        float yPos = 15;
         entities.add(new Entity(dragon, new Vector3f(404, 10, -84), 0, -45, 0, 6f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(670,14.5f,-372.5f),0,90,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(625,14.5f,-372.5f),0,90,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(569.8842f, 14.5f, -378.5422f),0,0,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(569.8842f, 14.5f, -405.73175f),0,0,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(540.98956f, 14.5f, -459.9187f),0,-90,0,0.75f));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(493.08118f, 14.5f, -459.92096f),0,-90,0,0.75f));
+        //Before Island
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(670,        yPos,-372.5f),0,90,0,0.75f,     1   ));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(625,        yPos,-372.5f),0,90,0,0.75f,      2  ));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(441.24847f, yPos, -507.71436f),0,0,0,0.75f,  1  ));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(451.31772f, yPos, -505.67557f),0,90,0,0.75f, 3  ));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(569.8842f, yPos, -376.54736f),0,0,0,0.75f,   2  ));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(412.20633f, yPos, -464.66635f),0,0,0,0.75f,  1  ));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(412.20633f, yPos, -428.83694f),0,0,0,0.75f,  4  ));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(406.2989f, yPos, -425.19186f),0,90,0,0.75f,  3  ));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(388.45737f, yPos, -382.14285f),0,0,0,0.75f,  3  ));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(397.4346f, yPos, -376.76596f),0,90,0,0.75f,  2  ));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(388.45737f, yPos, -335.78348f),0,0,0,0.75f,  1  ));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(542.65094f, yPos, -459.9122f),0,-90,0,0.75f, 3  ));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(493.08118f, yPos, -459.92096f),0,-90,0,0.75f,2  ));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(488.73325f, yPos, -464.53683f),0,0,0,0.75f,  1  ));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(569.8842f, yPos, -421.4191f),0,0,0,0.75f,    1  ));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(544.491f,   yPos, -466.3053f),0,0,0,0.75f,   2  ));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(576.5431f, yPos, -508.48062f),0,0,0,0.75f,   3  ));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(576.5431f, yPos, -539.871f),0,0,0,0.75f,     2  ));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(599.1711f, yPos, -503.00122f),0,90,0,0.75f,  1  ));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(614.8921f, yPos, -539.52484f),0,90,0,0.75f,  1  ));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(496.69675f, yPos, -505.33478f),0,90,0,0.75f, 4  ));
+//        entities.add(new Entity(bridgeTexturedModel,new Vector3f(496.69675f, yPos, -505.33478f),0,90,0,0.75f, 5  ));
+//        entities.add(new Entity(bridgeTexturedModel,new Vector3f(496.69675f, yPos, -505.33478f),0,90,0,0.75f, 6  ));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(496.69675f, yPos, -505.33478f),0,90,0,0.75f  ));
 
+        //After Island
+       // entities.add(new Entity(bridgeTexturedModel,new Vector3f(461.89313f, yPos, -293.59564f),0,90,0,0.75f));
+
+
+
+
+
+        player.setPosition(entities.get(entities.size()-1).getPosition().x,entities.get(entities.size()-1).getPosition().y,entities.get(entities.size()-1).getPosition().z);
 
         /*********************************************CREATE LIGHTS*************************************************************************/
-        Light sun = new Light(new Vector3f(7500000, 15000000, 5000000), new Vector3f(1, 1, 0.9f));
+        Light sun = new Light(new Vector3f(7500000, 15000000, 5000000), new Vector3f(0.5f,0.5f,0.5f));
         lights.add(sun);
         lights.add(new Light(new Vector3f(380, 0, -380), new Vector3f(3, 3, 3), new Vector3f(1, 0.01f, 0.002f)));
-        lights.add(new Light(new Vector3f(570, 32.5f, -600), new Vector3f(1, 0.725f, 0.137f), new Vector3f(1, 0.01f, 0.002f)));
+        lights.add(new Light(player.getPosition(), new Vector3f(0,0,3), new Vector3f(1,0.01f,0.002f)));
+        //lights.add(new Light(new Vector3f(570, 32.5f, -600), new Vector3f(1, 0.725f, 0.137f), new Vector3f(1, 0.01f, 0.002f)));
 
 
         /*********************************************CREATE GUIS***************************************************************************/
         GUIRenderer guiRenderer = new GUIRenderer(loader);
         List<GUITexture> guis = new ArrayList<>();
-        GUITexture shadowMap = new GUITexture(renderer.getShadowMapTexture(), new Vector2f(0.5f, 0.5f), new Vector2f(0.5f, 0.5f));
         //GUITexture gui = new GUITexture(loader.loadTexture("gui"), new Vector2f(0f, -0.75f), new Vector2f(1f, 0.25f));
         //guis.add(shadowMap);
 
@@ -276,24 +304,13 @@ public class EngineTester2 {
         /*********************************************FUNCTIONALITY PROTOTYPING*************************************************************/
         /***********************************************************************************************************************************/
         FontType font = new FontType(loader.loadTexture("centaur"), new File("assets/textures/centaur.fnt"));
-        GUIText text = new GUIText("pos", 3, font, new Vector2f(0.25f, 0.25f), 0.5f, false);
-        text.setColour(0, 0, 0);
+        GUIText text = new GUIText("Press <R> to restart", 3, font, new Vector2f(0.25f, 0.6f), 0.5f, true);
+        GUIText text2 = new GUIText(":(", 12, font, new Vector2f(0.25f, 0.1f), 0.5f, true);
+        text.setColour(0.25f, 0.25f, 0.25f);
+        text2.setColour(0.25f, 0.25f, 0.25f);
+        TextHandler.loadText(text);
+        TextHandler.loadText(text2);
 
-        ParticleTexture firetexture = new ParticleTexture(loader.loadTexture("fire"), 8);
-        ParticleSystem particleSystem = new ParticleSystem(30, 25, -0.01f, 3, 25, firetexture);
-        particleSystem.randomizeRotation();
-        particleSystem.setDirection(new Vector3f(-1, 0.1f, 0.5f), 0.1f);
-        particleSystem.setLifeError(0.1f);
-        particleSystem.setSpeedError(0.4f);
-        particleSystem.setScaleError(0.8f);
-
-        ParticleTexture smoketexture = new ParticleTexture(loader.loadTexture("smoke"), 8);
-        ParticleSystem smokeParticles = new ParticleSystem(5, 15, -0.01f, 3, 25, smoketexture);
-        particleSystem.randomizeRotation();
-        particleSystem.setDirection(new Vector3f(-1, 0.1f, 0.5f), 0.1f);
-        particleSystem.setLifeError(0.1f);
-        particleSystem.setSpeedError(0.4f);
-        particleSystem.setScaleError(0.8f);
 
         /***********************************************************************************************************************************/
 
@@ -302,19 +319,19 @@ public class EngineTester2 {
 
         while(!KeyboardHandler.isKeyDown(GLFW_KEY_ESCAPE) && !WindowHandler.close()) {
             checkInputs();
-            text.setTextString(entities.get(entities.size()-1).getPosition().toString());
             player.move(terrain);
-
+            lights.get(2).setPosition(player.getPosition());
+            lights.get(2).changeColour();
             ParticleHandler.update(player);
 
             renderer.renderShadowMap(entities, normalMapEntities, sun);
 
             /**Uncomment to display particles**/
-            particleSystem.generateParticles(new Vector3f(570, 32.5f, -600));
-            smokeParticles.generateParticles(new Vector3f(570, 32.5f, -600));
+//            particleSystem.generateParticles(new Vector3f(570, 32.5f, -600));
+//            smokeParticles.generateParticles(new Vector3f(570, 32.5f, -600));
 
             fbo.bindFrameBuffer();
-            renderer.processTerrain(terrain);
+            renderer.processTerrain(terrain2);
             entities.forEach(renderer:: processEntity);
             normalMapEntities.forEach(renderer:: processNormalMappedEntity);
 
@@ -335,7 +352,8 @@ public class EngineTester2 {
             //guiRenderer.render(guis);
 
             /**Uncomment for text rendering**/
-            //TextHandler.render();
+        if(player.getPosition().y<WATER_LEVEL)
+            TextHandler.render();
             WindowHandler.updateWindow();
         }
         //then call this to clean up water
@@ -351,27 +369,27 @@ public class EngineTester2 {
 
     public static void checkInputs() {
         if(KeyboardHandler.isKeyDown(GLFW_KEY_UP)){
-            entities.get(entities.size()-1).increasePosition(0,0,3*WindowHandler.getFrameTimeSeconds());
-            System.out.println(entities.get(entities.size()-1).getPosition());
+            entities.get(entities.size()-1).increasePosition(0,0,10*WindowHandler.getFrameTimeSeconds());
+            System.out.println(entities.get(entities.size()-1).getPosition().x+"f, yPos, " +entities.get(entities.size()-1).getPosition().z+"f, ");
         }
         if(KeyboardHandler.isKeyDown(GLFW_KEY_DOWN)){
-            entities.get(entities.size()-1).increasePosition(0,0,-3*WindowHandler.getFrameTimeSeconds());
-            System.out.println(entities.get(entities.size()-1).getPosition());
+            entities.get(entities.size()-1).increasePosition(0,0,-10*WindowHandler.getFrameTimeSeconds());
+            System.out.println(entities.get(entities.size()-1).getPosition().x+"f, yPos, " +entities.get(entities.size()-1).getPosition().z+"f, ");
         }
         if(KeyboardHandler.isKeyDown(GLFW_KEY_LEFT)){
-            entities.get(entities.size()-1).increasePosition(-3*WindowHandler.getFrameTimeSeconds(),0,0);
-            System.out.println(entities.get(entities.size()-1).getPosition());
+            entities.get(entities.size()-1).increasePosition(-10*WindowHandler.getFrameTimeSeconds(),0,0);
+            System.out.println(entities.get(entities.size()-1).getPosition().x+"f, yPos, " +entities.get(entities.size()-1).getPosition().z+"f, ");
         }
         if(KeyboardHandler.isKeyDown(GLFW_KEY_RIGHT)){
-            entities.get(entities.size()-1).increasePosition(3*WindowHandler.getFrameTimeSeconds(),0,0);
-            System.out.println(entities.get(entities.size()-1).getPosition());
+            entities.get(entities.size()-1).increasePosition(10*WindowHandler.getFrameTimeSeconds(),0,0);
+            System.out.println(entities.get(entities.size()-1).getPosition().x+"f, yPos, " +entities.get(entities.size()-1).getPosition().z+"f, ");
         }
         if(KeyboardHandler.isKeyDown(GLFW_KEY_1)) {
             state = 1;
             lights.get(0).setColour(new Vector3f(1, 0.1f, 0.1f));
         } else if(KeyboardHandler.isKeyDown((GLFW_KEY_0))) {
             state = 0;
-            lights.get(0).setColour(new Vector3f(0, 0, 0));
+            lights.get(0).setColour(new Vector3f(1, 1, 1));
         } else if(KeyboardHandler.isKeyDown((GLFW_KEY_2))) {
             state = 2;
             lights.get(0).setColour(new Vector3f(0.1f, 1, 0.1f));
