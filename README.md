@@ -1,4 +1,13 @@
 # Spectrum- COMP3320 Game
+---
+##Team Members
+Name | Student Number | 
+--- | --- | 
+Beau Pratten | **c3180089**
+Andrew Faulds | **c3057729**
+Brendon Dietsch | **c3202698**
+Nicholas Brown-Thomas | **c3205181**
+---
 
 If any issues arise with the project, do the following.
 This guide assumes use of intelliJ Idea as an IDE.
@@ -30,3 +39,5 @@ If it doesn't compile add the LWJGL jars as dependencies
 ---
 This project is based off the LWJGl tutorials by ThinMatrix.
 All textures and models used are free and open source.
+
+
