@@ -262,11 +262,9 @@ public class EngineTester2 {
         entities.add(new Entity(bridgeTexturedModel,new Vector3f(614.8921f, yPos, -539.52484f),0,90,0,0.75f,  1  ));
         entities.add(new Entity(bridgeTexturedModel,new Vector3f(496.69675f, yPos, -505.33478f),0,90,0,0.75f, 4  ));
         entities.add(new Entity(bridgeTexturedModel,new Vector3f(496.69675f, yPos, -505.33478f),0,90,0,0.75f, 6  ));
-//        entities.add(new Entity(bridgeTexturedModel,new Vector3f(496.69675f, yPos, -505.33478f),0,90,0,0.75f, 6  ));
-//        entities.add(new Entity(bridgeTexturedModel,new Vector3f(496.69675f, yPos, -505.33478f),0,90,0,0.75f  ));
 
         //After Island
-       // entities.add(new Entity(bridgeTexturedModel,new Vector3f(461.89313f, yPos, -293.59564f),0,90,0,0.75f));
+        entities.add(new Entity(bridgeTexturedModel,new Vector3f(461.89313f, yPos, -293.59564f),0,90,0,0.75f));
 
 
 
