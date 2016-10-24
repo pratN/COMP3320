@@ -1,8 +1,7 @@
 # Spectrum- COMP3320 Game
 
-
-[Dropbox link for documentation](https://www.dropbox.com/home/COMP3320)
-
+If any issues arise with the project, do the following.
+This guide assumes use of intelliJ Idea as an IDE.
 ---
 ### Resetting local repository
 
@@ -33,13 +32,4 @@ If it doesn't compile add the LWJGL jars as dependencies
 + Select Spectrum from the module list on the right and go to the Dependencies tab
 + Click on the + button and select JARs or directories
 + Navigate to the lib folder and select lwjgl.jar
-
-
-If it compiles correctly you should be greeted with a purple window.
-
 ---
-### Resources
-
-Tutorials for game development with LWJGL 3 with code snippets can be found [HERE](https://lwjglgamedev.gitbooks.io/3d-game-development-with-lwjgl/content/)
-
-Playlist for game development with LWJGL can be found [HERE](https://www.youtube.com/playlist?list=PLRIWtICgwaX0u7Rf9zkZhLoLuZVfUksDP)
