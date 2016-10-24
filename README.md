@@ -32,4 +32,3 @@ If it doesn't compile add the LWJGL jars as dependencies
 + Select Spectrum from the module list on the right and go to the Dependencies tab
 + Click on the + button and select JARs or directories
 + Navigate to the lib folder and select lwjgl.jar
----
