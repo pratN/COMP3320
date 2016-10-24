@@ -53,41 +53,42 @@ void main(void) {
 
     vec4 final_colour = vec4(totalDiffuse,1.0) * textureColour + vec4 (totalSpecular,1.0);
     final_colour = mix(vec4(skyColour,1.0),final_colour,visibility);
-    bvec4 colourTest = greaterThanEqual(final_colour, vec4(0.5,0.5,0.5,0));
+    bvec4 colourTest = greaterThanEqual(final_colour, vec4(0.4,0.4,0.4,0));
+
     //change to be separate checks for other colours
     //RED
     if(colourMode==1){
-        if(colourTest.r == false || (colourTest.g == true || colourTest.b==true)){
+        if(colourTest.r == false || colourTest.g == true || colourTest.b==true){
             discard;
         }
     }
     //GREEN
     if(colourMode==2){
-        if(colourTest.g == false || (colourTest.r == true || colourTest.b==true)){
+        if(colourTest.g == false || colourTest.r == true || colourTest.b==true){
             discard;
         }
     }
     //BLUE
     if(colourMode==3){
-        if(colourTest.b == false || (colourTest.g == true || colourTest.r==true)){
+        if(colourTest.b == false || colourTest.g == true || colourTest.r==true){
             discard;
         }
     }
     //CYAN
     if(colourMode==4){
-        if(colourTest.r == true || (colourTest.g == false || colourTest.b==false)){
+        if(colourTest.r == true || colourTest.g == false || colourTest.b==false){
         discard;
                 }
         }
     //YELLOW
     if(colourMode==6){
-        if(colourTest.r == true || (colourTest.g == false || colourTest.r==false)){
+        if(colourTest.b == true || colourTest.g == false || colourTest.r==false){
             discard;
         }
     }
     //PURPLE
     if(colourMode==5){
-         if(colourTest.g == true || (colourTest.r == false || colourTest.b==false)){
+         if(colourTest.g == true || colourTest.r == false || colourTest.b==false){
              discard;
          }
     }

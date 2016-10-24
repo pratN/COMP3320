@@ -263,7 +263,7 @@ public class EngineTester2 {
         entities.add(new Entity(bridgeTexturedModel,new Vector3f(496.69675f, yPos, -505.33478f),0,90,0,0.75f, 4  ));
         entities.add(new Entity(bridgeTexturedModel,new Vector3f(496.69675f, yPos, -505.33478f),0,90,0,0.75f, 6  ));
 //        entities.add(new Entity(bridgeTexturedModel,new Vector3f(496.69675f, yPos, -505.33478f),0,90,0,0.75f, 6  ));
-        entities.add(new Entity(bridgeTexturedModel,new Vector3f(496.69675f, yPos, -505.33478f),0,90,0,0.75f  ));
+//        entities.add(new Entity(bridgeTexturedModel,new Vector3f(496.69675f, yPos, -505.33478f),0,90,0,0.75f  ));
 
         //After Island
        // entities.add(new Entity(bridgeTexturedModel,new Vector3f(461.89313f, yPos, -293.59564f),0,90,0,0.75f));
@@ -275,7 +275,7 @@ public class EngineTester2 {
 //        player.setPosition(entities.get(entities.size()-1).getPosition().x,entities.get(entities.size()-1).getPosition().y,entities.get(entities.size()-1).getPosition().z);
 
         /*********************************************CREATE LIGHTS*************************************************************************/
-        Light sun = new Light(new Vector3f(7500000, 15000000, 5000000), new Vector3f(0.5f,0.5f,0.5f));
+        Light sun = new Light(new Vector3f(7500000, 15000000, 5000000), new Vector3f(0.7f,0.7f,0.7f));
         lights.add(sun);
         lights.add(new Light(new Vector3f(380, 0, -380), new Vector3f(3, 3, 3), new Vector3f(1, 0.01f, 0.002f)));
         lights.add(new Light(player.getPosition(), new Vector3f(0,0,3), new Vector3f(1,0.005f,0.001f)));
@@ -331,7 +331,7 @@ public class EngineTester2 {
 //            smokeParticles.generateParticles(new Vector3f(570, 32.5f, -600));
 
             fbo.bindFrameBuffer();
-            renderer.processTerrain(terrain2);
+            renderer.processTerrain(terrain);
             entities.forEach(renderer:: processEntity);
             normalMapEntities.forEach(renderer:: processNormalMappedEntity);
 
@@ -339,7 +339,7 @@ public class EngineTester2 {
             renderer.render(lights, player, new Vector4f(0, 1, 0, 10000000)); //backup incase some drivers dont support gldisable properly (clip at unreasonable height)
 
             //just call this to make the water
-            //must have all entities in the list and not created seperately (unless not needed for reflection)\
+            //must have all entities in the list and not created separately (unless not needed for reflection)\
             //the sun must be the first light in list of lights
             ParticleHandler.renderParticles(player);
 
@@ -389,7 +389,7 @@ public class EngineTester2 {
             lights.get(0).setColour(new Vector3f(1f, 0.1f, 0.1f));
         } else if(KeyboardHandler.isKeyDown((GLFW_KEY_0))) {
             state = 0;
-            lights.get(0).setColour(new Vector3f(0.5f,0.5f,0.5f));
+            lights.get(0).setColour(new Vector3f(0.7f,0.7f,0.7f));
         } else if(KeyboardHandler.isKeyDown((GLFW_KEY_2))) {
             state = 2;
             lights.get(0).setColour(new Vector3f(0.1f, 1, 0.1f));
