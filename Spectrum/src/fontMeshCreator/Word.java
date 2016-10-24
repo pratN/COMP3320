@@ -3,11 +3,7 @@ package fontMeshCreator;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * During the loading of a text this represents one word in the text.
- * @author Karl
- *
- */
+
 public class Word {
 	
 	private List<Character> characters = new ArrayList<Character>();

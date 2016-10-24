@@ -10,14 +10,7 @@ import org.lwjgl.opengl.GL14;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.opengl.GL32;
 
-/**
- * The frame buffer for the shadow pass. This class sets up the depth texture
- * which can be rendered to during the shadow render pass, producing a shadow
- * map.
- * 
- * @author Karl
- *
- */
+
 public class ShadowFrameBuffer {
 
 	private final int WIDTH;

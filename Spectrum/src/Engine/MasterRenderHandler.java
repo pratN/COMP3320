@@ -51,6 +51,11 @@ public class MasterRenderHandler {
         shadowMapRenderer = new ShadowMapMasterRenderer(camera);
     }
 
+    /**
+     * Enables depth culling for 3D objects.
+     * Culling gets disabled for rendering particle effects and guis/text,
+     * so it needs to be re-enabled for models
+     */
     public static void enableCulling() {
         glEnable(GL_CULL_FACE);
         glCullFace(GL_BACK);
@@ -65,20 +70,12 @@ public class MasterRenderHandler {
         glDisable(GL_CULL_FACE);
     }
 
-    public void renderScene(List<Entity> entities, List<Entity> normalEntities, Terrain terrain, List<Light> lights,
-                            Camera camera, Vector4f clipPlane) {
-       // for (Terrain terrain : terrains) {
-            processTerrain(terrain);
-       // }
-        for (Entity entity : entities) {
-            processEntity(entity);
-        }
-        for(Entity entity : normalEntities){
-            processNormalMappedEntity(entity);
-        }
-        render(lights, camera, clipPlane);
-    }
-
+    /**
+     * Calls the corresponding functions for the other renderers and shaders
+     * @param lights
+     * @param camera
+     * @param waterClipPlane
+     */
     public void render(List<Light> lights, Camera camera, Vector4f waterClipPlane) {
         prepare();
         shader.start();
@@ -106,6 +103,12 @@ public class MasterRenderHandler {
         terrains.add(terrain);
     }
 
+    /**
+     * Renders scene to the shadowmap
+     * @param entityList
+     * @param nmEntityList
+     * @param sun
+     */
     public void renderShadowMap(List<Entity> entityList, List<Entity> nmEntityList, Light sun) {
         for(Entity entity : entityList) {
             processEntity(entity);
@@ -121,6 +124,10 @@ public class MasterRenderHandler {
         return shadowMapRenderer.getShadowMap();
     }
 
+    /**
+     * Processes the entity for rendering, retrieving its model and texture and adding it to the hashMap of entities for rendering
+     * @param entity
+     */
     public void processEntity(Entity entity) {
         TexturedModel entityModel = entity.getModel();
         List<Entity> batch = entities.get(entityModel);
@@ -133,6 +140,10 @@ public class MasterRenderHandler {
         }
     }
 
+    /**
+     * As above, but for normal mapped entities. They're renderred with a different process so they need to be added into a different map
+     * @param entity
+     */
     public void processNormalMappedEntity(Entity entity) {
         TexturedModel entityModel = entity.getModel();
         List<Entity> batch = normalMappedEntities.get(entityModel);
@@ -154,6 +165,9 @@ public class MasterRenderHandler {
         shadowMapRenderer.cleanUp();
     }
 
+    /**
+     * Pre-render steps
+     */
     public void prepare() {
         glEnable(GL_DEPTH_TEST);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -162,6 +176,9 @@ public class MasterRenderHandler {
         glBindTexture(GL_TEXTURE_2D, getShadowMapTexture());
     }
 
+    /**
+     * Create the projection matrix for the scene to enable perspective view
+     */
     private void createProjectionMatrix() {
         projectionMatrix = new Matrix4f();
         float aspectRatio = WindowHandler.getWidth() / WindowHandler.getHeight();

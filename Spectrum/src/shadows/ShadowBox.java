@@ -9,19 +9,7 @@ import entities.Camera;
 import engine.WindowHandler;
 import engine.MasterRenderHandler;
 
-/**
- * Represents the 3D cuboidal area of the world in which objects will cast
- * shadows (basically represents the orthographic projection area for the shadow
- * render pass). It is updated each frame to optimise the area, making it as
- * small as possible (to allow for optimal shadow map resolution) while not
- * being too small to avoid objects not having shadows when they should.
- * Everything inside the cuboidal area represented by this object will be
- * rendered to the shadow map in the shadow render pass. Everything outside the
- * area won't be.
- * 
- * @author Karl
- *
- */
+
 public class ShadowBox {
 
 	private static final float OFFSET = GraphicsConfig.SHADOW_OFFSET;

@@ -4,12 +4,7 @@ import fontRendering.TextHandler;
 import org.lwjglx.util.vector.Vector2f;
 import org.lwjglx.util.vector.Vector3f;
 
-/**
- * Represents a piece of text in the game.
- * 
- * @author Karl
- *
- */
+
 public class GUIText {
 
 	private String textString;

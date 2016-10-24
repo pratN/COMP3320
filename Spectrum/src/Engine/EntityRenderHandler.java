@@ -28,11 +28,11 @@ public class EntityRenderHandler {
         shader.stop();
     }
 
-    /**
-     * Takes in a textured model and renders it to the screen
-     * Raw mesh with associated texture data and UV mapping
-     */
 
+    /**
+     * Draws the entity to screen in the proper location
+     * @param entities
+     */
     public void render(Map<TexturedModel, List<Entity>> entities){
         for(TexturedModel model:entities.keySet()){
             prepareTexturedModel(model);
@@ -46,6 +46,10 @@ public class EntityRenderHandler {
         }
     }
 
+    /**
+     * Prepares the textured model for rendering
+     * @param model
+     */
     public void prepareTexturedModel(TexturedModel model){
         RawModel raw = model.getModel();
         glBindVertexArray(raw.getVaoID());
@@ -63,6 +67,9 @@ public class EntityRenderHandler {
         glBindTexture(GL_TEXTURE_2D, model.getTexture().getID());
     }
 
+    /**
+     * Unbinds arrays when done with rendering
+     */
     public void unbindTexturedModel(){
         MasterRenderHandler.enableCulling();
         glDisableVertexAttribArray(0);
@@ -71,6 +78,10 @@ public class EntityRenderHandler {
         glBindVertexArray(0);
     }
 
+    /**
+     * Prepares a single instance of an entity for rendering
+     * @param entity
+     */
     public void prepareInstance(Entity entity){
         Matrix4f transformationMatrix = Maths.createTransformationMatrix(entity.getPosition(), entity.getRotX(), entity.getRotY(), entity.getRotZ(), entity.getScale());
         shader.loadTransformationMatrix(transformationMatrix);

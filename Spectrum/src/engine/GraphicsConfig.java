@@ -1,9 +1,10 @@
 package engine;
 
 /**
- * Created by Beau on 17/10/2016.
+ * Helper for setting graphical options depending on computer's capabilities. Read from an external file
  */
 public class GraphicsConfig {
+    //Defaults
     public static int MSAA = 8;
     public static int SHADOW_MAP_SIZE = 8192;
     public static int WINDOW_HEIGHT = 1080;

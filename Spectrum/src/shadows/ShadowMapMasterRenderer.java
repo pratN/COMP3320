@@ -14,15 +14,6 @@ import entities.Light;
 import models.TexturedModel;
 import shaders.ShadowShader;
 
-/**
- * This class is in charge of using all of the classes in the shadows package to
- * carry out the shadow render pass, i.e. rendering the scene to the shadow map
- * texture. This is the only class in the shadows package which needs to be
- * referenced from outside the shadows package.
- * 
- * @author Karl
- *
- */
 public class ShadowMapMasterRenderer {
 
 	private static final int SHADOW_MAP_SIZE = 8192;

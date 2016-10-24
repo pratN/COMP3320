@@ -25,6 +25,10 @@ public class GUIRenderer {
         shader =  new GuiShader();
     }
 
+    /**
+     * Render a texture to a quad at camera position, acts as a GUI
+     * @param guis
+     */
     public void render(List<GUITexture>  guis){
         shader.start();
         glBindVertexArray(quad.getVaoID());

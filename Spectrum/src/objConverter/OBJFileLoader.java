@@ -20,6 +20,11 @@ public class OBJFileLoader {
 
     private static final String ASSET_LOC = "assets/models/";
 
+    /**
+     * Parser for reading OBJ files to usable data, reads the file in a different way to engine.OBJLoader
+     * @param objFileName
+     * @return
+     */
     public static ModelData loadOBJ(String objFileName) {
         FileReader isr = null;
         File objFile = new File(ASSET_LOC + objFileName + ".obj");

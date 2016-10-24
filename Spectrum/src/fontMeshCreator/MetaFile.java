@@ -9,12 +9,7 @@ import java.util.Map;
 
 import engine.WindowHandler;
 
-/**
- * Provides functionality for getting the values from a font file.
- * 
- * @author Karl
- *
- */
+
 public class MetaFile {
 
 	private static final int PAD_TOP = 0;

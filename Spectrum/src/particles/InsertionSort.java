@@ -2,14 +2,6 @@ package particles;
 
 import java.util.List;
 
-/**
- * A simple implementation of an insertion sort. I implemented this very quickly
- * the other day so it may not be perfect or the most efficient! Feel free to
- * implement your own sorter instead.
- * 
- * @author Karl
- *
- */
 public class InsertionSort {
 
 	/**

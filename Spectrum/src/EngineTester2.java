@@ -54,7 +54,7 @@ public class EngineTester2 {
     private static int state = 0;
     private static List<Light> lights = new ArrayList<>();
     private static List<Entity> entities = new ArrayList<>();
-    private static float WATER_LEVEL = -20;
+    private static float WATER_LEVEL = 0;
     private static Vector3f startingPos = new Vector3f(724,12,-441);
 
 
@@ -325,14 +325,12 @@ public class EngineTester2 {
 
 
 
-        player.setPosition(entities.get(entities.size()-1).getPosition().x,entities.get(entities.size()-1).getPosition().y,entities.get(entities.size()-1).getPosition().z);
 
         /*********************************************CREATE LIGHTS*************************************************************************/
         Light sun = new Light(new Vector3f(7500000, 15000000, 5000000), new Vector3f(0.7f,0.7f,0.7f));
         lights.add(sun);
         lights.add(new Light(new Vector3f(380, 0, -380), new Vector3f(3, 3, 3), new Vector3f(1, 0.01f, 0.002f)));
         lights.add(new Light(player.getPosition(), new Vector3f(0,0,3), new Vector3f(1,0.005f,0.001f)));
-        //lights.add(new Light(new Vector3f(570, 32.5f, -600), new Vector3f(1, 0.725f, 0.137f), new Vector3f(1, 0.01f, 0.002f)));
 
 
         /*********************************************CREATE GUIS***************************************************************************/
@@ -384,7 +382,7 @@ public class EngineTester2 {
 //            smokeParticles.generateParticles(new Vector3f(570, 32.5f, -600));
 
             fbo.bindFrameBuffer();
-            renderer.processTerrain(terrain);
+            renderer.processTerrain(terrain2);
             entities.forEach(renderer:: processEntity);
             normalMapEntities.forEach(renderer:: processNormalMappedEntity);
 
