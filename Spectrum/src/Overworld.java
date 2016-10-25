@@ -162,7 +162,7 @@ public class Overworld {
                 float x = random.nextFloat() * 800;
                 float y = terrain.getHeightOfTerrain(x, z);
                 if(y > WATER_LEVEL) {
-                    shadowEntities.add(new Entity(fernTexturedModel, new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.4f));
+                    entities.add(new Entity(fernTexturedModel, new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.4f));
 
                 }
             }
@@ -171,7 +171,7 @@ public class Overworld {
                 float x = random.nextFloat() * 800;
                 float y = terrain.getHeightOfTerrain(x, z);
                 if(y > WATER_LEVEL) {
-                    shadowEntities.add(new Entity(shrubTexturedModel, new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.1f));
+                    entities.add(new Entity(shrubTexturedModel, new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.1f));
                 }
             }
             if(i % 5 == 0) {
@@ -181,11 +181,11 @@ public class Overworld {
                 float treeHeight = (0.5f * random.nextFloat()) / 100;
                 if(i % 2 == 0) {
                     if(y > WATER_LEVEL) {
-                        shadowEntities.add(new Entity(tree2TexturedModel, random.nextInt(4), new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.075f));
+                        entities.add(new Entity(tree2TexturedModel, random.nextInt(4), new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.075f));
                     }
                 } else {
                     if(y > WATER_LEVEL) {
-                        shadowEntities.add(new Entity(tree3TexturedModel, random.nextInt(4), new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.025f));
+                        entities.add(new Entity(tree3TexturedModel, random.nextInt(4), new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.025f));
                     }
                 }
             }

@@ -6,7 +6,7 @@ import textures.*;
 import org.lwjglx.util.vector.Vector2f;
 import org.lwjglx.util.vector.Vector3f;
 import util.Maths;
-;import javax.imageio.ImageIO;
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;

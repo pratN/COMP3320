@@ -91,7 +91,7 @@ public class GameLoop {
 
     // loads any config files specified
     private static void setConfigurations() throws FileNotFoundException {
-        readGraphicsSettings();
+       readGraphicsSettings();
     }
 
     //Main Loop
@@ -136,6 +136,9 @@ public class GameLoop {
         ModelTexture treeTexture = new ModelTexture(loader.loadTexture("tree9"));
         ModelTexture tree3Texture = new ModelTexture(loader.loadTexture("tree3"));
         ModelTexture dragonTexture = new ModelTexture(loader.loadTexture("red"));
+        ModelTexture portalTexture = new ModelTexture(loader.loadTexture("red"));
+        portalTexture.setReflectivity(1);
+        portalTexture.setShineDamper(5);
         ModelTexture doorTexture = new ModelTexture(loader.loadTexture("door"));
         doorTexture.setNormalMap(loader.loadTexture("doorN"));
         doorTexture.setReflectivity(0.2f);
@@ -173,7 +176,8 @@ public class GameLoop {
         TexturedModel bridgeTexturedModel = new TexturedModel(bridgeModel, whiteCrateTexture);
         TexturedModel stepsTexturedModel = new TexturedModel(stepsModel, stepsTex);
         TexturedModel doorTexModel = new TexturedModel(doorModel, doorTexture);
-        TexturedModel portalTexModel = new TexturedModel(portalModel,dragonTexture);
+        TexturedModel portalTexModel = new TexturedModel(portalModel,portalTexture);
+        portalTexModel.getTexture().setUseFakeLighting(true);
         TexturedModel mapTexModel = new TexturedModel(mapModel,mapTex);
         bridgeTexturedModel.getTexture().setHasTransparency(true);
         bridgeTexturedModel.getTexture().setUseFakeLighting(true);
