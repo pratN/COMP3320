@@ -5,8 +5,8 @@ import org.lwjglx.util.vector.Vector3f;
 
 public class FontShader extends ShaderProgram{
 
-	private static final String VERTEX_FILE = "src/shaders/fontVertex.glsl";
-	private static final String FRAGMENT_FILE = "src/shaders/fontFragment.glsl";
+	private static final String VERTEX_FILE = "/shaders/fontVertex.glsl";
+	private static final String FRAGMENT_FILE = "/shaders/fontFragment.glsl";
 
 	private int location_colour;
 	private int location_translation;

@@ -4,8 +4,8 @@ import org.lwjglx.util.vector.Matrix4f;
 
 public class ShadowShader extends ShaderProgram {
 	
-	private static final String VERTEX_FILE = "src/shaders/shadowVertexShader.glsl";
-	private static final String FRAGMENT_FILE = "src/shaders/shadowFragmentShader.glsl";
+	private static final String VERTEX_FILE = "/shaders/shadowVertexShader.glsl";
+	private static final String FRAGMENT_FILE = "/shaders/shadowFragmentShader.glsl";
 	
 	private int location_mvpMatrix;
 

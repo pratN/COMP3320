@@ -45,15 +45,23 @@ import water.*;
 
 import static org.lwjgl.glfw.GLFW.*;
 
-public class EngineTester2 {
+public class GameLoop {
 
     private static GLFWKeyCallback keyCallback;
     private static MouseHandler mouseCallback;
     private static int state = 0;
     private static List<Light> lights = new ArrayList<>();
     private static List<Entity> entities = new ArrayList<>();
-    private static float WATER_LEVEL = 5;
+    private static List<Entity> shadowEntities = new ArrayList<>();
+    private static float WATER_LEVEL = 0;
     private static Vector3f startingPos = new Vector3f(724, 12, -441);
+    private static List<GUITexture> guis = new ArrayList<>();
+    private static GUITexture redLamp;
+    private static GUITexture blueLamp;
+    private static GUITexture greenLamp;
+    private static GUITexture offLamp;
+
+
 
     public static void main(String[] args) {
         System.out.println("Hello LWJGL " + Version.getVersion() + "!");
@@ -177,57 +185,58 @@ public class EngineTester2 {
         /*********************************************LOAD TERRAIN*************************************************************************/
         Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "heightMapMaze");
         Terrain terrain2 = new Terrain(0, -1, loader, texturePack, blendMap, "visibleTerrainHM");
-        terrain.setInvis(0);
-        //terrain terrain = new terrain(0, -1, loader, texturePack, blendMap);
+//        terrain.setInvis(0);
+//        Terrain terrain2 = new Terrain(0, -1, loader, texturePack, blendMap);
         //flat terrain for testing
-//        terrain terrain = new terrain(0, -1, loader, texturePack, blendMap, "flatHM");
+//        Terrain terrain2 = new Terrain(0, -1, loader, texturePack, blendMap, "flatHM");
 
 
         /*********************************************CREATE ENTITIES***********************************************************************/
         List<Entity> normalMapEntities = new ArrayList<>();
         Random random = new Random(676452);
-//        for(int i = 0; i < 2000; i++) {
-//            if(i % 2 == 0) {
-//                float z = random.nextFloat() * -800;
-//                float x = random.nextFloat() * 800;
-//                float y = terrain.getHeightOfTerrain(x, z);
-//                if(y > WATER_LEVEL) {
-//                    entities.add(new Entity(fernTexturedModel, new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.4f));
-//                }
-//            }
-//            if(i % 2 == 0) {
-//                float z = random.nextFloat() * -800;
-//                float x = random.nextFloat() * 800;
-//                float y = terrain.getHeightOfTerrain(x, z);
-//                if(y > WATER_LEVEL) {
-//                    entities.add(new Entity(shrubTexturedModel, new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.1f));
-//                }
-//            }
-//            if(i % 5 == 0) {
-//                float z = random.nextFloat() * -800;
-//                float x = random.nextFloat() * 800;
-//                float y = terrain.getHeightOfTerrain(x, z);
-//                float treeHeight = (0.5f*random.nextFloat())/100;
-//                if(i%2==0){
-//                    if(y > WATER_LEVEL) {
-//                        entities.add(new Entity(tree2TexturedModel, random.nextInt(4), new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.075f));
-//                    }
-//                }else{
-//                    if(y > WATER_LEVEL) {
-//                        entities.add(new Entity(tree3TexturedModel, random.nextInt(4), new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.025f));
-//                    }
-//                }
-//            }
-//            if(i % 10 == 0) {
-//                float z = random.nextFloat() * -800;
-//                float x = random.nextFloat() * 800;
-//                float y = terrain.getHeightOfTerrain(x, z);
-//                if(y > WATER_LEVEL) {
-//                    normalMapEntities.add(new Entity(rock, new Vector3f(x, y, z), random.nextFloat() * 360, random.nextFloat() * 360, random.nextFloat() * 360, 0.75f));
-//                }
-//            }
-//
-//        }
+        for(int i = 0; i < 2000; i++) {
+            if(i % 2 == 0) {
+                float z = random.nextFloat() * -800;
+                float x = random.nextFloat() * 800;
+                float y = terrain2.getHeightOfTerrain(x, z);
+                if(y > WATER_LEVEL&& (x>700 || x<100)) {
+                    shadowEntities.add(new Entity(fernTexturedModel, new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.4f));
+
+                }
+            }
+            if(i % 2 == 0) {
+                float z = random.nextFloat() * -800;
+                float x = random.nextFloat() * 800;
+                float y = terrain2.getHeightOfTerrain(x, z);
+                if(y > WATER_LEVEL&& (x>700 || x<150)) {
+                    shadowEntities.add(new Entity(shrubTexturedModel, new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.1f));
+                }
+            }
+            if(i % 5 == 0) {
+                float z = random.nextFloat() * -800;
+                float x = random.nextFloat() * 800;
+                float y = terrain2.getHeightOfTerrain(x, z);
+                float treeHeight = (0.5f*random.nextFloat())/100;
+                if(i%2==0){
+                    if(y > WATER_LEVEL&& (x>700 || x<150)) {
+                        shadowEntities.add(new Entity(tree2TexturedModel, random.nextInt(4), new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.075f));
+                    }
+                }else{
+                    if(y > WATER_LEVEL&& (x>700 || x<150)) {
+                        shadowEntities.add(new Entity(tree3TexturedModel, random.nextInt(4), new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.025f));
+                    }
+                }
+            }
+            if(i % 10 == 0) {
+                float z = random.nextFloat() * -800;
+                float x = random.nextFloat() * 800;
+                float y = terrain2.getHeightOfTerrain(x, z);
+                if(y > WATER_LEVEL&& (x>700 || x<150)) {
+                    normalMapEntities.add(new Entity(rock, new Vector3f(x, y, z), random.nextFloat() * 360, random.nextFloat() * 360, random.nextFloat() * 360, 0.75f));
+                }
+            }
+
+        }
 
         /*****************CRATE MODELS FOR LEVEL************************/
 //        float yPos = 14.5f;
@@ -319,19 +328,26 @@ public class EngineTester2 {
         //player.setPosition(entities.get(entities.size()-1).getPosition().x,entities.get(entities.size()-1).getPosition().y,entities.get(entities.size()-1).getPosition().z);
 
         /*********************************************CREATE LIGHTS*************************************************************************/
-        Light sun = new Light(new Vector3f(7500000, 15000000, 5000000), new Vector3f(0.7f, 0.7f, 0.7f));
+        Light sun = new Light(new Vector3f(7500, 15000000, 500000), new Vector3f(1f, 1, 1));
         lights.add(sun);
         lights.add(new Light(new Vector3f(380, 0, -380), new Vector3f(3, 3, 3), new Vector3f(1, 0.01f, 0.002f)));
-        lights.add(new Light(player.getPosition(), new Vector3f(0, 0, 3), new Vector3f(1, 0.005f, 0.001f)));
+        lights.add(new Light(player.getPosition(), new Vector3f(1, 0, 0), new Vector3f(1, 0.005f, 0.001f)));
         //lights.add(new Light(new Vector3f(570, 32.5f, -600), new Vector3f(1, 0.725f, 0.137f), new Vector3f(1, 0.01f, 0.002f)));
 
 
         /*********************************************CREATE GUIS***************************************************************************/
         GUIRenderer guiRenderer = new GUIRenderer(loader);
-        List<GUITexture> guis = new ArrayList<>();
-        //GUITexture gui = new GUITexture(loader.loadTexture("gui"), new Vector2f(0f, -0.75f), new Vector2f(1f, 0.25f));
+//        GUITexture gui = new GUITexture(loader.loadTexture("gui"), new Vector2f(0f, -0.75f), new Vector2f(1f, 0.25f));
         //guis.add(shadowMap);
-
+        GUITexture colours = new GUITexture(loader.loadTexture("colours"),new Vector2f(-0.75f,0.9f), new Vector2f (0.2f,0.05f));
+        GUITexture sunGUI = new GUITexture(loader.loadTexture("sun"),new Vector2f(-0.565f,0.865f), new Vector2f (0.075f,0.075f));
+        redLamp = new GUITexture(loader.loadTexture("redLamp"),new Vector2f(-0.8f,0.6f), new Vector2f (0.1f,0.15f));
+        greenLamp = new GUITexture(loader.loadTexture("greenLamp"),new Vector2f(-0.8f,0.6f), new Vector2f (0.1f,0.15f));
+        blueLamp = new GUITexture(loader.loadTexture("blueLamp"),new Vector2f(-0.8f,0.6f), new Vector2f (0.1f,0.15f));
+        offLamp = new GUITexture(loader.loadTexture("offLamp"),new Vector2f(-0.8f,0.6f), new Vector2f (0.1f,0.15f));
+        guis.add(colours);
+        guis.add(sunGUI);
+        guis.add(offLamp);
 
         /*********************************************CREATE PLAYER*************************************************************************/
 
@@ -365,10 +381,10 @@ public class EngineTester2 {
             checkInputs();
             player.move(terrain);
             lights.get(2).setPosition(player.getPosition());
-            lights.get(2).changeColour();
+            lights.get(2).changeColour(guis,redLamp, blueLamp, greenLamp, offLamp);
             ParticleHandler.update(player);
 
-            renderer.renderShadowMap(entities, normalMapEntities, sun);
+            renderer.renderShadowMap(shadowEntities, normalMapEntities, sun);
 
             /**Uncomment to display particles**/
 //            particleSystem.generateParticles(new Vector3f(570, 32.5f, -600));
@@ -377,6 +393,7 @@ public class EngineTester2 {
             fbo.bindFrameBuffer();
             renderer.processTerrain(terrain2);
             entities.forEach(renderer::processEntity);
+            shadowEntities.forEach(renderer::processEntity);
             normalMapEntities.forEach(renderer::processNormalMappedEntity);
 
 
@@ -393,7 +410,7 @@ public class EngineTester2 {
             PostProcessing.doPostProcessing(fbo.getColourTexture());
 
             /**Uncomment to  display GUI**/
-            //guiRenderer.render(guis);
+            guiRenderer.render(guis);
 
             /**Uncomment for text rendering**/
             if (player.getPosition().y < WATER_LEVEL)
@@ -431,17 +448,17 @@ public class EngineTester2 {
             System.out.println(entities.get(entities.size() - 1).getPosition().x + "f, yPos, " + entities.get(entities.size() - 1).getPosition().z + "f, ");
         }
         if (KeyboardHandler.isKeyDown(GLFW_KEY_1)) {
-            state = 1;
             lights.get(0).setColour(new Vector3f(1f, 0.1f, 0.1f));
+            guis.get(1).setPosition(new Vector2f(-0.865f, guis.get(1).getPosition().y));
         } else if (KeyboardHandler.isKeyDown((GLFW_KEY_0))) {
-            state = 0;
             lights.get(0).setColour(new Vector3f(0.7f, 0.7f, 0.7f));
+            guis.get(1).setPosition(new Vector2f(-0.565f, guis.get(1).getPosition().y));
         } else if (KeyboardHandler.isKeyDown((GLFW_KEY_2))) {
-            state = 2;
             lights.get(0).setColour(new Vector3f(0.1f, 1, 0.1f));
+            guis.get(1).setPosition(new Vector2f(-0.765f, guis.get(1).getPosition().y));
         } else if (KeyboardHandler.isKeyDown((GLFW_KEY_3))) {
-            state = 3;
             lights.get(0).setColour(new Vector3f(0.1f, 0.1f, 1));
+            guis.get(1).setPosition(new Vector2f(-0.665f, guis.get(1).getPosition().y));
         }
 
 

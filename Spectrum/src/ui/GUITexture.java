@@ -16,6 +16,10 @@ public class GUITexture {
         this.scale = scale;
     }
 
+    public void setPosition(Vector2f position) {
+        this.position = position;
+    }
+
     public int getTexture() {
         return texture;
     }
