@@ -1,3 +1,4 @@
+import entities.DoorEntity;
 import entities.Entity;
 import entities.Light;
 import entities.Player;
@@ -60,7 +61,7 @@ public class GameLoop {
     private static GUITexture blueLamp;
     private static GUITexture greenLamp;
     private static GUITexture offLamp;
-
+    private static boolean win=false;
 
 
     public static void main(String[] args) {
@@ -68,9 +69,10 @@ public class GameLoop {
         try {
             init();
             loop();
-        } catch (FileNotFoundException e) {
+        } catch(FileNotFoundException e) {
             e.printStackTrace();
         } finally {
+            if(!win)
             WindowHandler.closeWindow();
         }
     }
@@ -109,6 +111,8 @@ public class GameLoop {
         ModelData tree3Data = OBJFileLoader.loadOBJ("tree3");
         ModelData lampData = OBJFileLoader.loadOBJ("lamp");
         ModelData bridgeData = OBJFileLoader.loadOBJ("bridge");
+        ModelData portalData = OBJFileLoader.loadOBJ("portal");
+        ModelData mapData = OBJFileLoader.loadOBJ("map");
 
 
         /*********************************************LOAD RAW DATA AS MODELS***************************************************************/
@@ -117,11 +121,13 @@ public class GameLoop {
         RawModel treeModel3 = loader.loadToVAO(tree3Data.getVertices(), tree3Data.getTextureCoords(), tree3Data.getNormals(), tree3Data.getIndices());
         RawModel lampModel = loader.loadToVAO(lampData.getVertices(), lampData.getTextureCoords(), lampData.getNormals(), lampData.getIndices());
         RawModel bridgeModel = loader.loadToVAO(bridgeData.getVertices(), bridgeData.getTextureCoords(), bridgeData.getNormals(), bridgeData.getIndices());
+        RawModel mapModel = loader.loadToVAO(mapData.getVertices(), mapData.getTextureCoords(), mapData.getNormals(), mapData.getIndices());
         RawModel crateModel = NormalMappedObjLoader.loadOBJ("crate", loader);
         RawModel barrelModel = NormalMappedObjLoader.loadOBJ("barrel", loader);
         RawModel rockModel = NormalMappedObjLoader.loadOBJ("boulder", loader);
-
-
+        RawModel stepsModel = NormalMappedObjLoader.loadOBJ("steps", loader);
+        RawModel doorModel = NormalMappedObjLoader.loadOBJ("door", loader);
+        RawModel portalModel = loader.loadToVAO(portalData.getVertices(),portalData.getTextureCoords(),portalData.getNormals(),portalData.getIndices());
         /*********************************************CREATE MODEL TEXTURES*****************************************************************/
         ModelTexture shrubTex = new ModelTexture(loader.loadTexture("shrub7"));
         shrubTex.setHasTransparency(true);
@@ -130,6 +136,11 @@ public class GameLoop {
         ModelTexture treeTexture = new ModelTexture(loader.loadTexture("tree9"));
         ModelTexture tree3Texture = new ModelTexture(loader.loadTexture("tree3"));
         ModelTexture dragonTexture = new ModelTexture(loader.loadTexture("red"));
+        ModelTexture doorTexture = new ModelTexture(loader.loadTexture("door"));
+        doorTexture.setNormalMap(loader.loadTexture("doorN"));
+        doorTexture.setReflectivity(0.2f);
+        doorTexture.setShineDamper(10);
+        ModelTexture mapTex = new ModelTexture(loader.loadTexture("mapTex"));
         dragonTexture.setShineDamper(5);
         dragonTexture.setReflectivity(0.75f);
         treeTexture.setHasTransparency(true);
@@ -139,13 +150,17 @@ public class GameLoop {
         crateTexture.setNormalMap(loader.loadTexture("crateNormal"));
         crateTexture.setShineDamper(10);
         crateTexture.setReflectivity(0.3f);
-
+        ModelTexture stepsTex = new ModelTexture(loader.loadTexture("stepTex"));
+        stepsTex.setNormalMap(loader.loadTexture("stepTexN"));
+        stepsTex.setShineDamper(10);
+        stepsTex.setReflectivity(0.01f);
         ModelTexture barrelTexture = new ModelTexture((loader.loadTexture("barrel")));
         barrelTexture.setNormalMap(loader.loadTexture("barrelNormal"));
         barrelTexture.setShineDamper(10);
         barrelTexture.setReflectivity(0.5f);
 
         ModelTexture rockTexture = new ModelTexture((loader.loadTexture("boulder")));
+        ModelTexture rockTexture2 = new ModelTexture((loader.loadTexture("boulder")));
         rockTexture.setNormalMap(loader.loadTexture("boulderNormal"));
         rockTexture.setShineDamper(10);
         rockTexture.setReflectivity(0.2f);
@@ -156,6 +171,10 @@ public class GameLoop {
         TexturedModel tree3TexturedModel = new TexturedModel(treeModel3, tree3Texture);
         TexturedModel shrubTexturedModel = new TexturedModel(OBJLoader.loadObjModel("shrub", loader), shrubTex);
         TexturedModel bridgeTexturedModel = new TexturedModel(bridgeModel, whiteCrateTexture);
+        TexturedModel stepsTexturedModel = new TexturedModel(stepsModel, stepsTex);
+        TexturedModel doorTexModel = new TexturedModel(doorModel, doorTexture);
+        TexturedModel portalTexModel = new TexturedModel(portalModel,dragonTexture);
+        TexturedModel mapTexModel = new TexturedModel(mapModel,mapTex);
         bridgeTexturedModel.getTexture().setHasTransparency(true);
         bridgeTexturedModel.getTexture().setUseFakeLighting(true);
         TexturedModel fernTexturedModel = new TexturedModel(OBJLoader.loadObjModel("fern", loader), fernAtlas);
@@ -177,8 +196,7 @@ public class GameLoop {
         TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("brown"));
         TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("mud"));
 
-        TerrainTexPack texturePack = new TerrainTexPack(backgroundTexture, rTexture,
-                gTexture, bTexture);
+        TerrainTexPack texturePack = new TerrainTexPack(backgroundTexture, rTexture, gTexture, bTexture);
         TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("mazeBM"));
 
 
@@ -193,13 +211,13 @@ public class GameLoop {
 
         /*********************************************CREATE ENTITIES***********************************************************************/
         List<Entity> normalMapEntities = new ArrayList<>();
-        Random random = new Random(676452);
+        Random random = new Random(676472);
         for(int i = 0; i < 2000; i++) {
             if(i % 2 == 0) {
                 float z = random.nextFloat() * -800;
                 float x = random.nextFloat() * 800;
                 float y = terrain2.getHeightOfTerrain(x, z);
-                if(y > WATER_LEVEL&& (x>700 || x<100)) {
+                if(y > WATER_LEVEL) {
                     shadowEntities.add(new Entity(fernTexturedModel, new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.4f));
 
                 }
@@ -208,7 +226,7 @@ public class GameLoop {
                 float z = random.nextFloat() * -800;
                 float x = random.nextFloat() * 800;
                 float y = terrain2.getHeightOfTerrain(x, z);
-                if(y > WATER_LEVEL&& (x>700 || x<150)) {
+                if(y > WATER_LEVEL) {
                     shadowEntities.add(new Entity(shrubTexturedModel, new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.1f));
                 }
             }
@@ -216,13 +234,13 @@ public class GameLoop {
                 float z = random.nextFloat() * -800;
                 float x = random.nextFloat() * 800;
                 float y = terrain2.getHeightOfTerrain(x, z);
-                float treeHeight = (0.5f*random.nextFloat())/100;
-                if(i%2==0){
-                    if(y > WATER_LEVEL&& (x>700 || x<150)) {
+                float treeHeight = (0.5f * random.nextFloat()) / 100;
+                if(i % 2 == 0) {
+                    if(y > WATER_LEVEL) {
                         shadowEntities.add(new Entity(tree2TexturedModel, random.nextInt(4), new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.075f));
                     }
-                }else{
-                    if(y > WATER_LEVEL&& (x>700 || x<150)) {
+                } else {
+                    if(y > WATER_LEVEL) {
                         shadowEntities.add(new Entity(tree3TexturedModel, random.nextInt(4), new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.025f));
                     }
                 }
@@ -231,8 +249,9 @@ public class GameLoop {
                 float z = random.nextFloat() * -800;
                 float x = random.nextFloat() * 800;
                 float y = terrain2.getHeightOfTerrain(x, z);
-                if(y > WATER_LEVEL&& (x>700 || x<150)) {
+                if(y > WATER_LEVEL) {
                     normalMapEntities.add(new Entity(rock, new Vector3f(x, y, z), random.nextFloat() * 360, random.nextFloat() * 360, random.nextFloat() * 360, 0.75f));
+
                 }
             }
 
@@ -241,7 +260,6 @@ public class GameLoop {
         /*****************CRATE MODELS FOR LEVEL************************/
 //        float yPos = 14.5f;
         float yPos = 15;
-        entities.add(new Entity(dragon, new Vector3f(404, 10, -84), 0, -45, 0, 6f));
         //Before Island
         entities.add(new Entity(bridgeTexturedModel, new Vector3f(670, yPos, -372.5f), 0, 90, 0, 0.75f, 1));
         entities.add(new Entity(bridgeTexturedModel, new Vector3f(625, yPos, -372.5f), 0, 90, 0, 0.75f, 2));
@@ -324,14 +342,23 @@ public class GameLoop {
         entities.add(new Entity(bridgeTexturedModel, new Vector3f(475.76157f, yPos, -566.7018f), 0, 0, 0, 0.75f, 1));
         entities.add(new Entity(bridgeTexturedModel, new Vector3f(469.4178f, yPos, -595.7776f), 0, 90, 0, 0.75f, 3));
 
+        normalMapEntities.add(new Entity(stepsTexturedModel, new Vector3f(686.4702f, yPos, -381.19562f), 0, 90, 0, 0.75f));
+        normalMapEntities.add(new Entity(stepsTexturedModel, new Vector3f(175.07776f, yPos - 1, -535.6924f), 0, -90, 0, 0.75f));
+        normalMapEntities.add(new Entity(doorTexModel, new Vector3f(93,15,-543),0,-90,0,0.25f));
+//        player.setPosition(85,15,-543);
+        DoorEntity levelPortal = new DoorEntity(portalTexModel, new Vector3f(93,14.5f,-543),0,-90,0,0.3f);
+        levelPortal.setBounds(91,93,0,25,-546,-538);
+        entities.add(levelPortal);
+        shadowEntities.add(new Entity(mapTexModel, new Vector3f(413, 16, -83), 0, 90, 0, 5f));
+        shadowEntities.add(new Entity(dragon, new Vector3f(680, 11, -389), 0, 180, 0, 1f));
+
         /******uncomment the line below to manipulate the last object in the entities list******/
-        //player.setPosition(entities.get(entities.size()-1).getPosition().x,entities.get(entities.size()-1).getPosition().y,entities.get(entities.size()-1).getPosition().z);
 
         /*********************************************CREATE LIGHTS*************************************************************************/
-        Light sun = new Light(new Vector3f(7500, 15000000, 500000), new Vector3f(1f, 1, 1));
+        Light sun = new Light(new Vector3f(-7500000, 15000000, 5000000), new Vector3f(1f, 1, 1));
         lights.add(sun);
         lights.add(new Light(new Vector3f(380, 0, -380), new Vector3f(3, 3, 3), new Vector3f(1, 0.01f, 0.002f)));
-        lights.add(new Light(player.getPosition(), new Vector3f(1, 0, 0), new Vector3f(1, 0.005f, 0.001f)));
+        lights.add(new Light(player.getPosition(), new Vector3f(1, 0, 0), new Vector3f(0.5f, 0.0001f, 0.0001f)));
         //lights.add(new Light(new Vector3f(570, 32.5f, -600), new Vector3f(1, 0.725f, 0.137f), new Vector3f(1, 0.01f, 0.002f)));
 
 
@@ -339,13 +366,20 @@ public class GameLoop {
         GUIRenderer guiRenderer = new GUIRenderer(loader);
 //        GUITexture gui = new GUITexture(loader.loadTexture("gui"), new Vector2f(0f, -0.75f), new Vector2f(1f, 0.25f));
         //guis.add(shadowMap);
-        GUITexture colours = new GUITexture(loader.loadTexture("colours"),new Vector2f(-0.75f,0.9f), new Vector2f (0.2f,0.05f));
-        GUITexture sunGUI = new GUITexture(loader.loadTexture("sun"),new Vector2f(-0.565f,0.865f), new Vector2f (0.075f,0.075f));
-        redLamp = new GUITexture(loader.loadTexture("redLamp"),new Vector2f(-0.8f,0.6f), new Vector2f (0.1f,0.15f));
-        greenLamp = new GUITexture(loader.loadTexture("greenLamp"),new Vector2f(-0.8f,0.6f), new Vector2f (0.1f,0.15f));
-        blueLamp = new GUITexture(loader.loadTexture("blueLamp"),new Vector2f(-0.8f,0.6f), new Vector2f (0.1f,0.15f));
-        offLamp = new GUITexture(loader.loadTexture("offLamp"),new Vector2f(-0.8f,0.6f), new Vector2f (0.1f,0.15f));
+        GUITexture colours = new GUITexture(loader.loadTexture("colours"), new Vector2f(-0.75f, 0.9f), new Vector2f(0.2f, 0.05f));
+        GUITexture sunGUI = new GUITexture(loader.loadTexture("sun"), new Vector2f(-0.565f, 0.865f), new Vector2f(0.075f, 0.075f));
+        GUITexture backdropGUI = new GUITexture(loader.loadTexture("backdrop"), new Vector2f(0.75f, -0.25f), new Vector2f(0.25f, 0.5f));
+        GUITexture failMessage = new GUITexture(loader.loadTexture("failMessage"), new Vector2f(0f, 0f), new Vector2f(0.5f, 0.5f));
+        redLamp = new GUITexture(loader.loadTexture("redLamp"), new Vector2f(-0.8f, 0.6f), new Vector2f(0.1f, 0.17f));
+        greenLamp = new GUITexture(loader.loadTexture("greenLamp"), new Vector2f(-0.8f, 0.6f), new Vector2f(0.1f, 0.17f));
+        blueLamp = new GUITexture(loader.loadTexture("blueLamp"), new Vector2f(-0.8f, 0.6f), new Vector2f(0.1f, 0.17f));
+        offLamp = new GUITexture(loader.loadTexture("offLamp"), new Vector2f(-0.8f, 0.6f), new Vector2f(0.1f, 0.17f));
+        List<GUITexture> backdrop = new ArrayList<>();
+        List<GUITexture> fail = new ArrayList<>();
+        fail.add(failMessage);
+        backdrop.add(backdropGUI);
         guis.add(colours);
+        //guis.add(backdropGUI);
         guis.add(sunGUI);
         guis.add(offLamp);
 
@@ -363,25 +397,35 @@ public class GameLoop {
         /***********************************************************************************************************************************/
         /*********************************************FUNCTIONALITY PROTOTYPING*************************************************************/
         /***********************************************************************************************************************************/
-        FontType font = new FontType(loader.loadTexture("centaur"), new File("assets/textures/centaur.fnt"));
-        GUIText text = new GUIText("Press <R> to restart", 3, font, new Vector2f(0.25f, 0.6f), 0.5f, true);
-        GUIText text2 = new GUIText(":(", 12, font, new Vector2f(0.25f, 0.1f), 0.5f, true);
-        text.setColour(0.25f, 0.25f, 0.25f);
-        text2.setColour(0.25f, 0.25f, 0.25f);
-        TextHandler.loadText(text);
-        TextHandler.loadText(text2);
+        FontType font = new FontType(loader.loadTexture("candara"), new File("assets/textures/candara.fnt"));
+        ParticleTexture firetexture = new ParticleTexture(loader.loadTexture("cosmic"), 4);
+        ParticleSystem particleSystem = new ParticleSystem(5, 5, -0.01f, 1, 5, firetexture);
+        particleSystem.randomizeRotation();
+        particleSystem.setDirection(new Vector3f(0.1f, 1f, 0.15f), 0.1f);
+        particleSystem.setLifeError(0.1f);
+        particleSystem.setSpeedError(0.4f);
+        particleSystem.setScaleError(0.8f);
 
+        ParticleTexture smoketexture = new ParticleTexture(loader.loadTexture("smoke"), 8);
+        ParticleSystem smokeParticles = new ParticleSystem(5, 15, -0.01f, 3, 25, smoketexture);
+        smokeParticles.randomizeRotation();
+        smokeParticles.setDirection(new Vector3f(-1, 0.1f, 0.5f), 0.1f);
+        smokeParticles.setLifeError(0.1f);
+        smokeParticles.setSpeedError(0.4f);
+        smokeParticles.setScaleError(0.8f);
 
         /***********************************************************************************************************************************/
 
         PostProcessing.init(loader);
         /***********************************************************************************************************************************/
 
-        while (!KeyboardHandler.isKeyDown(GLFW_KEY_ESCAPE) && !WindowHandler.close()) {
+        while(!KeyboardHandler.isKeyDown(GLFW_KEY_ESCAPE) && !WindowHandler.close()) {
             checkInputs();
             player.move(terrain);
             lights.get(2).setPosition(player.getPosition());
-            lights.get(2).changeColour(guis,redLamp, blueLamp, greenLamp, offLamp);
+            lights.get(2).changeColour(guis, redLamp, blueLamp, greenLamp, offLamp);
+            particleSystem.generateParticles(new Vector3f(92, 24, -547));
+            particleSystem.generateParticles(new Vector3f(92, 24, -539));
             ParticleHandler.update(player);
 
             renderer.renderShadowMap(shadowEntities, normalMapEntities, sun);
@@ -392,9 +436,9 @@ public class GameLoop {
 
             fbo.bindFrameBuffer();
             renderer.processTerrain(terrain2);
-            entities.forEach(renderer::processEntity);
-            shadowEntities.forEach(renderer::processEntity);
-            normalMapEntities.forEach(renderer::processNormalMappedEntity);
+            entities.forEach(renderer:: processEntity);
+            shadowEntities.forEach(renderer:: processEntity);
+            normalMapEntities.forEach(renderer:: processNormalMappedEntity);
 
 
             renderer.render(lights, player, new Vector4f(0, 1, 0, 10000000)); //backup incase some drivers dont support gldisable properly (clip at unreasonable height)
@@ -406,16 +450,24 @@ public class GameLoop {
 
             fbo.unbindFrameBuffer();
             water.setWater(renderer, player, terrain2, entities, normalMapEntities, lights);
+            if(player.getPosition().y < WATER_LEVEL) {
+                PostProcessing.doPostProcessing(fbo.getColourTexture());
+                guiRenderer.render(fail);
 
-            PostProcessing.doPostProcessing(fbo.getColourTexture());
+            } else {
+                PostProcessing.doPostProcessingNoBlur(fbo.getColourTexture());
+            }
 
             /**Uncomment to  display GUI**/
             guiRenderer.render(guis);
-
+            if(f1Pressed())guiRenderer.render(backdrop);
+            TextHandler.render();
             /**Uncomment for text rendering**/
-            if (player.getPosition().y < WATER_LEVEL)
-                TextHandler.render();
             WindowHandler.updateWindow();
+            if(levelPortal.checkCollision(player)){
+                win=true;
+                break;
+            }
         }
         //then call this to clean up water
         PostProcessing.cleanUp();
@@ -426,37 +478,45 @@ public class GameLoop {
         loader.cleanUp();
         TextHandler.cleanUp();
         ParticleHandler.cleanUp();
+        if(win){
+            Overworld.run();
+        }
     }
 
     // uses the direction keys to move the last created entity and prints its location in the vector space
     // this was used to place the elements in the world
+    public static boolean f1Pressed(){
+        if(KeyboardHandler.isKeyDown(GLFW_KEY_F1))
+            return true;
+        return false;
+    }
     public static void checkInputs() {
-        if (KeyboardHandler.isKeyDown(GLFW_KEY_UP)) {
+        if(KeyboardHandler.isKeyDown(GLFW_KEY_UP)) {
             entities.get(entities.size() - 1).increasePosition(0, 0, 10 * WindowHandler.getFrameTimeSeconds());
             System.out.println(entities.get(entities.size() - 1).getPosition().x + "f, yPos, " + entities.get(entities.size() - 1).getPosition().z + "f, ");
         }
-        if (KeyboardHandler.isKeyDown(GLFW_KEY_DOWN)) {
+        if(KeyboardHandler.isKeyDown(GLFW_KEY_DOWN)) {
             entities.get(entities.size() - 1).increasePosition(0, 0, -10 * WindowHandler.getFrameTimeSeconds());
             System.out.println(entities.get(entities.size() - 1).getPosition().x + "f, yPos, " + entities.get(entities.size() - 1).getPosition().z + "f, ");
         }
-        if (KeyboardHandler.isKeyDown(GLFW_KEY_LEFT)) {
+        if(KeyboardHandler.isKeyDown(GLFW_KEY_LEFT)) {
             entities.get(entities.size() - 1).increasePosition(-10 * WindowHandler.getFrameTimeSeconds(), 0, 0);
             System.out.println(entities.get(entities.size() - 1).getPosition().x + "f, yPos, " + entities.get(entities.size() - 1).getPosition().z + "f, ");
         }
-        if (KeyboardHandler.isKeyDown(GLFW_KEY_RIGHT)) {
+        if(KeyboardHandler.isKeyDown(GLFW_KEY_RIGHT)) {
             entities.get(entities.size() - 1).increasePosition(10 * WindowHandler.getFrameTimeSeconds(), 0, 0);
             System.out.println(entities.get(entities.size() - 1).getPosition().x + "f, yPos, " + entities.get(entities.size() - 1).getPosition().z + "f, ");
         }
-        if (KeyboardHandler.isKeyDown(GLFW_KEY_1)) {
+        if(KeyboardHandler.isKeyDown(GLFW_KEY_1)) {
             lights.get(0).setColour(new Vector3f(1f, 0.1f, 0.1f));
             guis.get(1).setPosition(new Vector2f(-0.865f, guis.get(1).getPosition().y));
-        } else if (KeyboardHandler.isKeyDown((GLFW_KEY_0))) {
+        } else if(KeyboardHandler.isKeyDown((GLFW_KEY_0))) {
             lights.get(0).setColour(new Vector3f(0.7f, 0.7f, 0.7f));
             guis.get(1).setPosition(new Vector2f(-0.565f, guis.get(1).getPosition().y));
-        } else if (KeyboardHandler.isKeyDown((GLFW_KEY_2))) {
+        } else if(KeyboardHandler.isKeyDown((GLFW_KEY_2))) {
             lights.get(0).setColour(new Vector3f(0.1f, 1, 0.1f));
             guis.get(1).setPosition(new Vector2f(-0.765f, guis.get(1).getPosition().y));
-        } else if (KeyboardHandler.isKeyDown((GLFW_KEY_3))) {
+        } else if(KeyboardHandler.isKeyDown((GLFW_KEY_3))) {
             lights.get(0).setColour(new Vector3f(0.1f, 0.1f, 1));
             guis.get(1).setPosition(new Vector2f(-0.665f, guis.get(1).getPosition().y));
         }
@@ -472,7 +532,7 @@ public class GameLoop {
         int posi = 0;
         File input = new File("assets/configFiles/graphicsConfigFile.txt");
         Scanner scan = new Scanner(input);
-        while (scan.hasNext()) {
+        while(scan.hasNext()) {
             stringData = scan.nextLine();
             posi = stringData.indexOf(",");
             setting = stringData.substring(0, posi);
@@ -483,7 +543,7 @@ public class GameLoop {
 
     // Used to upload graphics settings from the graphics file to the GraphicsConfig class
     public static void updateSettings(String setting, String valueString) {
-        switch (setting) {
+        switch(setting) {
             case "MSAA": {
                 GraphicsConfig.MSAA = Integer.parseInt(valueString);
                 break;

@@ -16,8 +16,8 @@ public class HeightsGenerator {
     //amp: 75, oct: 3, rough: 1
     //Lakes:
     //amp:500, oct: 5, rough: 0.1
-    private static final float AMPLITUDE = 500;
-    private static final int OCTAVES = 5;
+    private static final float AMPLITUDE = 50;
+    private static final int OCTAVES = 4;
     private static final float ROUGHNESS = 0.1f;
 
     private Random random = new Random();
