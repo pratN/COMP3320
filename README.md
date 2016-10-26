@@ -9,35 +9,23 @@ Brendon Dietsch | **c3202698**
 Nicholas Brown-Thomas | **c3205181**
 ---
 
-If any issues arise with the project, do the following.
-This guide assumes use of intelliJ Idea as an IDE.
----
-To access gir repository perform the following command in your terminal:
-``` 
-git pull https://github.com/pratN/COMP3320/
+##Running the game
+The game can be run by running Spectrum.exe, if that fails or crashes then it can be run from the terminal with
+```
+java -jar -Djava.library.path=lib/ Spectrum.jar
 ```
 ---
-## Configuring the project##
-You need JDK version 8+ to be able to use LWJGL3
-+ Download and extract LWJGL3 [here](https://www.lwjgl.org/download)
-+ Open Intellij and select "import project" from the welcome screen
-+ Follow the prompts, you shouldn't need to change anything.
-+ From the dropdown list at the top, select "Edit Configurations"
-+ From here expand "Application" and select "Main"
-+ In the VM options field add the following line
-```
--Djava.library.path=lib/
-```
-
-If it doesn't compile add the LWJGL jars as dependencies
-+ Go to file> project structure
-+ In the window that pops up select modules from the panel on the left
-+ Select Spectrum from the module list on the right and go to the Dependencies tab
-+ Click on the + button and select JARs or directories
-+ Navigate to the lib folder and select lwjgl.jar
+###Notes
++ When in the game the help screen can be brought up with F1
++ All graphics options can be edited in a configFile.txt, found in assets/configFiles
++ Resubmission is due to corrupted output files in submission causing a CTD
++ All resources were created by the team unles credited below
 
 ---
-This project is based off the LWJGl tutorials by ThinMatrix.
-All textures and models used are free and open source.
+
+###Credits
++ Code based of ThinMatrix's [LWJGL2 tutorials](https://www.youtube.com/playlist?list=PLRIWtICgwaX0u7Rf9zkZhLoLuZVfUksDP)
++ Textures from [Textures.com](http://www.textures.com/)
++ [Dragon](http://www.turbosquid.com/FullPreview/Index.cfm/ID/1036048) and [rock](http://www.turbosquid.com/FullPreview/Index.cfm/ID/451171) models found from [Turbosquid.com](http://www.turbosquid.com/)
 
 
